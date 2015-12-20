@@ -1,0 +1,20 @@
+web:
+  build: .
+  command: "runserver 0.0.0.0:8011"
+  environment:
+      PYTHONUNBUFFERED: 0
+      DJANGO_SETTINGS_MODULE: letsmeet.settings.base
+  entrypoint:
+   - './manage.py'
+  links:
+   - db
+  volumes:
+   - .:/opt/code
+  ports:
+   - "8011:8011"
+data:
+  image: aexea/aexea-base
+  volumes:
+    - /home/uid1000
+db:
+  image: postgres:9.4
