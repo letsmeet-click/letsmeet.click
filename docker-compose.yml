@@ -10,11 +10,15 @@ web:
    - db
   volumes:
    - .:/opt/code
+  volumes_from:
+   - data
   ports:
    - "8011:8011"
+
 data:
   image: aexea/aexea-base
   volumes:
     - /home/uid1000
+
 db:
   image: postgres:9.4
