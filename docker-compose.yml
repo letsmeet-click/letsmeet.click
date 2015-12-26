@@ -3,7 +3,7 @@ web:
   command: "runserver 0.0.0.0:8011"
   environment:
       PYTHONUNBUFFERED: 0
-      DJANGO_SETTINGS_MODULE: letsmeet.settings.base
+      DJANGO_SETTINGS_MODULE: letsmeet.settings.dev
   entrypoint:
    - './manage.py'
   links:
