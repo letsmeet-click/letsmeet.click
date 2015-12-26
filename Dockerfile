@@ -1,14 +1,10 @@
 FROM aexea/aexea-base
-MAINTAINER Stuttgart Python Interest Group
+MAINTAINER letsmeet.click Contributors
 
-EXPOSE 8011
+USER root
 
 # install uwsgi for production
 RUN pip3 install uwsgi
-
-USER root
-RUN apt-get update && apt-get install -y ttf-dejavu-core
-RUN easy_install3 -U pip
 
 ADD requirements.txt /opt/code/requirements.txt
 WORKDIR /opt/code
@@ -21,6 +17,7 @@ WORKDIR /opt/code/letsmeet
 
 # uid1000 is created in aexea-base
 USER uid1000
+EXPOSE 8011
 
 # production stuff
 ENTRYPOINT ["./start.sh"]
