@@ -21,4 +21,4 @@ data:
     - /home/uid1000
 
 db:
-  image: postgres:9.4
+  image: mdillon/postgis:9.4
