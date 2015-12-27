@@ -3,6 +3,6 @@ psycopg2==2.6
 django-extensions==1.6.1
 python-social-auth==0.2.13
 requests-oauthlib==0.6.0
-gunicorn
+gunicorn==19.4.1
 django-forms-bootstrap==3.0.1
 django-braces==1.8.1
