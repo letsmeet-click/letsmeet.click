@@ -34,6 +34,7 @@ class Community(TimeStampedModel):
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = 'Communities'
 
 
 @rules.predicate
