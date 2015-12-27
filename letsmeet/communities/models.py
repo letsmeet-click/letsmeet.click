@@ -7,7 +7,7 @@ from django_extensions.db.models import TimeStampedModel
 class Community(TimeStampedModel):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
-    subscribers = models.ManyToManyField('auth.User', through='CommunitySubscription')
+    subscribers = models.ManyToManyField('auth.User', through='CommunitySubscription', related_name='communities')
 
     def __str__(self):
         return self.name
@@ -21,6 +21,9 @@ class Community(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('community_detail', kwargs={'slug': self.slug})
 
+    class Meta:
+        ordering = ['name']
+
 
 class CommunitySubscription(TimeStampedModel):
     ROLE_CHOICES = (
@@ -29,6 +32,9 @@ class CommunitySubscription(TimeStampedModel):
         ('subscriber', 'Subscriber'),
     )
 
-    community = models.ForeignKey(Community)
-    user = models.ForeignKey('auth.User')
+    community = models.ForeignKey(Community, related_name='community_subscriptions')
+    user = models.ForeignKey('auth.User', related_name='community_subscriptions')
     role = models.CharField(max_length=64, choices=ROLE_CHOICES)
+
+    class Meta:
+        ordering = ['user']

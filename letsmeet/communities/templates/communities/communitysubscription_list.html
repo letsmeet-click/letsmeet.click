@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="pull-right">
+    <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+</div>
+<h2>My communities</h2>
+<table class="table table-striped">
+    <tr>
+        <th>Community</th>
+        <th>Role</th>
+    </tr>
+{% for subscription in communitysubscription_list %}
+<tr>
+    <td><a href="{{ subscription.community.get_absolute_url }}">{{ subscription.community.name }}</a></td>
+    <td>{{ subscription.get_role_display }}</td>
+</tr>
+{% empty %}
+<tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>
+{% endfor %}
+</table>
+{% endblock content %}

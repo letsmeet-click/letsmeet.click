@@ -1,5 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ community }}
+<h2>Community: {{ community }}</h2>
+<h3>Members</h3>
+<table class="table table-striped">
+    <tr>
+        <th>Subscriber</th>
+        <th>Role</th>
+    </tr>
+    {% for subscription in community.community_subscriptions.all %}
+    <tr>
+        <td>{{ subscription.user.username }}</td>
+        <td>{{ subscription.get_role_display }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>
+    {% endfor %}
+</table>
 {% endblock content %}
