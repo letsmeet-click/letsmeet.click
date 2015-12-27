@@ -11,6 +11,10 @@ from braces.views import LoginRequiredMixin
 from .models import Community, CommunitySubscription
 
 
+class CommunityListView(ListView):
+    model = Community
+
+
 class CommunityCreateView(LoginRequiredMixin, CreateView):
     model = Community
     fields = ['name']
@@ -30,7 +34,7 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
 
 class CommunityUpdateView(LoginRequiredMixin, UpdateView):
     model = Community
-    fields = ['name']
+    fields = ['name', 'slug']
     template_name = 'communities/community_update.html'
 
 

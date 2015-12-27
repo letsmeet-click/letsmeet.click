@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load rules %}
+
+{% block content %}
+<h2>Communities</h2>
+<table class="table table-striped">
+    <tr>
+        <th>Community</th>
+    </tr>
+    {% for community in community_list %}
+    <tr>
+        <td><a href="{{ community.get_absolute_url }}">{{ community.name }}</a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan=2><em>No communities yet.</em></td></tr>
+    {% endfor %}
+</table>
+{% endblock content %}
