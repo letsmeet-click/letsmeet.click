@@ -3,10 +3,12 @@ from django.views.generic import (
     CreateView,
 )
 
+from braces.views import LoginRequiredMixin
+
 from .models import Community
 
 
-class CommunityCreateView(CreateView):
+class CommunityCreateView(LoginRequiredMixin, CreateView):
     model = Community
     fields = ['name']
     template_name = 'communities/community_create.html'
