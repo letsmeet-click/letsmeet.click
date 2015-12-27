@@ -104,11 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = (
-    'rules.permissions.ObjectPermissionBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -132,6 +127,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 
 AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
     'social.backends.github.GithubOrganizationOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
