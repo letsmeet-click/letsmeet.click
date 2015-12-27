@@ -19,11 +19,13 @@ from django.conf.urls import url
 from .views import (
     CommunityCreateView,
     CommunityDetailView,
+    CommunityListView,
     CommunityUpdateView,
     MyCommunitySubscriptionListView,
 )
 
 urlpatterns = [
+    url(r'^c/$', CommunityListView.as_view(), name='community_list'),
     url(r'^c/(?P<slug>[\w-]+)/$', CommunityDetailView.as_view(), name='community_detail'),
     url(r'^c/(?P<slug>[\w-]+)/edit/$', CommunityUpdateView.as_view(), name='community_update'),
     url(r'^create-community/$', CommunityCreateView.as_view(), name='community_create'),

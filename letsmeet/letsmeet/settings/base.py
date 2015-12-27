@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # third party apps
     'django_extensions',
     'django_forms_bootstrap',
+    'rules',
 
     # project apps
     'main',
@@ -100,6 +101,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'rules.permissions.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

@@ -1,3 +1,5 @@
+import rules
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
@@ -28,11 +30,24 @@ class Community(TimeStampedModel):
         ordering = ['name']
 
 
+@rules.predicate
+def can_edit_community(user, community):
+    try:
+        return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
+    except CommunitySubscription.DoesNotExist:
+        return False
+
+rules.add_perm('community.can_edit', can_edit_community)
+
+
 class CommunitySubscription(TimeStampedModel):
+    ROLE_OWNER = 'owner'
+    ROLE_ADMIN = 'admin'
+    ROLE_SUBSCRIBER = 'subscriber'
     ROLE_CHOICES = (
-        ('owner', 'Owner'),
-        ('admin', 'Administrator'),
-        ('subscriber', 'Subscriber'),
+        (ROLE_OWNER, 'Owner'),
+        (ROLE_ADMIN, 'Administrator'),
+        (ROLE_SUBSCRIBER, 'Subscriber'),
     )
 
     community = models.ForeignKey(Community, related_name='community_subscriptions')
@@ -41,3 +56,6 @@ class CommunitySubscription(TimeStampedModel):
 
     class Meta:
         ordering = ['user']
+        unique_together = (
+            ('community', 'user'),
+        )
