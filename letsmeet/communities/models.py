@@ -26,6 +26,12 @@ class Community(TimeStampedModel):
     def get_update_url(self):
         return reverse('community_update', kwargs={'slug': self.slug})
 
+    def get_subscribe_url(self):
+        return reverse('community_subscribe', kwargs={'slug': self.slug})
+
+    def get_unsubscribe_url(self):
+        return reverse('community_unsubscribe', kwargs={'slug': self.slug})
+
     class Meta:
         ordering = ['name']
 
@@ -40,6 +46,13 @@ def can_edit_community(user, community):
 rules.add_perm('community.can_edit', can_edit_community)
 
 
+@rules.predicate
+def can_unsubscribe(user, community_subscription):
+    return not (community_subscription.role == CommunitySubscription.ROLE_OWNER and
+                CommunitySubscription.objects.filter(
+                    community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1)
+
+
 class CommunitySubscription(TimeStampedModel):
     ROLE_OWNER = 'owner'
     ROLE_ADMIN = 'admin'
@@ -52,7 +65,7 @@ class CommunitySubscription(TimeStampedModel):
 
     community = models.ForeignKey(Community, related_name='community_subscriptions')
     user = models.ForeignKey('auth.User', related_name='community_subscriptions')
-    role = models.CharField(max_length=64, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=64, choices=ROLE_CHOICES, default=ROLE_SUBSCRIBER)
 
     class Meta:
         ordering = ['user']

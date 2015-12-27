@@ -1,15 +1,21 @@
 {% extends 'base.html' %}
-{% load rules %}
+{% load rules community_tags %}
 
 {% block content %}
+<div class="pull-right">
+    <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+</div>
 <h2>Communities</h2>
 <table class="table table-striped">
     <tr>
         <th>Community</th>
+        <th>Your Role</th>
     </tr>
     {% for community in community_list %}
+    {% get_community_subscription user community as subscription %}
     <tr>
         <td><a href="{{ community.get_absolute_url }}">{{ community.name }}</a></td>
+        <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>
     </tr>
     {% empty %}
     <tr><td colspan=2><em>No communities yet.</em></td></tr>

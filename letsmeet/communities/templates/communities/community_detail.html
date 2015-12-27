@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
-{% load rules %}
+{% load rules community_tags %}
 
 {% block content %}
+{% get_community_subscription user community as user_subscription %}
 {% has_perm 'community.can_edit' user community as can_edit %}
-{% if  can_edit %}
 <div class="pull-right">
-    <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-pencil-square-o"></i> Edit</a>
+    {% if user_subscription %}
+    <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>
+    {% else %}
+    <a class="btn btn-default" href="{{ community.get_subscribe_url }}"><i class="fa fa-user-plus"></i> Subscribe</a>
+    {% endif %}
+
+    {% if  can_edit %}
+    <a class="btn btn-default" href="{{ community.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
+    {% endif %}
 </div>
-{% endif %}
 <h2>Community: {{ community }}</h2>
 <h3>Subscribers</h3>
 <table class="table table-striped">

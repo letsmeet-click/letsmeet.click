@@ -1,4 +1,7 @@
+import rules
+from django.contrib import messages
 from django.db import transaction
+from django.shortcuts import redirect
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -40,6 +43,56 @@ class CommunityUpdateView(LoginRequiredMixin, UpdateView):
 
 class CommunityDetailView(DetailView):
     model = Community
+
+
+class CommunitySubscribeView(LoginRequiredMixin, DetailView):
+    model = Community
+    template_name = 'communities/community_subscribe.html'
+
+    def post(self, request, *args, **kwargs):
+        CommunitySubscription.objects.get_or_create(
+            user=request.user, community=self.get_object(),
+        )
+        return redirect(self.get_object())
+
+
+class CommunityUnsubscribeView(LoginRequiredMixin, DetailView):
+    model = Community
+    template_name = 'communities/community_unsubscribe.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        community = self.object
+        try:
+            user_subscription = CommunitySubscription.objects.get(
+                user=request.user, community=community)
+        except CommunitySubscription.DoesNotExist:
+            messages.warning(request, 'You cannot unsubscribe when you are not subscribed')
+            return redirect(community)
+
+        if not rules.test_rule('can_unsubscribe', request.user, user_subscription):
+            messages.error(request, 'You cannot unsubscribe when you are the last owner')
+            return redirect(community)
+
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        community = self.object
+        try:
+            user_subscription = CommunitySubscription.objects.get(
+                user=request.user, community=community)
+        except CommunitySubscription.DoesNotExist:
+            messages.warning(request, 'You cannot unsubscribe when you are not subscribed')
+            return redirect(community)
+
+        if not rules.test_rule('can_unsubscribe', request.user, user_subscription):
+            messages.error(request, 'You cannot unsubscribe when you are the last owner')
+            return redirect(community)
+
+        messages.success(request, 'Successfully unsubscribed from "{}"'.format(community.name))
+        user_subscription.delete()
+        return redirect(community)
 
 
 class MyCommunitySubscriptionListView(LoginRequiredMixin, ListView):

@@ -131,3 +131,8 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.github.GithubOrganizationOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}
