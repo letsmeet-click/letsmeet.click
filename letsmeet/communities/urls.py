@@ -23,6 +23,7 @@ from .views import (
     CommunityUpdateView,
     CommunitySubscribeView,
     CommunityUnsubscribeView,
+    CommunityRedirectView,
     MyCommunitySubscriptionListView,
 )
 
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^c/(?P<slug>[\w-]+)/edit/$', CommunityUpdateView.as_view(), name='community_update'),
     url(r'^c/(?P<slug>[\w-]+)/subscribe/$', CommunitySubscribeView.as_view(), name='community_subscribe'),
     url(r'^c/(?P<slug>[\w-]+)/unsubscribe/$', CommunityUnsubscribeView.as_view(), name='community_unsubscribe'),
+    url(r'^cname/(?P<cname>[^/]+)/$', CommunityRedirectView.as_view(), name='community_cname'),
     url(r'^create-community/$', CommunityCreateView.as_view(), name='community_create'),
     url(r'^my-communities/$', MyCommunitySubscriptionListView.as_view(), name='my_communities'),
 ]

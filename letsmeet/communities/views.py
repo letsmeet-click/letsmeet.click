@@ -1,13 +1,15 @@
 import rules
 from django.contrib import messages
 from django.db import transaction
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic.base import RedirectView
 from django.views.generic import (
     CreateView,
     DetailView,
     ListView,
     UpdateView,
 )
+
 
 from braces.views import LoginRequiredMixin
 
@@ -37,7 +39,7 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
 
 class CommunityUpdateView(LoginRequiredMixin, UpdateView):
     model = Community
-    fields = ['name', 'slug']
+    fields = ['name', 'slug', 'cname']
     template_name = 'communities/community_update.html'
 
 
@@ -111,3 +113,14 @@ class MyCommunitySubscriptionListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return self.request.user.community_subscriptions.all()
+
+
+class CommunityRedirectView(RedirectView):
+
+    permanent = False
+    pattern_name = 'community_detail'
+
+    def get_redirect_url(self, *args, **kwargs):
+        community = get_object_or_404(Community, cname=kwargs.pop('cname'))
+        kwargs['slug'] = community.slug
+        return super().get_redirect_url(*args, **kwargs)
