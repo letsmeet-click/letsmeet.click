@@ -6,9 +6,9 @@
     <div class="col-md-5 text-center">
         <h2>Log in with your existing account from</h2>
         <div class="row">
-            <a class="col-md-4 text-center" href="{% url 'social:begin' 'github' %}?next={{ request.path }}"><i class="fa fa-github fa-5x"></i><br>Github</a>
-            <a class="col-md-4 text-center" href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
-            <a class="col-md-4 text-center" href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
+            <a class="col-md-4 text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-5x"></i><br>Github</a>
+            <a class="col-md-4 text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
+            <a class="col-md-4 text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
         </div>
     </div>
 
