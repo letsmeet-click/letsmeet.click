@@ -2,11 +2,9 @@
 {% load rules community_tags %}
 
 {% block content %}
-{% if user.is_authenticated %}
 <div class="pull-right">
     <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
 </div>
-{% endif %}
 <h2>Communities</h2>
 <table class="table table-striped">
     <tr>
