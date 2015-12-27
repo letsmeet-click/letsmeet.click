@@ -1,10 +1,17 @@
 from django.contrib import admin
 
 from .models import (
-    Community,
+    Community, CommunitySubscription,
 )
+
+
+class CommunitySubscriptionInline(admin.TabularInline):
+    model = CommunitySubscription
+    extra = 1
 
 
 @admin.register(Community)
 class CommunityAdmin(admin.ModelAdmin):
-    pass
+    inlines = [
+        CommunitySubscriptionInline,
+    ]
