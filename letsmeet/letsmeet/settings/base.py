@@ -25,6 +25,7 @@ INSTALLED_APPS = [
 
     # project apps
     'main',
+    'communities',
 ]
 
 MIDDLEWARE_CLASSES = [
