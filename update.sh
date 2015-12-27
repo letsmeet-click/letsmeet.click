@@ -10,3 +10,5 @@ docker run --name letsmeet-nginx --net="host" --volumes-from letsmeet-data -v `p
 
 echo "Cleaning up old docker images..."
 docker rmi $(docker images | grep "<none>" | awk '{print($3)}')
+
+sh notify.sh
