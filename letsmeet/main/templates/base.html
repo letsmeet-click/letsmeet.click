@@ -32,6 +32,7 @@
             </div>
         </nav>
 
+        {% block fullwidth_content %}
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
             <div class="container">
@@ -40,8 +41,10 @@
                 <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
             </div>
         </div>
+        {% endblock fullwidth_content %}
 
         <div class="container">
+            {% block content %}
             <!-- Example row of columns -->
             <div class="row">
                 <div class="col-md-4">
@@ -61,12 +64,16 @@
                 </div>
             </div>
 
+            {% endblock content %}
+        </div>
+
             <hr>
 
+        <div class="container">
             <footer>
                 <p>&copy; Me 2015</p>
             </footer>
-        </div> <!-- /container -->
+        </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
