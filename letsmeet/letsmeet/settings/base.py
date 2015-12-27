@@ -21,7 +21,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # third party apps
     'django_extensions',
+    'django_forms_bootstrap',
 
     # project apps
     'main',
