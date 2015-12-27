@@ -3,6 +3,7 @@ from django.views.generic import (
     CreateView,
     DetailView,
     ListView,
+    UpdateView,
 )
 
 from braces.views import LoginRequiredMixin
@@ -25,6 +26,12 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
             )
 
         return out
+
+
+class CommunityUpdateView(LoginRequiredMixin, UpdateView):
+    model = Community
+    fields = ['name']
+    template_name = 'communities/community_update.html'
 
 
 class CommunityDetailView(DetailView):

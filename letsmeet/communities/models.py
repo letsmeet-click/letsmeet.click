@@ -21,6 +21,9 @@ class Community(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('community_detail', kwargs={'slug': self.slug})
 
+    def get_update_url(self):
+        return reverse('community_update', kwargs={'slug': self.slug})
+
     class Meta:
         ordering = ['name']
 

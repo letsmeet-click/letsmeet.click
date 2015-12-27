@@ -9,11 +9,15 @@
     <tr>
         <th>Community</th>
         <th>Role</th>
+        <th></th>
     </tr>
 {% for subscription in communitysubscription_list %}
 <tr>
     <td><a href="{{ subscription.community.get_absolute_url }}">{{ subscription.community.name }}</a></td>
     <td>{{ subscription.get_role_display }}</td>
+    {% if subscription.role == 'owner' %}
+    <td class="text-right"><a href="{{ subscription.community.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a></td>
+    {% endif %}
 </tr>
 {% empty %}
 <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>
