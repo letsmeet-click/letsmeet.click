@@ -24,7 +24,7 @@ docker-compose up -d
 docker run -d --restart=always -v /var/lib/postgres --name letsmeet-db mdillon/postgis:9.4
 
 # home
-docker run -d --name letsmeet-data -v /home/uid1000 aexea/aexea-base
+docker run -d --name letsmeet-data aexea/aexea-base
 
 # main image
 docker build --tag=letsmeet-prod .
