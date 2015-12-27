@@ -49,9 +49,12 @@ rules.add_perm('community.can_edit', can_edit_community)
 
 @rules.predicate
 def can_unsubscribe(user, community_subscription):
+    print(community_subscription.role)
     return not (community_subscription.role == CommunitySubscription.ROLE_OWNER and
                 CommunitySubscription.objects.filter(
                     community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1)
+
+rules.add_rule('can_unsubscribe', can_unsubscribe)
 
 
 class CommunitySubscription(TimeStampedModel):
