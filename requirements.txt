@@ -1,3 +1,6 @@
 django==1.9
 psycopg2==2.6
 django-extensions==1.6.1
+python-social-auth==0.2.13
+requests-oauthlib==0.6.0
+gunicorn
