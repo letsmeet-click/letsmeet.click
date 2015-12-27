@@ -49,6 +49,17 @@ class CommunitySubscribeView(LoginRequiredMixin, DetailView):
     model = Community
     template_name = 'communities/community_subscribe.html'
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        community = self.object
+        try:
+            CommunitySubscription.objects.get(user=request.user, community=community)
+        except CommunitySubscription.DoesNotExist:
+            messages.warning(request, 'You are already subscribed to "{}"'.format(community.name))
+            return redirect(community)
+
+        return super().get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         CommunitySubscription.objects.get_or_create(
             user=request.user, community=self.get_object(),
