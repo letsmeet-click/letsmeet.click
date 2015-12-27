@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    url('', include('social.apps.django_app.urls', namespace='social'))
     url(r'^$', TemplateView.as_view(template_name='home.html')),
     url(r'^', include('communities.urls')),
     url(r'^', include('main.urls')),

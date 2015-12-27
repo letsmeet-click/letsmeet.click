@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # third party apps
     'django_extensions',
     'django_forms_bootstrap',
+    'social.apps.django_app.default',
 
     # project apps
     'main',
@@ -59,6 +60,8 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -122,3 +125,8 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.github.GithubOrganizationOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
