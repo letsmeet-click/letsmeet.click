@@ -128,6 +128,6 @@ LOGIN_REDIRECT_URL = 'home'
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
-    'social.backends.github.GithubOrganizationOAuth2',
+    'social.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
