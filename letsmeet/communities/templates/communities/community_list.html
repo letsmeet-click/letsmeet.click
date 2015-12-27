@@ -13,7 +13,9 @@
         <th>Subscribers</th>
     </tr>
     {% for community in community_list %}
-    {% get_community_subscription user community as subscription %}
+    {% if user.is_authenticated %}
+       {% get_community_subscription user community as subscription %}
+    {% endif %}
     <tr>
         <td><a href="{{ community.get_absolute_url }}">{{ community.name }}</a></td>
         <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>

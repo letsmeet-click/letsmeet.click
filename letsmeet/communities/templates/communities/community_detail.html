@@ -2,8 +2,10 @@
 {% load rules community_tags %}
 
 {% block content %}
+{% if user.is_authenticated %}
 {% get_community_subscription user community as user_subscription %}
 {% has_perm 'community.can_edit' user community as can_edit %}
+{% endif %}
 <div class="pull-right">
     {% if user_subscription %}
     <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>
