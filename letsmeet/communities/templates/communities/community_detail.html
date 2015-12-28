@@ -5,6 +5,7 @@
 {% if user.is_authenticated %}
 {% get_community_subscription user community as user_subscription %}
 {% has_perm 'community.can_edit' user community as can_edit %}
+{% has_perm 'community.can_create_event' user community as can_create_event %}
 {% endif %}
 <div class="pull-right">
     {% if user_subscription %}
@@ -13,7 +14,11 @@
     <a class="btn btn-default" href="{{ community.get_subscribe_url }}"><i class="fa fa-user-plus"></i> Subscribe</a>
     {% endif %}
 
-    {% if  can_edit %}
+    {% if can_create_event %}
+    <a class="btn btn-default" href="{{ community.get_event_create_url }}"><i class="fa fa-plus"></i> Schedule event</a>
+    {% endif %}
+
+    {% if can_edit %}
     <a class="btn btn-default" href="{{ community.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     {% endif %}
 </div>
@@ -31,6 +36,24 @@
     </tr>
     {% empty %}
     <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h3>Events</h3>
+<table class="table table-striped">
+    <tr>
+        <th>Event</th>
+        <th>Date</th>
+    </tr>
+    {% for event in community.events.all %}
+    <tr>
+        <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
+        <td>{{ event.begin }} - {{ event.end }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan=2><em>Currently no scheduled events</em></td></tr>
     {% endfor %}
 </table>
 {% endblock content %}

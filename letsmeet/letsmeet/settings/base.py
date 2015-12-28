@@ -29,8 +29,9 @@ INSTALLED_APPS = [
     'rules',
 
     # project apps
-    'main',
     'communities',
+    'events',
+    'main',
 ]
 
 MIDDLEWARE_CLASSES = [

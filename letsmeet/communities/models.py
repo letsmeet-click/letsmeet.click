@@ -33,6 +33,9 @@ class Community(TimeStampedModel):
     def get_unsubscribe_url(self):
         return reverse('community_unsubscribe', kwargs={'slug': self.slug})
 
+    def get_event_create_url(self):
+        return reverse('community_event_create', kwargs={'slug': self.slug})
+
     class Meta:
         ordering = ['name']
         verbose_name_plural = 'Communities'
@@ -40,6 +43,9 @@ class Community(TimeStampedModel):
 
 @rules.predicate
 def can_edit_community(user, community):
+    if not user or not community:
+        return False
+
     try:
         return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
     except CommunitySubscription.DoesNotExist:
@@ -49,8 +55,23 @@ rules.add_perm('community.can_edit', can_edit_community)
 
 
 @rules.predicate
+def can_create_community_event(user, community):
+    if not user or not community:
+        return False
+
+    try:
+        return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
+    except CommunitySubscription.DoesNotExist:
+        return False
+
+rules.add_perm('community.can_create_event', can_create_community_event)
+
+
+@rules.predicate
 def can_unsubscribe(user, community_subscription):
-    print(community_subscription.role)
+    if not user or not community_subscription:
+        return False
+
     return not (community_subscription.role == CommunitySubscription.ROLE_OWNER and
                 CommunitySubscription.objects.filter(
                     community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1)

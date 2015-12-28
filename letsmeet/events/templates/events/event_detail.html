@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load rules community_tags %}
+
+{% block content %}
+{% if user.is_authenticated %}
+{% has_perm 'event.can_edit' user event as can_edit %}
+{% endif %}
+<div class="pull-right">
+    {% if can_edit %}
+    <a class="btn btn-default" href="{{ event.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
+    {% endif %}
+    <a class="btn btn-default" href="{{ event.community.get_absolute_url }}"><i class="fa fa-users"></i> Back to community</a>
+</div>
+<h2><a href="{{ event.community.get_absolute_url }}">{{ event.community.name }}</a></h2>
+<h3>Event: {{ event.name }}</h3>
+<table class="table table-striped">
+    <tr>
+        <th>Begin</th>
+        <td>{{ event.begin }}</td>
+    </tr>
+    <tr>
+        <th>End</th>
+        <td>{{ event.end }}</td>
+    </tr>
+</table>
+{% endblock content %}

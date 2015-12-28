@@ -19,6 +19,7 @@ from django.conf.urls import url
 from .views import (
     CommunityCreateView,
     CommunityDetailView,
+    CommunityEventCreateView,
     CommunityListView,
     CommunityUpdateView,
     CommunitySubscribeView,
@@ -30,6 +31,7 @@ from .views import (
 urlpatterns = [
     url(r'^c/$', CommunityListView.as_view(), name='community_list'),
     url(r'^c/(?P<slug>[\w-]+)/$', CommunityDetailView.as_view(), name='community_detail'),
+    url(r'^c/(?P<slug>[\w-]+)/create-event/$', CommunityEventCreateView.as_view(), name='community_event_create'),
     url(r'^c/(?P<slug>[\w-]+)/edit/$', CommunityUpdateView.as_view(), name='community_update'),
     url(r'^c/(?P<slug>[\w-]+)/subscribe/$', CommunitySubscribeView.as_view(), name='community_subscribe'),
     url(r'^c/(?P<slug>[\w-]+)/unsubscribe/$', CommunityUnsubscribeView.as_view(), name='community_unsubscribe'),

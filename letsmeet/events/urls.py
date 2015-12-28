@@ -14,15 +14,16 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
-from django.views.generic import TemplateView
+from django.conf.urls import url
+
+from .views import (
+    EventUpdateView,
+    EventDetailView,
+    EventListView,
+)
 
 urlpatterns = [
-    url('', include('social.apps.django_app.urls', namespace='social')),
-    url(r'^$', TemplateView.as_view(template_name='home.html')),
-    url(r'^', include('communities.urls')),
-    url(r'^', include('events.urls')),
-    url(r'^', include('main.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^e/$', EventListView.as_view(), name='event_list'),
+    url(r'^e/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
+    url(r'^e/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
 ]

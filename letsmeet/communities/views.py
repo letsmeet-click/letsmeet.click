@@ -1,4 +1,7 @@
 import rules
+from rules.contrib.views import PermissionRequiredMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
@@ -10,9 +13,8 @@ from django.views.generic import (
     UpdateView,
 )
 
-
-from braces.views import LoginRequiredMixin
-
+from events.models import Event
+from .forms import EventCreateForm
 from .models import Community, CommunitySubscription
 
 
@@ -45,6 +47,30 @@ class CommunityUpdateView(LoginRequiredMixin, UpdateView):
 
 class CommunityDetailView(DetailView):
     model = Community
+
+
+class CommunityEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Event
+    template_name = 'communities/community_event_create.html'
+    form_class = EventCreateForm
+    permission_required = 'community.can_create_event'
+
+    def get_permission_object(self):
+        return self.get_community()
+
+    def get_community(self):
+        return get_object_or_404(Community, slug=self.kwargs.get('slug'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['community'] = self.get_community()
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.community = self.get_community()
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
 class CommunitySubscribeView(LoginRequiredMixin, DetailView):
