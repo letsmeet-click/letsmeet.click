@@ -11,7 +11,7 @@ class EventUpdateForm(forms.ModelForm):
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])
-        if Event.objects.filter(slug=slug,
-                                community=self.instance.community):
+        if Event.objects.exclude(pk=self.instance.pk)\
+                        .filter(slug=slug, community=self.instance.community):
             raise forms.ValidationError('The slug ("{}") is not unique for this community.'.format(slug))
         return slug
