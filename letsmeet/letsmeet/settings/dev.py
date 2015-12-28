@@ -8,3 +8,8 @@ AUTH_PASSWORD_VALIDATORS = []
 SECRET_KEY = 'shahng3oothai4Eaneehai4Eiquohv6quohkouzah8aibeehiupieSieBohCub7d'
 
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+try:
+    from .local import *
+except ImportError:
+    pass

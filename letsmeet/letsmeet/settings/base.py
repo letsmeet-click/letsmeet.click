@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # project apps
     'communities',
     'events',
+    'users',
     'main',
 ]
 

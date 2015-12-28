@@ -48,6 +48,7 @@
                         <h4>{{ user.username }}</h4>
                         <div class="s-widget-body">
                             {% if user.is_authenticated %}
+                                <div><a href="{% url 'profile' %}">My Profile</a></div>
                                 <div><a href="{% url 'my_communities' %}">My Communities</a></div>
                                 {% if request.user.is_staff %}
                                     <div><a href="{% url 'admin:index' %}">Admin</a></div>
