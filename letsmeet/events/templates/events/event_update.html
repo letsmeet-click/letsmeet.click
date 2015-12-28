@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
+{% block page_title %}
+Edit event "{{ event.name }}"
+{% endblock page_title %}
+
 {% block small_content %}
-<h2>Edit event "{{ event.name }}"</h2>
 <form method="POST">
     {% csrf_token %}
     {{ form|as_bootstrap }}
-    <button type="submit" class="btn btn-default pull-right"><i class="fa fa-floppy-o"></i> Save</button>
-    <a href="{{ event.get_absolute_url }}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
+    <button type="submit" class="btn pull-right"><i class="fa fa-floppy-o"></i> Save</button>
+    <a href="{{ event.get_absolute_url }}" class="btn"><i class="fa fa-times"></i> Cancel</a>
 </form>
 {% endblock small_content %}

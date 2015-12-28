@@ -1,33 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block fullwidth_content %}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-    <div class="container">
-        <h1 class="display-3">makes meeting fellow humans easy.</h1>
-        <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="latesmeet logo"></a>
-    </div>
+{% block page_title %}
+<div class="text-center">
+    <a href="{% url 'home' %}"><img src="{% static 'img/logo.png' %}" alt="letsmeet logo"></a>
 </div>
-{% endblock fullwidth_content %}
+{% endblock %}
 
 {% block content %}
-<!-- Example row of columns -->
-<div class="row">
-    <div class="col-md-4">
-        <h2>Organize your event attendees</h2>
-        <p>Get RSVPs for your events - and see who or how many people will join you. </p>
-        <p><a class="btn btn-secondary" href="/login/?next=/create-community/" role="button">Setup event &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>No registration required </h2>
-        <p>Log in with your existing Facebook, Twitter, Google Plus, or Github account - no separate registration. For you and for your guests.</p>
-        <p><a class="btn btn-secondary" href="/login/" role="button">Login &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Use your existing communication</h2>
-        <p>Use the groups or platforms that you already have: Facebook, Slack, G+, or else – we just add a place to see who will join you when you meet.</p>
-    </div>
+<div class="home-banner">
+    <h1>Makes meeting fellow humans easy.</h1>
 </div>
 
+<div class="block-area">
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <h1><i class="fa fa-users fa-5x"></i></h1>
+            <h2>Organize your event attendees</h2>
+            <p>Get RSVPs for your events - and see who or how many people will join you. </p>
+            <p><a class="btn btn-lg" href="/create-community/" role="button">Set up your first event now &raquo;</a></p>
+        </div>
+        <div class="col-md-3 col-md-offset-1 text-center">
+            <h1><i class="fa fa-sign-in fa-5x"></i></h1>
+            <h2>No registration required</h2>
+            <p>Log in with your existing Facebook, Twitter, Google Plus, or Github account - no separate registration needed. For you and for your guests.</p>
+            <p><a class="btn btn-lg" href="/login/" role="button">Start for free now &raquo;</a></p>
+        </div>
+        <div class="col-md-3 col-md-offset-1 text-center">
+            <h1><i class="fa fa-comment fa-5x"></i></h1>
+            <h2>Use your existing communication channels</h2>
+            <p>Use the groups or platforms that you already have: Facebook, Slack, G+, or else – we just add a place to see who will join you when you meet.</p>
+        </div>
+    </div>
+</div>
+<hr class="whiter">
+<div class="block-area">
+    <div class="row">
+        <div class="col-md-3 col-md-offset-2 text-center">
+            <h1><i class="fa fa-beer fa-5x"></i></h1>
+            <h2>It's free</h2>
+            <p>It's free - free as in beer! No credit card, no paypal, no subscription!</p>
+        </div>
+        <div class="col-md-3 col-md-offset-2 text-center">
+            <h1><i class="fa fa-rocket fa-5x"></i></h1>
+            <h2>Kickstart your event</h2>
+            <p><em>Put intelligent text here</em></p>
+            <p><a class="btn btn-lg" href="/create-community/" role="button">Lift off &raquo;</a></p>
+        </div>
+    </div>
+</div>
 {% endblock content %}

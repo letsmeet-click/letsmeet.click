@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load rules community_tags %}
 
+{% block page_title %}
+Community: {{ community }}
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
 {% get_community_subscription user community as user_subscription %}
@@ -10,7 +14,8 @@
 {% has_perm 'community.can_set_admin' user community as can_set_admin %}
 {% has_perm 'community.can_set_subscriber' user community as can_set_subscriber %}
 {% endif %}
-<div class="pull-right">
+
+<div class="block-area text-right">
     {% if user_subscription %}
     <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>
     {% else %}
@@ -25,87 +30,103 @@
     <a class="btn btn-default" href="{{ community.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     {% endif %}
 </div>
-<h2>Community: {{ community }}</h2>
+
 {% if community.twitter or community.github or community.homepage or community.slack or community.irc_channel and community.irc_network %}
-<h3>Find this community on the web</h3>
-<p>
-    {% if community.homepage %}
-    <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
-    {% endif %}
-    {% if community.twitter %}
-    <a class="btn btn-default" href="https://twitter.com/{{ community.twitter }}/"><i class="fa fa-twitter"></i> @{{ community.twitter }}</a>
-    {% endif %}
-    {% if community.github %}
-    <a class="btn btn-default" href="https://github.com/{{ community.github }}/"><i class="fa fa-github"></i> {{ community.github }}</a>
-    {% endif %}
-    {% if community.slack %}
-    <a class="btn btn-default" href="https://{{ community.slack }}.slack.com/"><i class="fa fa-slack"></i> {{ community.slack }}</a>
-    {% endif %}
-    {% if community.irc_channel and community.irc_network %}
-    <button class="btn btn-disabled"><i class="fa fa-comment"></i> {{ community.irc_channel }} ({{ community.irc_network }})</button>
-    {% endif %}
-</p>
-{% endif %}
-<h3>Subscribers</h3>
-<table class="table table-striped">
-    <tr>
-        <th>Subscriber</th>
-        <th>Role</th>
-        <th>Subscribed since</th>
-        {% if can_set_owner or can_set_admin or can_set_subscriber %}
-        <th>Actions</th>
+<div class="block-area">
+    <h3>Find this community on the web</h3>
+    <p>
+        {% if community.homepage %}
+        <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
         {% endif %}
-    </tr>
-    {% for subscription in community.community_subscriptions.all %}
-    <tr>
-        <td>{{ subscription.user.username }}</td>
-        <td>{{ subscription.get_role_display }}</td>
-        <td>{{ subscription.created }}</td>
-        <td>
-            {% if can_set_owner and not subscription.role == subscription.ROLE_OWNER %}
-            <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='owner' %}" class="inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-default btn-xs">Make owner</button>
-            </form>
-            {% endif %}
-            {% if can_set_admin and not subscription.role == subscription.ROLE_ADMIN %}
-            <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='admin' %}" class="inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-default btn-xs">Make admin</button>
-            </form>
-            {% endif %}
-            {% if can_set_subscriber and not subscription.role == subscription.ROLE_SUBSCRIBER %}
-            <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='subscriber' %}" class="inline">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-default btn-xs">Make subscriber</button>
-            </form>
-            {% endif %}
-        </td>
-    </tr>
-    {% empty %}
-    <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>
-    {% endfor %}
-</table>
+        {% if community.twitter %}
+        <a class="btn btn-default" href="https://twitter.com/{{ community.twitter }}/"><i class="fa fa-twitter"></i> @{{ community.twitter }}</a>
+        {% endif %}
+        {% if community.github %}
+        <a class="btn btn-default" href="https://github.com/{{ community.github }}/"><i class="fa fa-github"></i> {{ community.github }}</a>
+        {% endif %}
+        {% if community.slack %}
+        <a class="btn btn-default" href="https://{{ community.slack }}.slack.com/"><i class="fa fa-slack"></i> {{ community.slack }}</a>
+        {% endif %}
+        {% if community.irc_channel and community.irc_network %}
+        <button class="btn btn-disabled"><i class="fa fa-comment"></i> {{ community.irc_channel }} ({{ community.irc_network }})</button>
+        {% endif %}
+    </p>
+</div>
+{% endif %}
 
-<hr>
+<div class="block-area">
+    <h3>Subscribers</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Subscriber</th>
+                <th>Role</th>
+                <th>Subscribed since</th>
+                <th>
+                    {% if can_set_owner or can_set_admin or can_set_subscriber %}
+                    Actions
+                    {% endif %}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscription in community.community_subscriptions.all %}
+            <tr>
+                <td>{{ subscription.user.username }}</td>
+                <td>{{ subscription.get_role_display }}</td>
+                <td>{{ subscription.created }}</td>
+                <td>
+                    {% if can_set_owner and not subscription.role == subscription.ROLE_OWNER %}
+                    <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='owner' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-default btn-xs">Make owner</button>
+                    </form>
+                    {% endif %}
+                    {% if can_set_admin and not subscription.role == subscription.ROLE_ADMIN %}
+                    <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='admin' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-default btn-xs">Make admin</button>
+                    </form>
+                    {% endif %}
+                    {% if can_set_subscriber and not subscription.role == subscription.ROLE_SUBSCRIBER %}
+                    <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='subscriber' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-default btn-xs">Make subscriber</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-<h3>Events</h3>
-<table class="table table-hover">
-    <tr>
-        <th>Event</th>
-        <th>Date</th>
-        <th>Coming</th>
-        <th>Not coming</th>
-    </tr>
-    {% for event in community.events.all %}
-    <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
-        <td>{{ event.name }}</td>
-        <td>{{ event.begin }} - {{ event.end }}</td>
-        <td><span class="label label-success">{{ event.rsvp_yes.count }}</span></td>
-        <td><span class="label label-danger">{{ event.rsvp_no.count }}</span></td>
-    </tr>
-    {% empty %}
-    <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
-    {% endfor %}
-</table>
+<div class="block-area">
+
+    <h3>Events</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Coming</th>
+                <th>Not coming</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in community.events.all %}
+            <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+                <td>{{ event.name }}</td>
+                <td>{{ event.begin }} - {{ event.end }}</td>
+                <td><span class="label label-success">{{ event.rsvp_yes.count }}</span></td>
+                <td><span class="label label-danger">{{ event.rsvp_no.count }}</span></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock content %}

@@ -6,85 +6,195 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
+        <meta name="keywords" content="">
         <meta name="author" content="">
+        <meta name="format-detection" content="telephone=no">
 
         <title>{% block title %}Letsmeet.click{% endblock %}</title>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="{% static 'theme/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/font-awesome.min.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/animate.min.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/form.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/calendar.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/style.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/icons.css' %}" rel="stylesheet">
+        <link href="{% static 'theme/css/generics.css' %}" rel="stylesheet"> 
         <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     </head>
+    <body id="skin-blur-chrome">
 
-    <body>
+        <header id="header" class="media">
+            <a href="" id="menu-toggle"></a> 
+            <a class="logo pull-left" href="{% url 'home' %}">Let's Meet!</a>
 
-        <nav class="navbar navbar-static-top navbar-inverse">
-            <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">Let's Meet!</a>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'community_list' %}">Communities</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contact' %}">Contact</a>
-                    </li>
-                </ul>
+            <div class="media-body">
+                <div class="media" id="top-menu">
+                    <div id="time" class="pull-right">
+                        <span id="hours"></span>
+                        :
+                        <span id="min"></span>
+                        :
+                        <span id="sec"></span>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-                {% if user.is_authenticated %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.user.username }} <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            {#<li><a href="{% url 'profile' %}">Profile</a></li>#}
-                            <li><a href="{% url 'my_communities' %}">My Communities</a></li>
-                            {% if request.user.is_staff %}
-                            <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        <div class="clearfix"></div>
+
+        <section id="main" class="p-relative" role="main">
+
+            <!-- Sidebar -->
+            <aside id="sidebar">
+
+                <!-- Sidbar Widgets -->
+                <div class="side-widgets overflow">
+                    <!-- Projects -->
+                    <div class="s-widget m-b-25 text-center">
+                        <h4>{{ user.username }}</h4>
+                        <div class="s-widget-body">
+                            {% if user.is_authenticated %}
+                                <div><a href="{% url 'my_communities' %}">My Communities</a></div>
+                                {% if request.user.is_staff %}
+                                    <div><a href="{% url 'admin:index' %}">Admin</a></div>
+                                {% endif %}
+                                <div><a href="{% url 'logout' %}">Logout</a></div>
+                            {% else %}
+                                <div><a href="{% url 'login' %}">Login</a></div>
                             {% endif %}
-                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Menu -->
+                <ul class="list-unstyled side-menu">
+                    <li class="text-center">
+                        <a href="{% url 'home' %}" class="p-10">
+                            <i class="fa fa-home fa-2x"></i> <span class="menu-item" >Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'community_list' %}" class="p-10">
+                            <i class="fa fa-users fa-2x"></i> <span class="menu-item" >Communities</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a class="p-10" href="">
+                            <i class="fa fa-envelope fa-2x"></i> <span class="menu-item">Contact</span>
+                        </a>
+                        <ul class="list-unstyled menu-item">
+                            <li>
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'legal' %}">Legal / Impressum</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
-		{% else %}
-                <ul class="nav navbar-nav navbar-right">
-                  <li><a href="{% url 'login' %}">Login</a></li>
-                </ul>
-                {% endif %}
-            </div>
-        </nav>
+            </aside>
 
-        {% if messages %}
-        <div class="container">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.level_tag }} {{ message.extra_tags }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {% block fullwidth_content %}
-        {% endblock fullwidth_content %}
-
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-10 col-sd-offset-1 col-xs-12">
-                    {% block small_content %}
-                    {% endblock small_content %}
+            <div id="content" class="container">
+                <h4 class="page-title">{% block page_title %}Please put something in block page_title{% endblock %}</h4>
+                <div class="block-area">
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.level_tag }} {{ message.extra_tags }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
+
+                <div class="block-area">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+                            {% block small_content %}
+                            {% endblock small_content %}
+                        </div>
+                    </div>
+                </div>
+                {% block content %}
+                {% endblock content %}
             </div>
-            {% block content %}
-            {% endblock content %}
-        </div>
 
-            <hr>
 
-        <div class="container">
-            <footer>
-              <p><a class="nav-link" href="{% url 'legal' %}">Impressum / Legal</a></p>
-            </footer>
-        </div>
+            <!-- Older IE Message -->
+            <!--[if lt IE 9]>
+            <div class="ie-block">
+                <h1 class="Ops">Ooops!</h1>
+                <p>You are using an outdated version of Internet Explorer, upgrade to any of the following web browser in order to access the maximum functionality of this website. </p>
+                <ul class="browsers">
+                    <li>
+                        <a href="https://www.google.com/intl/en/chrome/browser/">
+                            <img src="{% static 'theme/img/browsers/chrome.png' %}" alt="">
+                            <div>Google Chrome</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.mozilla.org/en-US/firefox/new/">
+                            <img src="{% static 'theme/img/browsers/firefox.png' %}" alt="">
+                            <div>Mozilla Firefox</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.opera.com/computer/windows">
+                            <img src="{% static 'theme/img/browsers/opera.png' %}" alt="">
+                            <div>Opera</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://safari.en.softonic.com/">
+                            <img src="{% static 'theme/img/browsers/safari.png' %}" alt="">
+                            <div>Safari</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://windows.microsoft.com/en-us/internet-explorer/downloads/ie-10/worldwide-languages">
+                            <img src="{% static 'theme/img/browsers/ie.png' %}" alt="">
+                            <div>Internet Explorer(New)</div>
+                        </a>
+                    </li>
+                </ul>
+                <p>Upgrade your browser for a Safer and Faster web experience. <br/>Thank you for your patience...</p>
+            </div>   
+            <![endif]-->
+        </section>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <!-- Javascript Libraries -->
+        <!-- jQuery -->
+        <script src="{% static 'theme/js/jquery.min.js' %}"></script> <!-- jQuery Library -->
+        <script src="{% static 'theme/js/jquery-ui.min.js' %}"></script> <!-- jQuery UI -->
+        <script src="{% static 'theme/js/jquery.easing.1.3.js' %}"></script> <!-- jQuery Easing - Requirred for Lightbox + Pie Charts-->
+
+        <!-- Bootstrap -->
+        <script src="{% static 'theme/js/bootstrap.min.js' %}"></script>
+
+        <!-- Charts -->
+        <script src="{% static 'theme/js/charts/jquery.flot.js' %}"></script> <!-- Flot Main -->
+        <script src="{% static 'theme/js/charts/jquery.flot.time.js' %}"></script> <!-- Flot sub -->
+        <script src="{% static 'theme/js/charts/jquery.flot.animator.min.js' %}"></script> <!-- Flot sub -->
+        <script src="{% static 'theme/js/charts/jquery.flot.resize.min.js' %}"></script> <!-- Flot sub - for repaint when resizing the screen -->
+
+        <script src="{% static 'theme/js/sparkline.min.js' %}"></script> <!-- Sparkline - Tiny charts -->
+        <script src="{% static 'theme/js/easypiechart.js' %}"></script> <!-- EasyPieChart - Animated Pie Charts -->
+        <script src="{% static 'theme/js/charts.js' %}"></script> <!-- All the above chart related functions -->
+
+        <!-- Map -->
+        <script src="{% static 'theme/js/maps/jvectormap.min.js' %}"></script> <!-- jVectorMap main library -->
+        <script src="{% static 'theme/js/maps/usa.js' %}"></script> <!-- USA Map for jVectorMap -->
+
+        <!--  Form Related -->
+        <script src="{% static 'theme/js/icheck.js' %}"></script> <!-- Custom Checkbox + Radio -->
+
+        <!-- UX -->
+        <script src="{% static 'theme/js/scroll.min.js' %}"></script> <!-- Custom Scrollbar -->
+
+        <!-- Other -->
+        <script src="{% static 'theme/js/calendar.min.js' %}"></script> <!-- Calendar -->
+        <script src="{% static 'theme/js/feeds.min.js' %}"></script> <!-- News Feeds -->
+
+
+        <!-- All JS functions -->
+        <script src="{% static 'theme/js/functions.js' %}"></script>
     </body>
 </html>
