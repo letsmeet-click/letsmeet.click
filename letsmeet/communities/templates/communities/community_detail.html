@@ -42,7 +42,7 @@
 <hr>
 
 <h3>Events</h3>
-<table class="table table-striped">
+<table class="table table-hover">
     <tr>
         <th>Event</th>
         <th>Date</th>
@@ -50,8 +50,8 @@
         <th>Not coming</th>
     </tr>
     {% for event in community.events.all %}
-    <tr>
-        <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
+    <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+        <td>{{ event.name }}</td>
         <td>{{ event.begin }} - {{ event.end }}</td>
         <td><span class="label label-success">{{ event.rsvp_yes.count }}</span></td>
         <td><span class="label label-danger">{{ event.rsvp_no.count }}</span></td>
