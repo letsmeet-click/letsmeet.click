@@ -23,6 +23,6 @@ class CommunityUpdateForm(forms.ModelForm):
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])
-        if Community.objects.filter(slug=slug):
+        if Community.objects.exclude(pk=self.instance.pk).filter(slug=slug):
             raise forms.ValidationError("The slug is not unique.")
         return slug
