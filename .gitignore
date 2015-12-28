@@ -1,5 +1,6 @@
 # Ignore the paid theme
 letsmeet/main/static/theme
+letsmeet/main/static/theme.tar.gz
 
 
 # Byte-compiled / optimized / DLL files
