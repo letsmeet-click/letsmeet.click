@@ -17,6 +17,12 @@ docker-compose run web createsuperuser
 docker-compose up -d
 ```
 
+## testing
+
+```
+docker exec -ti letsmeetclick_web_1 py.test
+```
+
 ### starting/creating docker instances
 
 ```
