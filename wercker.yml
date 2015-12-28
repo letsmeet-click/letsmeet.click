@@ -1,0 +1,13 @@
+box: python
+services:
+   - id: postgres
+     env:
+       POSTGRES_PASSWORD: abc123456789
+       POSTGRES_USER: letsmeet
+build:
+  steps:
+    - pip-install
+
+    - script:
+        name: run pytest
+        code: PYTHONPATH=$PWD/letsmeet py.test
