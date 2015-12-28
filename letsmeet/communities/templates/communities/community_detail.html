@@ -23,6 +23,26 @@
     {% endif %}
 </div>
 <h2>Community: {{ community }}</h2>
+{% if community.twitter or community.github or community.homepage or community.slack or community.irc_channel and community.irc_network %}
+<h3>Find this community on the web</h3>
+<p>
+    {% if community.homepage %}
+    <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
+    {% endif %}
+    {% if community.twitter %}
+    <a class="btn btn-default" href="https://twitter.com/{{ community.twitter }}/"><i class="fa fa-twitter"></i> @{{ community.twitter }}</a>
+    {% endif %}
+    {% if community.github %}
+    <a class="btn btn-default" href="https://github.com/{{ community.github }}/"><i class="fa fa-github"></i> {{ community.github }}</a>
+    {% endif %}
+    {% if community.slack %}
+    <a class="btn btn-default" href="https://{{ community.slack }}.slack.com/"><i class="fa fa-slack"></i> {{ community.slack }}</a>
+    {% endif %}
+    {% if community.irc_channel and community.irc_network %}
+    <button class="btn btn-disabled"><i class="fa fa-comment"></i> {{ community.irc_channel }} ({{ community.irc_network }})</button>
+    {% endif %}
+</p>
+{% endif %}
 <h3>Subscribers</h3>
 <table class="table table-striped">
     <tr>

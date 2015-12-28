@@ -24,7 +24,7 @@ class CommunityListView(ListView):
 
 class CommunityCreateView(LoginRequiredMixin, CreateView):
     model = Community
-    fields = ['name']
+    fields = ['name', ]
     template_name = 'communities/community_create.html'
 
     def form_valid(self, form):
@@ -41,7 +41,7 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
 
 class CommunityUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Community
-    fields = ['name', 'slug', 'cname']
+    fields = ['name', 'slug', 'cname', 'twitter', 'github', 'homepage', 'irc_channel', 'irc_network', 'slack', ]
     template_name = 'communities/community_update.html'
     permission_required = 'community.can_edit'
 

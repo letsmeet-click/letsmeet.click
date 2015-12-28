@@ -16,6 +16,20 @@ class Community(TimeStampedModel):
         validators=[RegexValidator(r'/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/')],
     )
 
+    twitter = models.CharField(max_length=128, blank=True, null=True, help_text="Twitter username")
+    github = models.CharField(max_length=128, blank=True, null=True, help_text="GitHub username or organisation name")
+    homepage = models.URLField(max_length=128, blank=True, null=True, help_text="URL of homepage (including http://)")
+    irc_channel = models.CharField(
+        max_length=128, blank=True, null=True, verbose_name="IRC channel",
+        help_text='IRC channel name',
+    )
+    irc_network = models.CharField(
+        max_length=128, blank=True, null=True,
+        help_text='Network the IRC channel is located on (e.g. "Freenode")',
+        verbose_name='IRC network',
+    )
+    slack = models.CharField(max_length=128, blank=True, null=True, help_text="Slack organisation name")
+
     def __str__(self):
         return self.name
 
