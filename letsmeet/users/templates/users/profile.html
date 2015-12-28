@@ -27,14 +27,16 @@ My Profile
                     </ul>
                 </form>
             </div>
-            <div class="col-md-6">
-                <h2>Add social account</h2>
-                <div class="row">
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-5x"></i><br>Github</a>
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
+            {% if backends.not_associated %}
+                <div class="col-md-6">
+                    <h2>Add social account</h2>
+                    <div class="row">
+                        {% for backend in backends.not_associated %}
+                            <a class="col-md-4 text-center" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
