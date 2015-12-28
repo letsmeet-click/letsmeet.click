@@ -13,7 +13,8 @@ class Community(TimeStampedModel):
     subscribers = models.ManyToManyField('auth.User', through='CommunitySubscription', related_name='communities')
     cname = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="CNAME",
-        validators=[RegexValidator(r'[a-zA-Z0-9-\.]+')],
+        validators=[RegexValidator(r'[a-zA-Z0-9-\.\ ]+')],
+        help_text="use your own domain to redirect to this community."
     )
 
     twitter = models.CharField(max_length=128, blank=True, null=True,
