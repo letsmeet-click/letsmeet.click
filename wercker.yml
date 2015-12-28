@@ -11,3 +11,9 @@ build:
     - script:
         name: run pytest
         code: PYTHONPATH=$PWD/letsmeet py.test
+  after-steps:
+    - slack-notifier:
+        url: $SLACK_URL
+        channel: notifications
+        username: wercker
+        branch: master
