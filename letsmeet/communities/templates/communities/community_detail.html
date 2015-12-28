@@ -28,11 +28,13 @@
     <tr>
         <th>Subscriber</th>
         <th>Role</th>
+        <th>Subscribed since</th>
     </tr>
     {% for subscription in community.community_subscriptions.all %}
     <tr>
         <td>{{ subscription.user.username }}</td>
         <td>{{ subscription.get_role_display }}</td>
+        <td>{{ subscription.created }}</td>
     </tr>
     {% empty %}
     <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>

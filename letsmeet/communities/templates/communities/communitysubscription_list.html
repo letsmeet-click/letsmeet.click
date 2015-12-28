@@ -10,16 +10,13 @@
     <tr>
         <th>Community</th>
         <th>Role</th>
-        <th></th>
+        <th>Subscribed since</th>
     </tr>
 {% for subscription in communitysubscription_list %}
-<tr>
-    <td><a href="{{ subscription.community.get_absolute_url }}">{{ subscription.community.name }}</a></td>
+<tr class="clickable" onclick="window.document.location='{{ subscription.community.get_absolute_url }}';">
+    <td>{{ subscription.community.name }}</td>
     <td>{{ subscription.get_role_display }}</td>
-    {% has_perm 'community.can_edit' user subscription.community as can_edit %}
-    {% if can_edit %}
-    <td class="text-right"><a href="{{ subscription.community.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a></td>
-    {% endif %}
+    <td>{{ subscription.created }}</td>
 </tr>
 {% empty %}
 <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>

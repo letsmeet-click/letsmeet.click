@@ -6,7 +6,7 @@
     <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
 </div>
 <h2>Communities</h2>
-<table class="table table-striped">
+<table class="table table-hover">
     <tr>
         <th>Community</th>
         <th>Your Role</th>
@@ -16,8 +16,8 @@
     {% if user.is_authenticated %}
        {% get_community_subscription user community as subscription %}
     {% endif %}
-    <tr>
-        <td><a href="{{ community.get_absolute_url }}">{{ community.name }}</a></td>
+    <tr class="clickable" onclick="window.document.location='{{ community.get_absolute_url }}';">
+        <td>{{ community.name }}</td>
         <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>
         <td>{{ community.community_subscriptions.count }} <i class="fa fa-users"></i></td>
     </tr>
