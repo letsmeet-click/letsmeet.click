@@ -4,29 +4,33 @@ from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     DetailView,
-    ListView,
     UpdateView,
 )
 
 from .models import Event, EventRSVP
+from .forms import EventUpdateForm
 
 
-class EventListView(ListView):
+class CommunityEventMixin:
+
+    def get_object(self, queryset=None):
+        obj = self.model.objects.get(slug=self.kwargs.get('slug'),
+                                     community__slug=self.kwargs.get('community_slug'))
+        return obj
+
+
+class EventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, CommunityEventMixin, UpdateView):
     model = Event
-
-
-class EventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    model = Event
-    fields = ['name', 'slug', 'begin', 'end']
     template_name = 'events/event_update.html'
     permission_required = 'event.can_edit'
+    form_class = EventUpdateForm
 
 
-class EventDetailView(DetailView):
+class EventDetailView(CommunityEventMixin, DetailView):
     model = Event
 
 
-class EventRSVPView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class EventRSVPView(LoginRequiredMixin, PermissionRequiredMixin, CommunityEventMixin, DetailView):
     model = Event
     template_name = 'events/event_rsvp.html'
     permission_required = 'event.can_rsvp'

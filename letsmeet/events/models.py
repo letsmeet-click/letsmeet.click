@@ -8,8 +8,8 @@ from django_extensions.db.models import TimeStampedModel
 
 class Event(TimeStampedModel):
     community = models.ForeignKey('communities.Community', related_name='events')
-    name = models.CharField(max_length=64, unique=True)
-    slug = models.SlugField(max_length=64, unique=True)
+    name = models.CharField(max_length=64)
+    slug = models.SlugField(max_length=64)
     begin = models.DateTimeField(default=timezone.now)
     end = models.DateTimeField(default=timezone.now)
 
@@ -24,27 +24,40 @@ class Event(TimeStampedModel):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.slug = slugify(self.name)
+            slug = "{}-{}".format(slugify(self.name), str(self.begin.date()))
+            if Event.objects.filter(slug=slug, community=self.community):
+                # use datetime, because date was not unique
+                slug = "{}-{}".format(slugify(self.name), slugify(self.begin))
+            self.slug = slug
 
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('event_detail', kwargs={'slug': self.slug})
+        return reverse('event_detail', kwargs={'slug': self.slug,
+                                               'community_slug': self.community.slug})
 
     def get_update_url(self):
-        return reverse('event_update', kwargs={'slug': self.slug})
+        return reverse('event_update', kwargs={'slug': self.slug,
+                                               'community_slug': self.community.slug})
 
     def get_rsvp_yes_url(self):
-        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'yes'})
+        return reverse('event_rsvp', kwargs={'slug': self.slug,
+                                             'community_slug': self.community.slug,
+                                             'answer': 'yes'})
 
     def get_rsvp_no_url(self):
-        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'no'})
+        return reverse('event_rsvp', kwargs={'slug': self.slug,
+                                             'community_slug': self.community.slug,
+                                             'answer': 'no'})
 
     def get_rsvp_reset_url(self):
-        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'reset'})
+        return reverse('event_rsvp', kwargs={'slug': self.slug,
+                                             'community_slug': self.community.slug,
+                                             'answer': 'reset'})
 
     class Meta:
         ordering = ['name']
+        unique_together = ('community', 'slug')
 
 
 @rules.predicate
