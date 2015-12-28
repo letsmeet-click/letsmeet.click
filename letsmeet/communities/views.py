@@ -180,7 +180,7 @@ class CommunityRedirectView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         cname_parameter = kwargs.pop('cname')
         for community in Community.objects.filter(cname__icontains=cname_parameter):
-            for cname in community.split(' '):
+            for cname in community.cname.split(' '):
                 if cname.lower() == cname_parameter:
                     kwargs['slug'] = community.slug
                     return super().get_redirect_url(*args, **kwargs)
