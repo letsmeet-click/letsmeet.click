@@ -119,9 +119,9 @@ def is_last_owner(user, community_subscription):
     if not user or not community_subscription:
         return False
 
-    return not (community_subscription.role == CommunitySubscription.ROLE_OWNER and
-                CommunitySubscription.objects.filter(
-                    community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1)
+    return community_subscription.role == CommunitySubscription.ROLE_OWNER and \
+        CommunitySubscription.objects.filter(
+            community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1
 
 rules.add_rule('is_last_owner', is_last_owner)
 rules.add_rule('can_unsubscribe', ~is_last_owner)
