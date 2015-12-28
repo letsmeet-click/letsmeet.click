@@ -2,9 +2,11 @@
 {% load rules event_tags %}
 
 {% block content %}
+{% if user.is_authenticated %}
 {% has_perm 'event.can_edit' user event as can_edit %}
 {% has_perm 'event.can_rsvp' user event as can_rsvp %}
 {% get_community_event_rsvp user event as rsvp %}
+{% endif %}
 
 <div class="pull-right">
     {% if can_edit %}

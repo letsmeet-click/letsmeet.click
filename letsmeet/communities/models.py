@@ -78,9 +78,12 @@ def can_create_community_event(user, community):
         return False
 
     try:
-        return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
+        user = community.community_subscriptions.get(user=user)
+        if user:
+            return user.role == CommunitySubscription.ROLE_OWNER
     except CommunitySubscription.DoesNotExist:
-        return False
+        pass
+    return False
 
 rules.add_perm('community.can_create_event', can_create_community_event)
 
