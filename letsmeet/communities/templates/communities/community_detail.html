@@ -46,14 +46,18 @@
     <tr>
         <th>Event</th>
         <th>Date</th>
+        <th>Coming</th>
+        <th>Not coming</th>
     </tr>
     {% for event in community.events.all %}
     <tr>
         <td><a href="{{ event.get_absolute_url }}">{{ event.name }}</a></td>
         <td>{{ event.begin }} - {{ event.end }}</td>
+        <td><span class="label label-success">{{ event.rsvp_yes.count }}</span></td>
+        <td><span class="label label-danger">{{ event.rsvp_no.count }}</span></td>
     </tr>
     {% empty %}
-    <tr><td colspan=2><em>Currently no scheduled events</em></td></tr>
+    <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
     {% endfor %}
 </table>
 {% endblock content %}
