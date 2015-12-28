@@ -1,3 +1,7 @@
+.inline {
+    display: inline;
+}
+
 .clickable {
     cursor: pointer;
 }

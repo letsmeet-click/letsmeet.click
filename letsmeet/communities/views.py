@@ -135,6 +135,36 @@ class CommunityUnsubscribeView(LoginRequiredMixin, DetailView):
         return redirect(community)
 
 
+class SubscriptionChangeRoleView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    model = CommunitySubscription
+    allowed_methods = ['post']
+
+    def get_permission_object(self):
+        print('community.can_set_owner')
+        return self.get_object().community
+
+    def get_permission_required(self):
+        role = self.kwargs.get('role')
+        if role == CommunitySubscription.ROLE_OWNER:
+            return ['community.can_set_owner']
+        elif role == CommunitySubscription.ROLE_ADMIN:
+            return ['community.can_set_admin']
+        elif role == CommunitySubscription.ROLE_SUBSCRIBER:
+            return ['community.can_set_subscriber']
+        else:
+            raise ValueError('Unknown role type {}'.format(role))
+
+    def post(self, request, *args, **kwargs):
+        subscription = self.get_object()
+        if not rules.test_rule('is_last_owner', request.user, subscription):
+            messages.error(request, 'You cannot change your role when you are the last owner')
+            return redirect(subscription.community)
+
+        subscription.role = kwargs['role']
+        subscription.save()
+        return redirect(subscription.community)
+
+
 class MyCommunitySubscriptionListView(LoginRequiredMixin, ListView):
     model = CommunitySubscription
 
@@ -143,7 +173,6 @@ class MyCommunitySubscriptionListView(LoginRequiredMixin, ListView):
 
 
 class CommunityRedirectView(RedirectView):
-
     permanent = False
     pattern_name = 'community_detail'
 

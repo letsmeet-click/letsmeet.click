@@ -26,10 +26,13 @@ from .views import (
     CommunityUnsubscribeView,
     CommunityRedirectView,
     MyCommunitySubscriptionListView,
+    SubscriptionChangeRoleView,
 )
 
 urlpatterns = [
     url(r'^c/$', CommunityListView.as_view(), name='community_list'),
+    url(r'^c/change-role/(?P<pk>\d+)/(?P<role>(owner|admin|subscriber))/$',
+        SubscriptionChangeRoleView.as_view(), name='subscription_change_role'),
     url(r'^c/(?P<slug>[\w-]+)/$', CommunityDetailView.as_view(), name='community_detail'),
     url(r'^c/(?P<slug>[\w-]+)/create-event/$', CommunityEventCreateView.as_view(), name='community_event_create'),
     url(r'^c/(?P<slug>[\w-]+)/edit/$', CommunityUpdateView.as_view(), name='community_update'),

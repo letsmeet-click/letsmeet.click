@@ -34,6 +34,7 @@ class EventRSVPView(LoginRequiredMixin, PermissionRequiredMixin, CommunityEventM
     model = Event
     template_name = 'events/event_rsvp.html'
     permission_required = 'event.can_rsvp'
+    allowed_methods = ['post']
 
     def post(self, request, *args, **kwargs):
         event = self.get_object()

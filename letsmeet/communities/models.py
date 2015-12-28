@@ -59,6 +59,27 @@ class Community(TimeStampedModel):
         verbose_name_plural = 'Communities'
 
 
+class CommunitySubscription(TimeStampedModel):
+    ROLE_OWNER = 'owner'
+    ROLE_ADMIN = 'admin'
+    ROLE_SUBSCRIBER = 'subscriber'
+    ROLE_CHOICES = (
+        (ROLE_OWNER, 'Owner'),
+        (ROLE_ADMIN, 'Administrator'),
+        (ROLE_SUBSCRIBER, 'Subscriber'),
+    )
+
+    community = models.ForeignKey(Community, related_name='community_subscriptions')
+    user = models.ForeignKey('auth.User', related_name='community_subscriptions')
+    role = models.CharField(max_length=64, choices=ROLE_CHOICES, default=ROLE_SUBSCRIBER)
+
+    class Meta:
+        ordering = ['user']
+        unique_together = (
+            ('community', 'user'),
+        )
+
+
 @rules.predicate
 def can_edit_community(user, community):
     if not user or not community:
@@ -89,7 +110,7 @@ rules.add_perm('community.can_create_event', can_create_community_event)
 
 
 @rules.predicate
-def can_unsubscribe(user, community_subscription):
+def is_last_owner(user, community_subscription):
     if not user or not community_subscription:
         return False
 
@@ -97,25 +118,34 @@ def can_unsubscribe(user, community_subscription):
                 CommunitySubscription.objects.filter(
                     community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1)
 
-rules.add_rule('can_unsubscribe', can_unsubscribe)
+rules.add_rule('is_last_owner', is_last_owner)
+rules.add_rule('can_unsubscribe', ~is_last_owner)
 
 
-class CommunitySubscription(TimeStampedModel):
-    ROLE_OWNER = 'owner'
-    ROLE_ADMIN = 'admin'
-    ROLE_SUBSCRIBER = 'subscriber'
-    ROLE_CHOICES = (
-        (ROLE_OWNER, 'Owner'),
-        (ROLE_ADMIN, 'Administrator'),
-        (ROLE_SUBSCRIBER, 'Subscriber'),
-    )
+@rules.predicate
+def can_set_owner(user, community):
+    if not user or not community:
+        return False
 
-    community = models.ForeignKey(Community, related_name='community_subscriptions')
-    user = models.ForeignKey('auth.User', related_name='community_subscriptions')
-    role = models.CharField(max_length=64, choices=ROLE_CHOICES, default=ROLE_SUBSCRIBER)
+    print('can_set_owner')
+    try:
+        return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
+    except CommunitySubscription.DoesNotExist:
+        return False
 
-    class Meta:
-        ordering = ['user']
-        unique_together = (
-            ('community', 'user'),
-        )
+rules.add_perm('community.can_set_owner', can_set_owner)
+
+
+@rules.predicate
+def can_set_admin(user, community):
+    if not user or not community:
+        return False
+
+    try:
+        return community.community_subscriptions.get(user=user).role in [
+            CommunitySubscription.ROLE_OWNER, CommunitySubscription.ROLE_ADMIN]
+    except CommunitySubscription.DoesNotExist:
+        return False
+
+rules.add_perm('community.can_set_admin', can_set_admin)
+rules.add_perm('community.can_set_subscriber', can_set_admin)
