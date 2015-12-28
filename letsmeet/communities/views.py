@@ -156,7 +156,7 @@ class SubscriptionChangeRoleView(LoginRequiredMixin, PermissionRequiredMixin, De
 
     def post(self, request, *args, **kwargs):
         subscription = self.get_object()
-        if not rules.test_rule('is_last_owner', request.user, subscription):
+        if rules.test_rule('is_last_owner', request.user, subscription):
             messages.error(request, 'You cannot change your role when you are the last owner')
             return redirect(subscription.community)
 
