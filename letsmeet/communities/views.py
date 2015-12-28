@@ -4,6 +4,7 @@ from rules.contrib.views import PermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db import transaction
+from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic.base import RedirectView
 from django.views.generic import (
@@ -177,6 +178,8 @@ class CommunityRedirectView(RedirectView):
     pattern_name = 'community_detail'
 
     def get_redirect_url(self, *args, **kwargs):
-        community = get_object_or_404(Community, cname=kwargs.pop('cname'))
-        kwargs['slug'] = community.slug
-        return super().get_redirect_url(*args, **kwargs)
+        community = Community.objects.filter(cname__in=kwargs.pop('cname').split(' ')).first()
+        if community:
+            kwargs['slug'] = community.slug
+            return super().get_redirect_url(*args, **kwargs)
+        raise Http404
