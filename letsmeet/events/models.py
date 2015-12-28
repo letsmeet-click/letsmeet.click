@@ -9,7 +9,7 @@ from django_extensions.db.models import TimeStampedModel
 class Event(TimeStampedModel):
     community = models.ForeignKey('communities.Community', related_name='events')
     name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64)
+    slug = models.SlugField(max_length=64, help_text="changing the slug will change the url.")
     begin = models.DateTimeField(default=timezone.now)
     end = models.DateTimeField(default=timezone.now)
 
