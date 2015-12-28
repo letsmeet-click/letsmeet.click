@@ -80,7 +80,7 @@ class CommunitySubscription(TimeStampedModel):
     role = models.CharField(max_length=64, choices=ROLE_CHOICES, default=ROLE_SUBSCRIBER)
 
     class Meta:
-        ordering = ['user']
+        ordering = ['role', 'user']
         unique_together = (
             ('community', 'user'),
         )
