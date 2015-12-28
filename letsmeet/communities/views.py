@@ -178,8 +178,10 @@ class CommunityRedirectView(RedirectView):
     pattern_name = 'community_detail'
 
     def get_redirect_url(self, *args, **kwargs):
-        community = Community.objects.filter(cname__in=kwargs.pop('cname').split(' ')).first()
-        if community:
-            kwargs['slug'] = community.slug
-            return super().get_redirect_url(*args, **kwargs)
+        cname_parameter = kwargs.pop('cname')
+        for community in Community.objects.filter(cname__icontains=cname_parameter):
+            for cname in community.split(' '):
+                if cname.lower() == cname_parameter:
+                    kwargs['slug'] = community.slug
+                    return super().get_redirect_url(*args, **kwargs)
         raise Http404
