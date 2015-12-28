@@ -14,7 +14,7 @@ from django.views.generic import (
 )
 
 from events.models import Event
-from .forms import EventCreateForm
+from .forms import EventCreateForm, CommunityUpdateForm
 from .models import Community, CommunitySubscription
 
 
@@ -41,9 +41,9 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
 
 class CommunityUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Community
-    fields = ['name', 'slug', 'cname', 'twitter', 'github', 'homepage', 'irc_channel', 'irc_network', 'slack', ]
     template_name = 'communities/community_update.html'
     permission_required = 'community.can_edit'
+    form_class = CommunityUpdateForm
 
 
 class CommunityDetailView(DetailView):
