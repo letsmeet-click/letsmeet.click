@@ -61,7 +61,7 @@ class Community(TimeStampedModel):
         return reverse('community_event_create', kwargs={'slug': self.slug})
 
     class Meta:
-        ordering = ['name']
+        ordering = ['slug']
         verbose_name_plural = 'Communities'
 
 
