@@ -39,10 +39,11 @@ class CommunityCreateView(LoginRequiredMixin, CreateView):
         return out
 
 
-class CommunityUpdateView(LoginRequiredMixin, UpdateView):
+class CommunityUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Community
     fields = ['name', 'slug', 'cname']
     template_name = 'communities/community_update.html'
+    permission_required = 'community.can_edit'
 
 
 class CommunityDetailView(DetailView):

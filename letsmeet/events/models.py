@@ -16,6 +16,12 @@ class Event(TimeStampedModel):
     def __str__(self):
         return self.name
 
+    def rsvp_yes(self):
+        return self.rsvps.filter(coming=True)
+
+    def rsvp_no(self):
+        return self.rsvps.filter(coming=False)
+
     def save(self, *args, **kwargs):
         if not self.id:
             self.slug = slugify(self.name)
@@ -27,6 +33,15 @@ class Event(TimeStampedModel):
 
     def get_update_url(self):
         return reverse('event_update', kwargs={'slug': self.slug})
+
+    def get_rsvp_yes_url(self):
+        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'yes'})
+
+    def get_rsvp_no_url(self):
+        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'no'})
+
+    def get_rsvp_reset_url(self):
+        return reverse('event_rsvp', kwargs={'slug': self.slug, 'answer': 'reset'})
 
     class Meta:
         ordering = ['name']
@@ -42,12 +57,23 @@ def can_edit_event(user, event):
 rules.add_perm('event.can_edit', can_edit_event)
 
 
+@rules.predicate
+def can_rsvp_event(user, event):
+    if not user or not event:
+        return False
+
+    return user in event.community.subscribers.all()
+
+rules.add_perm('event.can_rsvp', can_rsvp_event)
+
+
 class EventRSVP(TimeStampedModel):
     event = models.ForeignKey('Event', related_name='rsvps')
     user = models.ForeignKey('auth.User', related_name='rsvps')
     coming = models.BooleanField()
 
     class Meta:
+        ordering = ('-coming', 'user')
         unique_together = (
             ('event', 'user'),
         )

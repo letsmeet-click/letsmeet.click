@@ -20,10 +20,12 @@ from .views import (
     EventUpdateView,
     EventDetailView,
     EventListView,
+    EventRSVPView,
 )
 
 urlpatterns = [
     url(r'^e/$', EventListView.as_view(), name='event_list'),
     url(r'^e/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^e/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
+    url(r'^e/(?P<slug>[\w-]+)/rsvp/(?P<answer>(yes|no|reset))/$', EventRSVPView.as_view(), name='event_rsvp'),
 ]

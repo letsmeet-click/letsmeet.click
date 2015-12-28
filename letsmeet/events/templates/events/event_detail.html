@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
-{% load rules community_tags %}
+{% load rules event_tags %}
 
 {% block content %}
-{% if user.is_authenticated %}
 {% has_perm 'event.can_edit' user event as can_edit %}
-{% endif %}
+{% has_perm 'event.can_rsvp' user event as can_rsvp %}
+{% get_community_event_rsvp user event as rsvp %}
+
 <div class="pull-right">
     {% if can_edit %}
     <a class="btn btn-default" href="{{ event.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
@@ -12,7 +13,40 @@
     <a class="btn btn-default" href="{{ event.community.get_absolute_url }}"><i class="fa fa-users"></i> Back to community</a>
 </div>
 <h2><a href="{{ event.community.get_absolute_url }}">{{ event.community.name }}</a></h2>
-<h3>Event: {{ event.name }}</h3>
+<h3>{{ event.name }} ({{ event.begin }})</h3>
+<hr>
+<div class="text-center">
+    <h4>Will you join?</h4>
+    {% if can_rsvp %}
+    {% if not rsvp %}
+    <div class="row">
+        <div class="col-md-1 col-md-offset-5 text-center">
+            <form method="POST" action="{{ event.get_rsvp_yes_url }}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-lg btn-success">Yes</button>
+            </form>
+        </div>
+        <div class="col-md-1 text-center">
+            <form method="POST" action="{{ event.get_rsvp_no_url }}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-lg btn-danger">No</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    You answered <span class="label label-{% if rsvp.coming %}success{% else %}danger{% endif %}">{% if rsvp.coming %}Yes{% else %}No{% endif %}</span>.
+    <form method="POST" action="{{ event.get_rsvp_reset_url }}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link">Change answer</button>
+    </form>
+    {% endif %}
+    {% else %}
+    <div class="alert alert-info" role="alert">
+        You must be logged in and subscribed to the community to RSVP.
+    </div>
+    {% endif %}
+</div>
+<hr>
 <table class="table table-striped">
     <tr>
         <th>Begin</th>
@@ -22,5 +56,36 @@
         <th>End</th>
         <td>{{ event.end }}</td>
     </tr>
+</table>
+<hr>
+<h4>RSVPs</h4>
+
+<p>
+    <span class="label label-success">{{ event.rsvp_yes.count }}</span> coming<br>
+    <span class="label label-danger">{{ event.rsvp_no.count }}</span> not coming
+</p>
+
+<table class="table table-striped">
+    <tr>
+        <th>User</th>
+        <th>Coming?</th>
+        <th>RSVPed on</th>
+    </tr>
+    {% for rsvp in event.rsvps.all %}
+    <tr>
+        <td>{{ rsvp.user.username }}</td>
+        <td>
+            <span class="label label-{% if rsvp.coming %}success"><i class="fa fa-check"></i>{% else %}danger"><i class="fa fa-times"></i>{% endif %}</span>
+            {{ rsvp.coming|yesno }}
+        </td>
+        <td>
+            {{ rsvp.modified }}
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan=3><em>Nobody RSVPed until now</em></td>
+    </tr>
+    {% endfor %}
 </table>
 {% endblock content %}
