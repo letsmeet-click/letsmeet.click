@@ -3,7 +3,7 @@
     <title>letsmeet</title>
     <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
     <defs></defs>
-    <g id="noclick" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+    <g id="2-lines-(menu-bar)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="letsmeet" sketch:type="MSLayerGroup" transform="translate(1.000000, -14.000000)">
             <text sketch:type="MSTextLayer" font-family="Krungthep" font-size="55" font-weight="bold" fill="#F1F1F1">
                 <tspan x="91.2568" y="55.7356678">lets</tspan>
@@ -16,10 +16,10 @@
             <path d="M52.903042,14.173 L79.559,14.173 L79.559,41.9143676 L52.903042,41.9143676 L52.903042,14.173 Z" id="Fill-8" fill="#D66806" sketch:type="MSShapeGroup"></path>
         </g>
         <text id="." sketch:type="MSTextLayer" font-family="Avenir" font-size="55" font-weight="633" fill="#CA530A">
-            <tspan x="94.9388" y="83">.</tspan>
+            <tspan x="94.9388" y="84">.</tspan>
         </text>
-        <text id="click" sketch:type="MSTextLayer" font-family="Avenir" font-size="40" font-weight="normal" fill="#CA530A">
-            <tspan x="111.9388" y="83.4899597">click</tspan>
+        <text id="click" stroke="#CA530A" stroke-width="3" sketch:type="MSTextLayer" font-family="Avenir" font-size="40" font-weight="normal" fill="#CA530A">
+            <tspan x="111.9388" y="82.4899597">click</tspan>
         </text>
     </g>
 </svg>
