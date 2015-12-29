@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+
+{% block page_title %}
+Edit my Profile
+{% endblock %}
+
+{% block small_content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form|as_bootstrap }}
+    <button type="submit" class="btn pull-right"><i class="fa fa-check-circle"></i> Save</button>
+    <a href="{% url 'profile' %}" class="btn"><i class="fa fa-times"></i> Cancel</a>
+</form>
+{% endblock small_content %}

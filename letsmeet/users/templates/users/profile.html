@@ -25,6 +25,7 @@ My Profile
                     <dt>Last login</dt>
                     <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
                 </dl>
+                <a href="{% url "profile_edit" %}" class="btn"><i class="fa fa-edit"></i> Edit</a>
             </div>
         </div>
         <div class="row">
