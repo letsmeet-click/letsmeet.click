@@ -21,22 +21,31 @@ Event: {{ event.name }} ({{ event.begin }})
 </div>
 
 <div class="block-area">
+    <table class="table">
+        <tr>
+            <th>Begin</th>
+            <td>{{ event.begin }}</td>
+        </tr>
+        <tr>
+            <th>End</th>
+            <td>{{ event.end }}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="block-area">
     <h3>Will you join?</h3>
     {% if can_rsvp %}
     {% if not rsvp %}
     <div class="row">
-        <div class="col-md-1 col-md-offset-5 text-center">
-            <form method="POST" action="{{ event.get_rsvp_yes_url }}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-lg btn-success">Yes</button>
-            </form>
-        </div>
-        <div class="col-md-1 text-center">
-            <form method="POST" action="{{ event.get_rsvp_no_url }}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-lg btn-danger">No</button>
-            </form>
-        </div>
+        <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
+        </form>
+        <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
+        </form>
     </div>
     {% else %}
     <p>
@@ -54,19 +63,6 @@ Event: {{ event.name }} ({{ event.begin }})
         You must be logged in and subscribed to the community to RSVP.
     </div>
     {% endif %}
-</div>
-
-<div class="block-area">
-    <table class="table">
-        <tr>
-            <th>Begin</th>
-            <td>{{ event.begin }}</td>
-        </tr>
-        <tr>
-            <th>End</th>
-            <td>{{ event.end }}</td>
-        </tr>
-    </table>
 </div>
 
 <div class="block-area">
