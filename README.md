@@ -4,6 +4,9 @@ This is most of the source-code you can find deployed on
 [letsmeet.click](https://www.letsmeet.click/) except for the theme and
 obviously our production settings 😉
 
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/11cf956b337f43abb2429dd08fbfe707/badge.svg)](https://www.quantifiedcode.com/app/project/11cf956b337f43abb2429dd08fbfe707)
+
+
 
 ## Timeframe
 
