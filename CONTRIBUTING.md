@@ -1,6 +1,7 @@
 ## Feature requests
 
-If you have an idea how to improve the service make sure to check our roadmap and existing issues if there is already a
+If you have an idea how to improve the service make sure to check our
+[roadmap](https://github.com/letsmeet-click/meta/blob/master/roadmap.md) and existing issues if there is already a
 plan for it.
 
 If you can't find your suggestion please file an issue [here](https://github.com/letsmeet-click/letsmeet.click/issues).
