@@ -9,9 +9,12 @@ from django_extensions.db.models import TimeStampedModel
 class Event(TimeStampedModel):
     community = models.ForeignKey('communities.Community', related_name='events')
     name = models.CharField(max_length=64)
-    slug = models.SlugField(max_length=64, help_text="changing the slug will change the url.")
+    description = models.TextField(null=True, blank=True)
+    slug = models.SlugField(max_length=64, help_text="Note: changing the slug will change the URL of the event")
     begin = models.DateTimeField(default=timezone.now)
     end = models.DateTimeField(default=timezone.now)
+    twitter_hashtag = models.CharField(
+        max_length=140, null=True, blank=True, help_text='Twitter hashtag of this event (without leading #)')
 
     def __str__(self):
         return self.name

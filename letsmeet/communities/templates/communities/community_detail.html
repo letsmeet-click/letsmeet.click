@@ -15,6 +15,10 @@ Community: {{ community }}
 {% has_perm 'community.can_set_subscriber' user community as can_set_subscriber %}
 {% endif %}
 
+<div class="block-area">
+    <h2>{{ community }}</h2>
+</div>
+
 <div class="block-area text-right">
     {% if user_subscription %}
     <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>

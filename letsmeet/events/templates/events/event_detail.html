@@ -21,6 +21,18 @@ Event: {{ event.name }} ({{ event.begin }})
 </div>
 
 <div class="block-area">
+    <h2>{{ event.name }}</h2>
+    <p class="p-20">
+        {{ event.description|linebreaksbr }}
+    </p>
+    {% if not event.description and can_edit %}
+    <div class="alert alert-info" role="alert">
+        <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
+    </div>
+    {% endif %}
+</div>
+
+<div class="block-area">
     <table class="table">
         <tr>
             <th>Begin</th>
@@ -63,6 +75,43 @@ Event: {{ event.name }} ({{ event.begin }})
         You must be logged in and subscribed to the community to RSVP.
     </div>
     {% endif %}
+</div>
+
+<div class="block-area">
+    <h3>Share event</h3>
+    {% if event.twitter_hashtag %}
+    <p>
+        Event hashtag: #{{ event.twitter_hashtag }}
+    </p>
+    {% elif can_edit %}
+    <div class="alert alert-info" role="alert">
+        <em>Hint: <a href="{{ event.get_update_url }}">Set a hashtag</a> to tell your attendees how they can tweet about your event</em>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-1">
+            <a
+                href="https://twitter.com/share"
+                class="twitter-share-button"{count}
+                data-url="https://www.letsmeet.click{{ event.get_absolute_url }}"
+                data-text="Join me at {{ event.name }}."
+                data-via="letsmeet_click"
+                {% if event.twitter_hashtag %} data-hashtags="{{ event.twitter_hashtag }}"{% endif %}></a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
+
+        <div class="col-md-1">
+            <div id="fb-root"></div>
+            <script>(function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=212341402442310";
+            fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="fb-share-button" data-href="https://www.letsmeet.click{{ event.get_absolute_url }}" data-layout="button"></div>
+        </div>
+    </div>
 </div>
 
 <div class="block-area">

@@ -7,7 +7,7 @@ from events.models import Event, EventComment
 class EventUpdateForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'begin', 'end')
+        fields = ('name', 'slug', 'description', 'begin', 'end', 'twitter_hashtag', )
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])
