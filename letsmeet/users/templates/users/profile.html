@@ -11,19 +11,19 @@ My Profile
                 <h2>Hello {{ user.username }}</h2>
                 <dl class="dl-horizontal">
                     <dt>First name</dt>
-                    <dd>{{ user.first_name }}</dd>
+                    <dd>{{ user.first_name }}&nbsp;</dd>
                     <dt>Last name</dt>
-                    <dd>{{ user.last_name }}</dd>
+                    <dd>{{ user.last_name }}&nbsp;</dd>
                     <dt>Username</dt>
-                    <dd>{{ user.username }}</dd>
+                    <dd>{{ user.username }}&nbsp;</dd>
                     <dt>Email</dt>
-                    <dd>{{ user.email }}</dd>
+                    <dd>{{ user.email }}&nbsp;</dd>
                     <dt>Password set</dt>
-                    <dd>{{ user.has_usable_password|yesno }}</dd>
+                    <dd>{{ user.has_usable_password|yesno }}&nbsp;</dd>
                     <dt>User since</dt>
-                    <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}</dd>
+                    <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}&nbsp;</dd>
                     <dt>Last login</dt>
-                    <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}</dd>
+                    <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
                 </dl>
             </div>
         </div>
