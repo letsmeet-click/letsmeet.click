@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap_tags %}
+
+{% block page_title %}
+Write comment for event "{{ event.name }}"
+{% endblock page_title %}
+
+{% block small_content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form|as_bootstrap }}
+    <button type="submit" class="btn pull-right"><i class="fa fa-floppy-o"></i> Save</button>
+    <a href="{{ event.get_absolute_url }}" class="btn"><i class="fa fa-times"></i> Cancel</a>
+</form>
+{% endblock small_content %}

@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import url
 
 from .views import (
+    EventCommentCreateView,
     EventUpdateView,
     EventDetailView,
     EventRSVPView,
@@ -25,5 +26,6 @@ from .views import (
 urlpatterns = [
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
+    url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/write-comment/$', EventCommentCreateView.as_view(), name='eventcomment_create'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/rsvp/(?P<answer>(yes|no|reset))/$', EventRSVPView.as_view(), name='event_rsvp'),
 ]

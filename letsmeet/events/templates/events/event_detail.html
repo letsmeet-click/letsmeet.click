@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load rules event_tags %}
+{% load rules event_tags static bootstrap_tags %}
 
 {% block page_title %}
 Event: {{ event.name }} ({{ event.begin }})
@@ -9,6 +9,7 @@ Event: {{ event.name }} ({{ event.begin }})
 {% if user.is_authenticated %}
 {% has_perm 'event.can_edit' user event as can_edit %}
 {% has_perm 'event.can_rsvp' user event as can_rsvp %}
+{% has_perm 'event.can_create_comment' user event as can_create_comment %}
 {% get_community_event_rsvp user event as rsvp %}
 {% endif %}
 
@@ -103,5 +104,45 @@ Event: {{ event.name }} ({{ event.begin }})
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<div class="block-area">
+    <h3>Comments</h3>
+    <div class="tile">
+        <div class="listview narrow">
+            {% if can_create_comment %}
+            <div class="media">
+                <a href="" onclick="$('#write-comment').slideDown(); return false"><i class="fa fa-plus"></i> Write Comment</a>
+            </div>
+            <div id="write-comment" class="tile" style="display:none">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form method="POST" action="{{ event.get_comment_create_url }}">
+                            {% csrf_token %}
+                            {{ comment_form|as_bootstrap }}
+                            <button class="btn pull-right" type="submit"><i class="fa fa-plus"></i> Send</button>
+                            <a href="" class="btn" onclick="$('#write-comment').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% for comment in event.comments.all %}
+            <div class="media p-10">
+                <div class="pull-left">
+                    <img width="40" src="{% static 'img/letsmeet_icon.png' %}" alt="">
+                </div>
+                <div class="media-body">
+                    <small class="text-muted">{{ comment.created|timesince }} ago by {{ comment.user.username }}</small><br>
+                    <p>{{ comment.text|linebreaksbr }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="media p-l-5">
+                <em>No comments yet.</em>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock content %}

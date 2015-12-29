@@ -40,6 +40,10 @@ class Event(TimeStampedModel):
         return reverse('event_update', kwargs={'slug': self.slug,
                                                'community_slug': self.community.slug})
 
+    def get_comment_create_url(self):
+        return reverse('eventcomment_create', kwargs={
+            'slug': self.slug, 'community_slug': self.community.slug})
+
     def get_rsvp_yes_url(self):
         return reverse('event_rsvp', kwargs={'slug': self.slug,
                                              'community_slug': self.community.slug,
@@ -71,13 +75,14 @@ rules.add_perm('event.can_edit', can_edit_event)
 
 
 @rules.predicate
-def can_rsvp_event(user, event):
+def is_subscriber(user, event):
     if not user or not event:
         return False
 
     return user in event.community.subscribers.all()
 
-rules.add_perm('event.can_rsvp', can_rsvp_event)
+rules.add_perm('event.can_rsvp', is_subscriber)
+rules.add_perm('event.can_create_comment', is_subscriber)
 
 
 class EventRSVP(TimeStampedModel):
@@ -90,3 +95,9 @@ class EventRSVP(TimeStampedModel):
         unique_together = (
             ('event', 'user'),
         )
+
+
+class EventComment(TimeStampedModel):
+    event = models.ForeignKey('Event', related_name='comments')
+    user = models.ForeignKey('auth.User', related_name='comments')
+    text = models.TextField()

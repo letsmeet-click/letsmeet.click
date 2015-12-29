@@ -1,7 +1,7 @@
 from django import forms
 from django.template.defaultfilters import slugify
 
-from events.models import Event
+from events.models import Event, EventComment
 
 
 class EventUpdateForm(forms.ModelForm):
@@ -15,3 +15,9 @@ class EventUpdateForm(forms.ModelForm):
                         .filter(slug=slug, community=self.instance.community):
             raise forms.ValidationError('The slug ("{}") is not unique for this community.'.format(slug))
         return slug
+
+
+class EventCommentCreateForm(forms.ModelForm):
+    class Meta:
+        model = EventComment
+        fields = ('text', )
