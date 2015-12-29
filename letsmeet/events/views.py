@@ -1,6 +1,6 @@
 from rules.contrib.views import PermissionRequiredMixin
 
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     CreateView,
@@ -14,9 +14,10 @@ from .forms import EventUpdateForm, EventCommentCreateForm
 
 class CommunityEventMixin:
     def get_object(self, queryset=None):
-        obj = Event.objects.get(
-            slug=self.kwargs.get('slug'), community__slug=self.kwargs.get('community_slug'))
-        return obj
+        return get_object_or_404(
+            Event,
+            slug=self.kwargs.get('slug'),
+            community__slug=self.kwargs.get('community_slug'))
 
 
 class EventUpdateView(LoginRequiredMixin, PermissionRequiredMixin, CommunityEventMixin, UpdateView):
