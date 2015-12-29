@@ -22,10 +22,11 @@ Event: {{ event.name }} ({{ event.begin }})
 
 <div class="block-area">
     <h2>{{ event.name }}</h2>
+    {% if event.description %}
     <p class="p-20">
         {{ event.description|linebreaksbr }}
     </p>
-    {% if not event.description and can_edit %}
+    {% elif can_edit %}
     <div class="alert alert-info" role="alert">
         <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
     </div>
