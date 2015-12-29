@@ -27,8 +27,8 @@ My communities
                 <td>{{ subscription.get_role_display }}</td>
                 <td>{{ subscription.created|timesince }}</td>
                 <td>
-                    {% if community.get_next_event %}
-                    {{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}
+                    {% if subscription.community.get_next_event %}
+                    {{ subscription.community.get_next_event.name }} in {{ subscription.community.get_next_event.begin|timeuntil }}
                     {% else %}
                     No upcoming event
                     {% endif %}
