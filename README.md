@@ -1,5 +1,8 @@
 # letsmeet.click
 
+If you have a feature request please read
+[CONTRIBUTING.md](https://github.com/letsmeet-click/letsmeet.click/blob/master/CONTRIBUTING.md)
+
 This is most of the source-code you can find deployed on
 [letsmeet.click](https://www.letsmeet.click/) except for the theme and
 obviously our production settings 😉
