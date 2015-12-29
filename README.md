@@ -37,7 +37,7 @@ In order to make the test setup easier, you can also execute them within the
 Docker container:
 
 ```
-docker exec -ti letsmeetclick_web_1 py.test
+docker exec -ti letsmeetclick_web_1 tox
 ```
 
 ## Production setup

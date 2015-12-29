@@ -3,7 +3,9 @@ web:
   command: "runserver 0.0.0.0:8011"
   environment:
       PYTHONUNBUFFERED: 0
+      PYTHONDONTWRITEBYTECODE: 1
       DJANGO_SETTINGS_MODULE: letsmeet.settings.dev
+      TOX_WORK_DIR: /opt/tox
   entrypoint:
    - './manage.py'
   links:
