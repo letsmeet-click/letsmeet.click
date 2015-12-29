@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="359px" height="85px" viewBox="0 0 359 85" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <title>letsmeet</title>
+    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <defs></defs>
+    <g id="noclick" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="letsmeet" sketch:type="MSLayerGroup" transform="translate(1.000000, -14.000000)">
+            <text sketch:type="MSTextLayer" font-family="Krungthep" font-size="55" font-weight="bold" fill="#F1F1F1">
+                <tspan x="91.2568" y="55.7356678">lets</tspan>
+                <tspan x="205.854456" y="55.7356678">meet</tspan>
+            </text>
+            <path d="M-0.41015625,14.173 L26.2458017,14.173 L26.2458017,41.9143676 L-0.41015625,41.9143676 L-0.41015625,14.173 Z" id="Fill-4" fill="#F1F1F1" sketch:type="MSShapeGroup"></path>
+            <path d="M26.2458017,41.9157022 L52.9017597,41.9157022 L52.9017597,69.6570699 L26.2458017,69.6570699 L26.2458017,41.9157022 Z" id="Fill-5" fill="#F1F1F1" sketch:type="MSShapeGroup"></path>
+            <path d="M52.903042,69.6570699 L79.559,69.6570699 L79.559,97.3984375 L52.903042,97.3984375 L52.903042,69.6570699 Z" id="Fill-6" fill="#F1F1F1" sketch:type="MSShapeGroup"></path>
+            <path d="M-0.41015625,69.6570699 L26.2458017,69.6570699 L26.2458017,97.3984375 L-0.41015625,97.3984375 L-0.41015625,69.6570699 Z" id="Fill-7" fill="#F1F1F1" sketch:type="MSShapeGroup"></path>
+            <path d="M52.903042,14.173 L79.559,14.173 L79.559,41.9143676 L52.903042,41.9143676 L52.903042,14.173 Z" id="Fill-8" fill="#D66806" sketch:type="MSShapeGroup"></path>
+        </g>
+        <text id="." sketch:type="MSTextLayer" font-family="Avenir" font-size="55" font-weight="633" fill="#CA530A">
+            <tspan x="94.9388" y="83">.</tspan>
+        </text>
+        <text id="click" sketch:type="MSTextLayer" font-family="Avenir" font-size="40" font-weight="normal" fill="#CA530A">
+            <tspan x="111.9388" y="83.4899597">click</tspan>
+        </text>
+    </g>
+</svg>

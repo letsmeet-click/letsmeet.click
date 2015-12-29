@@ -32,3 +32,12 @@
 .clickable {
     cursor: pointer;
 }
+
+.logo {
+    line-height: 50px;
+    padding: 0 0 0 45px;
+}
+.logo img {
+    max-width: 170px;
+    max-height: 30px;
+}
