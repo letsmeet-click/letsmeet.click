@@ -18,6 +18,8 @@ My Profile
                     <dd>{{ user.username }}</dd>
                     <dt>Email</dt>
                     <dd>{{ user.email }}</dd>
+                    <dt>Password set</dt>
+                    <dd>{{ user.has_usable_password|yesno }}</dd>
                     <dt>User since</dt>
                     <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}</dd>
                     <dt>Last login</dt>
