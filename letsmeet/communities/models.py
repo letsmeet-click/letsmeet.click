@@ -47,7 +47,7 @@ class Community(TimeStampedModel):
         super().save(*args, **kwargs)
 
     def get_next_event(self):
-        if not getattr(self, '_next_event'):
+        if not hasattr(self, '_next_event'):
             self._next_event = self.events.filter(begin__gte=timezone.now()).order_by('begin').first()
 
         return self._next_event
