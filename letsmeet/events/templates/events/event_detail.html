@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load rules event_tags static bootstrap_tags %}
 
-{% block og_title %}
-{{ event }} on letsmeet.click
-{% endblock %}
+{% block og_url_path %}{{ request.path }}{% endblock %}
+
+{% block og_title %}{{ event }} on letsmeet.click{% endblock %}
 
 {% block page_title %}
 Event: {{ event.name }} ({{ event.begin }})
