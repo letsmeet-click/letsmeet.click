@@ -12,9 +12,15 @@ LOGIN
             <div class="col-md-5 col-md-offset-1 text-center box tile active animated" id="box-oauth">
                 <h2>Log in with your existing account</h2>
                 <div class="row">
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-5x"></i><br>Github</a>
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
-                    <a class="col-md-4 text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
+                    <div class="col-md-4">
+                        <a class="text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-5x"></i><br>Github</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class= text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a class= text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
+                    </div>
                 </div>
                 <p>
                     <div class="alert alert-info" role="alert">
