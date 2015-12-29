@@ -112,11 +112,11 @@ def can_create_community_event(user, community):
         return False
 
     try:
-        user = community.community_subscriptions.get(user=user)
-        if user:
-            return user.role == CommunitySubscription.ROLE_OWNER
+        community_subscription = community.community_subscriptions.get(user=user)
+        if community_subscription:
+            return community_subscription.role == CommunitySubscription.ROLE_OWNER
     except CommunitySubscription.DoesNotExist:
-        pass
+        pass  # yes, quantifiedcode, this is intentional
     return False
 
 rules.add_perm('community.can_create_event', can_create_community_event)
