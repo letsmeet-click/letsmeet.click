@@ -74,7 +74,7 @@ Community: {{ community }}
             <tr>
                 <td>{{ subscription.user.username }}</td>
                 <td>{{ subscription.get_role_display }}</td>
-                <td>{{ subscription.created }}</td>
+                <td>{{ subscription.created|timesince }}</td>
                 <td>
                     {% if can_set_owner and not subscription.role == subscription.ROLE_OWNER %}
                     <form method="POST" action="{% url 'subscription_change_role' pk=subscription.pk role='owner' %}" class="inline">

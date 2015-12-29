@@ -4,6 +4,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
 from django.template.defaultfilters import slugify
+from django.utils import timezone
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -44,6 +45,12 @@ class Community(TimeStampedModel):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)
+
+    def get_next_event(self):
+        if not getattr(self, '_next_event'):
+            self._next_event = self.events.filter(begin__gte=timezone.now()).order_by('begin').first()
+
+        return self._next_event
 
     def get_absolute_url(self):
         return reverse('community_detail', kwargs={'slug': self.slug})

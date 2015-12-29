@@ -17,6 +17,7 @@ My communities
                 <th>Community</th>
                 <th>Role</th>
                 <th>Subscribed since</th>
+                <th>Next event</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +25,14 @@ My communities
             <tr class="clickable" onclick="window.document.location='{{ subscription.community.get_absolute_url }}';">
                 <td>{{ subscription.community.name }}</td>
                 <td>{{ subscription.get_role_display }}</td>
-                <td>{{ subscription.created }}</td>
+                <td>{{ subscription.created|timesince }}</td>
+                <td>
+                    {% if community.get_next_event %}
+                    {{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}
+                    {% else %}
+                    No upcoming event
+                    {% endif %}
+                </td>
             </tr>
             {% empty %}
             <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>

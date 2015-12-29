@@ -17,6 +17,7 @@ ALL COMMUNITIES
                 <th>Community</th>
                 <th>Your Role</th>
                 <th>Subscribers</th>
+                <th>Next event</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,13 @@ ALL COMMUNITIES
                 <td>{{ community.name }}</td>
                 <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>
                 <td>{{ community.community_subscriptions.count }} <i class="fa fa-users"></i></td>
+                <td>
+                    {% if community.get_next_event %}
+                    {{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}
+                    {% else %}
+                    No upcoming event
+                    {% endif %}
+                </td>
             </tr>
             {% empty %}
             <tr><td colspan=2><em>No communities yet.</em></td></tr>
