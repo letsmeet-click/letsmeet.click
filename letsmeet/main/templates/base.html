@@ -32,11 +32,23 @@
         <header id="header" class="media">
             <a href="" id="menu-toggle"></a> 
             <a class="logo pull-left" href="{% url 'home' %}">Let's Meet!</a>
+            <div class="media-body">
+                <div class="media" id="top-menu">
+                    <div class="media-body text-right">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </header>
 
         <div class="clearfix"></div>
 
         <section id="main" class="p-relative" role="main">
+            <div></div>
 
             <!-- Sidebar -->
             <aside id="sidebar">
@@ -44,7 +56,7 @@
                 <!-- Sidbar Widgets -->
                 <div class="side-widgets overflow">
                     <!-- Projects -->
-                    <div class="s-widget m-b-25 text-center">
+                    <div class="s-widget m-b-25 text-center dropdown">
                         <h4>{{ user.username }}</h4>
                         <div class="s-widget-body">
                             {% if user.is_authenticated %}

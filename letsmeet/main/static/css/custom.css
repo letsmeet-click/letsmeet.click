@@ -9,6 +9,10 @@
     }
 }
 
+#top-menu > .media-body {
+    padding-top: 12px;
+}
+
 .home-banner {
     padding-top: 3rem;
     padding-left: 3rem;
