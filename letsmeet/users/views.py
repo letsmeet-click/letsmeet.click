@@ -1,5 +1,7 @@
 import rules
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -57,3 +59,29 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = "users/profile_edit.html"
+    success_url = reverse_lazy("profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_form_class(self):
+        if self.object.has_usable_password():
+            return PasswordChangeForm
+        else:
+            # User logged in through a social account
+            return SetPasswordForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = kwargs.pop('instance')
+        return kwargs
+
+    def form_valid(self, form):
+        ret = super().form_valid(form)
+        update_session_auth_hash(self.request, self.object)
+        return ret

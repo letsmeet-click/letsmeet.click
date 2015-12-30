@@ -26,6 +26,11 @@ My Profile
                     <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
                 </dl>
                 <a href="{% url "profile_edit" %}" class="btn"><i class="fa fa-edit"></i> Edit</a>
+                {% if user.has_usable_password %}
+                    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Change password</a>
+                {% else %}
+                    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Set password</a>
+                {% endif %}
             </div>
         </div>
         <div class="row">
