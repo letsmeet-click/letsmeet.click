@@ -2,13 +2,13 @@
 {% load rules community_tags %}
 
 {% block page_title %}
-ALL COMMUNITIES
+{{ title|default:'All communities' }}
 {% endblock %}
 
 {% block content %}
 <div class="block-area">
     <a class="btn pull-right" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
-    <h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communities</h3>
+    <h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communit{{ community_list.count|pluralize:'y,ies' }}</h3>
 </div>
 
 <div class="block-area">

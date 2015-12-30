@@ -23,6 +23,19 @@ class CommunityListView(ListView):
     model = Community
 
 
+class MyCommunityListView(LoginRequiredMixin, ListView):
+    model = Community
+    template_name = 'communities/community_list.html'
+
+    def get_queryset(self):
+        return Community.objects.filter(community_subscriptions__user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'My communities'
+        return context
+
+
 class CommunityCreateView(LoginRequiredMixin, CreateView):
     model = Community
     fields = ['name', ]
@@ -164,13 +177,6 @@ class SubscriptionChangeRoleView(LoginRequiredMixin, PermissionRequiredMixin, De
         subscription.role = kwargs['role']
         subscription.save()
         return redirect(subscription.community)
-
-
-class MyCommunitySubscriptionListView(LoginRequiredMixin, ListView):
-    model = CommunitySubscription
-
-    def get_queryset(self):
-        return self.request.user.community_subscriptions.all()
 
 
 class CommunityRedirectView(RedirectView):
