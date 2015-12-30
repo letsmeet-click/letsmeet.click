@@ -14,7 +14,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from events.models import Event
+from events.models import Event, EventRSVP
 from .forms import EventCreateForm, CommunityUpdateForm
 from .models import Community, CommunitySubscription
 
@@ -114,6 +114,7 @@ class CommunityUnsubscribeView(LoginRequiredMixin, DetailView):
 
         return super().get(request, *args, **kwargs)
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         community = self.object
@@ -128,8 +129,10 @@ class CommunityUnsubscribeView(LoginRequiredMixin, DetailView):
             messages.error(request, 'You cannot unsubscribe when you are the last owner')
             return redirect(community)
 
-        messages.success(request, 'Successfully unsubscribed from "{}"'.format(community.name))
+        EventRSVP.objects.upcoming.filter(
+            event__community=community, user=request.user).delete()
         user_subscription.delete()
+        messages.success(request, 'Successfully unsubscribed from "{}"'.format(community.name))
         return redirect(community)
 
 

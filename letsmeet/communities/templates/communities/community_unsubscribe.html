@@ -6,6 +6,9 @@ Unsubscribe from community "{{ community.name }}"?
 {% endblock %}
 
 {% block small_content %}
+<div class="alert alert-info" role="alert">
+    <em>Note: Unsubscribing from a community will remove all your RSVPs from future events of this community</em>
+</div>
 <form method="POST">
     {% csrf_token %}
     <button type="submit" class="btn"><i class="fa fa-user-plus"></i> Yes, unsubscribe</button>

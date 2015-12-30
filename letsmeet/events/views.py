@@ -3,6 +3,7 @@ from rules.contrib.views import PermissionRequiredMixin
 from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -41,9 +42,21 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
     model = Event
     template_name = 'events/event_rsvp.html'
 
+    def get(self, request, *args, **kwargs):
+        event = self.get_object()
+        if event.is_past():
+            messages.error(request, 'You can not RSVP for past events.')
+            return redirect(event)
+
+        return super().get(request, *args, **kwargs)
+
     @transaction.atomic()
     def post(self, request, *args, **kwargs):
         event = self.get_object()
+        if event.is_past():
+            messages.error(request, 'You can not RSVP for past events.')
+            return redirect(event)
+
         event.community.subscribe_user(request.user)
         answer = self.kwargs.get('answer')
         if answer == 'reset':

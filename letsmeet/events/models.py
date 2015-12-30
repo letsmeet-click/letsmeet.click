@@ -6,6 +6,14 @@ from django.template.defaultfilters import slugify
 from django_extensions.db.models import TimeStampedModel
 
 
+class EventManager(models.Manager):
+    def upcoming(self):
+        return self.get_queryset().filter(end__gte=timezone.now())
+
+    def past(self):
+        return self.get_queryset().filter(end__lt=timezone.now())
+
+
 class Event(TimeStampedModel):
     community = models.ForeignKey('communities.Community', related_name='events')
     name = models.CharField(max_length=64)
@@ -15,9 +23,16 @@ class Event(TimeStampedModel):
     end = models.DateTimeField(default=timezone.now)
     twitter_hashtag = models.CharField(
         max_length=140, null=True, blank=True, help_text='Twitter hashtag of this event (without leading #)')
+    objects = EventManager()
 
     def __str__(self):
         return self.name
+
+    def is_upcoming(self):
+        return self.end >= timezone.now()
+
+    def is_past(self):
+        return self.end < timezone.now()
 
     def rsvp_yes(self):
         return self.rsvps.filter(coming=True)

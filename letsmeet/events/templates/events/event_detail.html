@@ -33,7 +33,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </p>
     {% elif can_edit %}
     <div class="alert alert-info" role="alert">
-        <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
+        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
     </div>
     {% endif %}
 </div>
@@ -51,6 +51,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </table>
 </div>
 
+{% if event.is_upcoming %}
 <div class="block-area">
     <h3>Will you join?</h3>
     {% if rsvp %}
@@ -81,6 +82,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </div>
     {% endif %}
 </div>
+{% endif %}
 
 <div class="block-area">
     <h3>Share event</h3>
@@ -90,7 +92,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </p>
     {% elif can_edit %}
     <div class="alert alert-info" role="alert">
-        <em>Hint: <a href="{{ event.get_update_url }}">Set a hashtag</a> to tell your attendees how they can tweet about your event</em>
+        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a hashtag</a> to tell your attendees how they can reference your event in social media</em>
     </div>
     {% endif %}
     <div class="row">
