@@ -55,12 +55,16 @@
 
                 <!-- Sidbar Widgets -->
                 <div class="side-widgets overflow">
-                    <!-- Projects -->
-                    <div class="s-widget m-b-25 text-center dropdown">
-                        <h4>{{ user.username }}</h4>
-                        <div class="s-widget-body">
+                    <div class="m-b-25 text-center">
+                        <h4><a href="{% url 'profile' %}">{{ user.username }} <i class="fa fa-wrench"></i></a></h4>
+                        <div class="menu">
+                            <div>
+                                <a href="{% url 'home' %}">Home</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'community_list' %}">All Communities</a>
+                            </div>
                             {% if user.is_authenticated %}
-                                <div><a href="{% url 'profile' %}">My Profile</a></div>
                                 <div><a href="{% url 'my_communities' %}">My Communities</a></div>
                                 {% if request.user.is_staff %}
                                     <div><a href="{% url 'admin:index' %}">Admin</a></div>
@@ -69,36 +73,15 @@
                             {% else %}
                                 <div><a href="{% url 'login' %}">Login</a></div>
                             {% endif %}
+                            <div>
+                                <a href="{% url 'contact' %}">Contact</a>
+                            </div>
+                            <div>
+                                <a href="{% url 'legal' %}">Legal / Impressum</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Side Menu -->
-                <ul class="list-unstyled side-menu">
-                    <li class="text-center">
-                        <a href="{% url 'home' %}" class="p-10">
-                            <i class="fa fa-home fa-2x"></i> <span class="menu-item" >Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'community_list' %}" class="p-10">
-                            <i class="fa fa-users fa-2x"></i> <span class="menu-item" >Communities</span>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a class="p-10" href="">
-                            <i class="fa fa-envelope fa-2x"></i> <span class="menu-item">Contact</span>
-                        </a>
-                        <ul class="list-unstyled menu-item">
-                            <li>
-                                <a href="{% url 'contact' %}">Contact</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'legal' %}">Legal / Impressum</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
             </aside>
 
             <div id="content" class="container">
