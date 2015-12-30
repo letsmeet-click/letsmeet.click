@@ -19,7 +19,9 @@ class EventCreateForm(forms.ModelForm):
 class CommunityUpdateForm(forms.ModelForm):
     class Meta:
         model = Community
-        fields = ['name', 'slug', 'cname', 'twitter', 'github', 'homepage', 'irc_channel', 'irc_network', 'slack', ]
+        fields = [
+            'name', 'slug', 'description', 'cname', 'twitter', 'github', 'homepage', 'irc_channel', 'irc_network',
+            'slack', ]
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])

@@ -11,6 +11,7 @@ from django_extensions.db.models import TimeStampedModel
 class Community(TimeStampedModel):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
+    description = models.TextField(null=True, blank=True)
     subscribers = models.ManyToManyField('auth.User', through='CommunitySubscription', related_name='communities')
     cname = models.CharField(
         max_length=255, null=True, blank=True, verbose_name="CNAME",

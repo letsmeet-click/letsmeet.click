@@ -21,6 +21,15 @@ Community: {{ community }}
 
 <div class="block-area">
     <h2>{{ community }}</h2>
+    {% if community.description %}
+    <p class="p-20">
+        {{ community.description|linebreaksbr }}
+    </p>
+    {% elif can_edit %}
+    <div class="alert alert-info" role="alert">
+        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ community.get_update_url }}">Set a description</a> to provide further information about this community</em>
+    </div>
+    {% endif %}
 </div>
 
 <div class="block-area text-right">
@@ -139,8 +148,7 @@ Community: {{ community }}
 </div>
 
 <div class="block-area">
-
-    <h3>Events</h3>
+    <h3>Upcoming events</h3>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -151,7 +159,7 @@ Community: {{ community }}
             </tr>
         </thead>
         <tbody>
-            {% for event in community.events.all %}
+            {% for event in community.events.upcoming.all %}
             <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
                 <td>{{ event.name }}</td>
                 <td>{{ event.begin }} - {{ event.end }}</td>
@@ -162,6 +170,34 @@ Community: {{ community }}
             </tr>
             {% empty %}
             <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="block-area">
+    <h3>Past events</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Attendees</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in community.events.past.all %}
+            <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+                <td>{{ event.name }}</td>
+                <td>{{ event.begin }} - {{ event.end }}</td>
+                <td>
+                    {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
+                </td>
+                <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan=4><em>No past events</em></td></tr>
             {% endfor %}
         </tbody>
     </table>
