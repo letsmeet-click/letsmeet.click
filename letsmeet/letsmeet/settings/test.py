@@ -8,7 +8,7 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 TEST_DISCOVER_TOP_LEVEL = SITE_ROOT
 TEST_DISCOVER_ROOT = SITE_ROOT
 TEST_DISCOVER_PATTERN = "test_*.py"
-SECRET_KEY = "dummy"
+SECRET_KEY = "test_dummy"
 
 
 if os.environ.get('TEST_ON_PLATFORM', '').lower() == 'wercker':

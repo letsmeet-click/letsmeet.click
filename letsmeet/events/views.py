@@ -50,7 +50,7 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
             try:
                 EventRSVP.objects.get(event=event, user=request.user).delete()
             except EventRSVP.DoesNotExist:
-                pass
+                pass  # yes, quantifiedcode, this is intentional
         else:
             EventRSVP.objects.get_or_create(
                 event=event, user=request.user,

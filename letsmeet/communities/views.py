@@ -87,8 +87,7 @@ class CommunitySubscribeView(LoginRequiredMixin, DetailView):
             messages.warning(request, 'You are already subscribed to "{}"'.format(community.name))
             return redirect(community)
         except CommunitySubscription.DoesNotExist:
-            pass
-        return super().get(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.get_object().subscribe_user(request.user)
