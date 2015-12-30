@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load community_tags bootstrap_tags %}
+
+{% block page_title %}
+Will you take part in "{{ event.name }}"?
+{% endblock page_title %}
+
+{% block small_content %}
+{% get_community_subscription user event.community as user_subscription %}
+{% if not user_subscription %}
+<div class="alert alert-info" role="alert">
+    Note: You will be automatically subscribed to the community when you RSVP.
+</div>
+{% endif %}
+<div class="row">
+    <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
+    </form>
+    <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
+    </form>
+</div>
+{% endblock small_content %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load rules event_tags static bootstrap_tags %}
+{% load rules event_tags community_tags static bootstrap_tags %}
 
 {% block og_url_path %}{{ request.path }}{% endblock %}
 
@@ -15,6 +15,7 @@ Event: {{ event.name }} ({{ event.begin }})
 {% has_perm 'event.can_rsvp' user event as can_rsvp %}
 {% has_perm 'event.can_create_comment' user event as can_create_comment %}
 {% get_community_event_rsvp user event as rsvp %}
+{% get_community_subscription user event.community as user_subscription %}
 {% endif %}
 
 <div class="block-area text-right">
@@ -52,19 +53,7 @@ Event: {{ event.name }} ({{ event.begin }})
 
 <div class="block-area">
     <h3>Will you join?</h3>
-    {% if can_rsvp %}
-    {% if not rsvp %}
-    <div class="row">
-        <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
-        </form>
-        <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
-        </form>
-    </div>
-    {% else %}
+    {% if rsvp %}
     <p>
     You answered <span class="label label-{% if rsvp.coming %}success{% else %}danger{% endif %}">{% if rsvp.coming %}Yes{% else %}No{% endif %}</span>.
     </p>
@@ -74,10 +63,21 @@ Event: {{ event.name }} ({{ event.begin }})
             <button type="submit" class="btn btn-link">Change answer</button>
         </form>
     </p>
-    {% endif %}
     {% else %}
+    {% if not user_subscription %}
     <div class="alert alert-info" role="alert">
-        You must be logged in and subscribed to the community to RSVP.
+        Note: You will be automatically subscribed to the community when you RSVP.
+    </div>
+    {% endif %}
+    <div class="row">
+        <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
+        </form>
+        <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
+        </form>
     </div>
     {% endif %}
 </div>

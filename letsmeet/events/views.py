@@ -1,5 +1,6 @@
 from rules.contrib.views import PermissionRequiredMixin
 
+from django.db import transaction
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
@@ -36,14 +37,14 @@ class EventDetailView(CommunityEventMixin, DetailView):
         return context
 
 
-class EventRSVPView(LoginRequiredMixin, PermissionRequiredMixin, CommunityEventMixin, DetailView):
+class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
     model = Event
     template_name = 'events/event_rsvp.html'
-    permission_required = 'event.can_rsvp'
-    allowed_methods = ['post']
 
+    @transaction.atomic()
     def post(self, request, *args, **kwargs):
         event = self.get_object()
+        event.community.subscribe_user(request.user)
         answer = self.kwargs.get('answer')
         if answer == 'reset':
             try:

@@ -91,9 +91,7 @@ class CommunitySubscribeView(LoginRequiredMixin, DetailView):
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        CommunitySubscription.objects.get_or_create(
-            user=request.user, community=self.get_object(),
-        )
+        self.get_object().subscribe_user(request.user)
         return redirect(self.get_object())
 
 

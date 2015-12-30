@@ -46,6 +46,16 @@ class Community(TimeStampedModel):
 
         super().save(*args, **kwargs)
 
+    def subscribe_user(self, user):
+        subscription, created = CommunitySubscription.objects.get_or_create(
+            user=user, community=self,
+        )
+        return subscription
+
+    def get_user_subscription(self, user):
+        """returns the CommunitySubscription object of the user. None if user is not subscribed"""
+        return self.community_subscriptions.filter(user=user).first()
+
     def get_next_event(self):
         if not hasattr(self, '_next_event'):
             self._next_event = self.events.filter(begin__gte=timezone.now()).order_by('begin').first()
