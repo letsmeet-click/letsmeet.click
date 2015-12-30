@@ -1,13 +1,15 @@
+## notes: https://github.com/wercker/support/issues/166
 box: python
 services:
-   - id: postgres
-     env:
-       POSTGRES_PASSWORD: abc123456789
-       POSTGRES_USER: letsmeet
+  - id: neowaylabs/postgis
+    env:
+      POSTGRES_PASSWORD: abc123456789
+      POSTGRES_USER: letsmeet
 build:
   steps:
+    - install-packages:
+        packages: binutils libproj-dev gdal-bin postgresql-9.4-postgis-scripts
     - pip-install
-
     - script:
         name: run pytest
         code: PYTHONPATH=$PWD/letsmeet py.test
