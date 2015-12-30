@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load letsmeet_tags %}
 
 {% block page_title %}
 My Profile
@@ -52,9 +53,9 @@ My Profile
                 <div class="col-md-6">
                     <h2>Add social account</h2>
                     <div class="row">
-                        {% for backend in backends.not_associated %}
-                            <div class="col-md-2">
-                                <a class="text-center" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+                        {% for backend in backends.not_associated|sorted %}
+                            <div class="col-md-3 text-center">
+                                <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
                             </div>
                         {% endfor %}
                     </div>
