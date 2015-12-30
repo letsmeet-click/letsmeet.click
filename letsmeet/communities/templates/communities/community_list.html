@@ -6,8 +6,9 @@ ALL COMMUNITIES
 {% endblock %}
 
 {% block content %}
-<div class="block-area text-right">
-    <a class="btn btn-default" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+<div class="block-area">
+    <a class="btn pull-right" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+    <h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communities</h3>
 </div>
 
 <div class="block-area">
@@ -44,3 +45,11 @@ ALL COMMUNITIES
     </table>
 </div>
 {% endblock content %}
+
+{% block bottom_js %}
+<script>
+    $(function() {
+        new CountUp("communityCount", 0, {{ community_list.count }}).start();
+    });
+</script>
+{% endblock %}
