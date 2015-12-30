@@ -28,18 +28,18 @@ LOGIN
                     </div>
                 </p>
                 <small>
-                    <a class="box-switcher" data-switch="box-local" href="">Have a local account?</a>
+                    <a class="box-switcher" data-switch="box-local" href="">Login with password?</a>
                 </small>
             </div>
 
             <div class="col-md-4 col-md-offset-1">
                 <form class="box tile animated {% if form.errors %}active{% endif %}" id="box-local" method="POST">
-                    <h2 class="m-t-0 m-b-15">Log in with local account</h2>
+                    <h2 class="m-t-0 m-b-15">Log in with password</h2>
                     {% csrf_token %}
                     {{ form|as_bootstrap }}
 
                     <button onclick="ga('send', 'event', 'login', 'local')" class="btn btn-sm m-r-5">Sign In</button>
-                    <a class="box-switcher" data-switch="box-oauth" href="">Don't have a local account?</a>
+                    <a class="box-switcher" data-switch="box-oauth" href="">Don't have a password?</a>
                 </form>
             </div>
         </div>
