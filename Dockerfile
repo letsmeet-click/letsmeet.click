@@ -3,6 +3,9 @@ MAINTAINER letsmeet.click Contributors
 
 USER root
 
+# install geo stuff
+RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin
+
 # install uwsgi for production
 RUN pip3 install uwsgi
 

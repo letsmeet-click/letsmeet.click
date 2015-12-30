@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
 
     # third party apps
     'django_extensions',
@@ -31,8 +32,9 @@ INSTALLED_APPS = [
     # project apps
     'communities',
     'events',
-    'users',
+    'locations',
     'main',
+    'users',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'letsmeet.wsgi.application'
 # Database in Docker container
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'letsmeet',
         'USER': 'postgres',
         'HOST': 'db',
