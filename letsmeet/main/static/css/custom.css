@@ -2,16 +2,16 @@
     margin-top: 30px;
 }
 
-.menu > div {
+.menu > a {
+    display: block;
     border-bottom: 1px solid rgba(255,255,255,0.2);
     margin: 0px 10px;
     padding: 10px 0px;
     transition: background-color 0.3s;
 }
 
-.menu > div:hover {
-    background: rgba(0, 0, 0, 0.14);
-    color: #000;
+.menu > a:hover {
+    background-color: rgba(0, 0, 0, 0.14);
 }
 
 @media (min-width: 1024px) {

@@ -58,27 +58,19 @@
                     <div class="m-b-25 text-center">
                         <h4><a href="{% url 'profile' %}">{{ user.username }} <i class="fa fa-wrench"></i></a></h4>
                         <div class="menu">
-                            <div>
                                 <a href="{% url 'home' %}">Home</a>
-                            </div>
-                            <div>
                                 <a href="{% url 'community_list' %}">All Communities</a>
-                            </div>
                             {% if user.is_authenticated %}
-                                <div><a href="{% url 'my_communities' %}">My Communities</a></div>
+                                <a href="{% url 'my_communities' %}">My Communities</a>
                                 {% if request.user.is_staff %}
-                                    <div><a href="{% url 'admin:index' %}">Admin</a></div>
+                                    <a href="{% url 'admin:index' %}">Admin</a>
                                 {% endif %}
-                                <div><a href="{% url 'logout' %}">Logout</a></div>
+                                <a href="{% url 'logout' %}">Logout</a>
                             {% else %}
-                                <div><a href="{% url 'login' %}">Login</a></div>
+                                <a href="{% url 'login' %}">Login</a>
                             {% endif %}
-                            <div>
                                 <a href="{% url 'contact' %}">Contact</a>
-                            </div>
-                            <div>
                                 <a href="{% url 'legal' %}">Legal / Impressum</a>
-                            </div>
                         </div>
                     </div>
                 </div>
