@@ -56,7 +56,9 @@
                 <!-- Sidbar Widgets -->
                 <div class="side-widgets overflow">
                     <div class="m-b-25 text-center">
+                        {% if user.is_authenticated %}
                         <h4><a href="{% url 'profile' %}">{{ user.username }} <i class="fa fa-wrench"></i></a></h4>
+                        {% endif %}
                         <div class="menu">
                                 <a href="{% url 'home' %}">Home</a>
                                 <a href="{% url 'community_list' %}">All Communities</a>
