@@ -16,6 +16,13 @@ class EventUpdateForm(forms.ModelForm):
             raise forms.ValidationError('The slug ("{}") is not unique for this community.'.format(slug))
         return slug
 
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data.get('end', 0) < cleaned_data.get('begin', 1):
+            self.add_error('end', forms.ValidationError('End cannot be before begin'))
+
+        return cleaned_data
+
 
 class EventCommentCreateForm(forms.ModelForm):
     class Meta:
