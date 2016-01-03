@@ -182,7 +182,7 @@ Event: {{ event.name }} ({{ event.begin }})
             {% for comment in event.comments.all %}
             <div class="media p-10">
                 <div class="pull-left">
-                    <img src="{{ comment.user|avatar_url:'micro' }}" alt="avatar of {{ event.user.username }}">
+                    <img style="height:40px" src="{{ comment.user|avatar_url:'micro' }}" alt="avatar of {{ event.user.username }}">
                 </div>
                 <div class="media-body">
                     <small class="text-muted">{{ comment.created|timesince }} ago by {{ comment.user.username }}</small><br>
