@@ -12,6 +12,8 @@ class Location(TimeStampedModel):
     geo_location = models.PointField(srid=4326, blank=True, null=True)
     city = models.CharField(max_length=1000, null=True, blank=True)
     country = models.CharField(max_length=255, null=True, blank=True)
+    homepage = models.URLField(max_length=128, blank=True, null=True,
+                               help_text="URL of homepage (including http://)")
 
     def __str__(self):
         return self.name

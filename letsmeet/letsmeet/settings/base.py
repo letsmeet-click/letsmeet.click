@@ -157,6 +157,11 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.user.user_details',
 )
 
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = (
+    'first_name',
+    'last_name'
+)
+
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'

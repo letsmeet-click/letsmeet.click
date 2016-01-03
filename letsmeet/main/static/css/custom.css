@@ -61,3 +61,25 @@
     max-width: 170px;
     max-height: 28px;
 }
+
+#sidebar footer {
+    margin-top: 100px;
+    font-size: 80%;
+}
+
+#sidebar footer ul {
+    padding: 0;
+    margin: 0;
+}
+
+#sidebar footer li {
+    list-style: none;
+    padding: 0;
+}
+
+#sidebar footer a {
+    opacity: 0.7;
+}
+#sidebar footer a:hover {
+    opacity: 1;
+}

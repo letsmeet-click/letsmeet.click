@@ -75,7 +75,7 @@ class UserSocialAuthChangeView(LoginRequiredMixin, DetailView):
 
 class UserChangeView(LoginRequiredMixin, UpdateView):
     model = User
-    fields = ['first_name', 'last_name', 'username', 'email']
+    fields = ['first_name', 'last_name', 'username']
     template_name = "users/profile_edit.html"
     success_url = reverse_lazy("profile")
 
