@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load rules event_tags community_tags static bootstrap_tags %}
+{% load rules event_tags community_tags static bootstrap_tags users_tags %}
 
 {% block og_url_path %}{{ request.path }}{% endblock %}
 
@@ -182,7 +182,7 @@ Event: {{ event.name }} ({{ event.begin }})
             {% for comment in event.comments.all %}
             <div class="media p-10">
                 <div class="pull-left">
-                    <img width="40" src="{% static 'img/letsmeet_icon.png' %}" alt="">
+                    <img src="{{ comment.user|avatar_url:'micro' }}" alt="avatar of {{ event.user.username }}">
                 </div>
                 <div class="media-body">
                     <small class="text-muted">{{ comment.created|timesince }} ago by {{ comment.user.username }}</small><br>

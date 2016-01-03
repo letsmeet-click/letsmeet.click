@@ -1,66 +1,85 @@
 {% extends "base.html" %}
-{% load letsmeet_tags %}
+{% load letsmeet_tags bootstrap_tags users_tags %}
 
 {% block page_title %}
 My Profile
 {% endblock %}
 
 {% block content %}
-    <div class="block-area">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Hello {{ user.username }}</h2>
-                <dl class="dl-horizontal">
-                    <dt>First name</dt>
-                    <dd>{{ user.first_name }}&nbsp;</dd>
-                    <dt>Last name</dt>
-                    <dd>{{ user.last_name }}&nbsp;</dd>
-                    <dt>Username</dt>
-                    <dd>{{ user.username }}&nbsp;</dd>
-                    <dt>Email</dt>
-                    <dd>{{ user.email }}&nbsp;</dd>
-                    <dt>Password set</dt>
-                    <dd>{{ user.has_usable_password|yesno }}&nbsp;</dd>
-                    <dt>User since</dt>
-                    <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}&nbsp;</dd>
-                    <dt>Last login</dt>
-                    <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
-                </dl>
-                <a href="{% url "profile_edit" %}" class="btn"><i class="fa fa-edit"></i> Edit</a>
-                {% if user.has_usable_password %}
-                    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Change password</a>
-                {% else %}
-                    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Set password</a>
-                {% endif %}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <h3>Connected social accounts</h3>
-                <form action="{% url "socialauth_remove" %}" method="post">
-                    {% csrf_token %}
-                    <ul class="list-group">
-                        {% for social_auth in user.social_auth.all %}
-                            <li class="list-group-item">
-                                {{ social_auth.provider|capfirst }}
-                                <button type="submit" class="btn btn-danger btn-xs pull-right" name="id" value="{{ social_auth.id }}">remove</button>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </form>
-            </div>
-            {% if backends.not_associated %}
-                <div class="col-md-6">
-                    <h2>Add social account</h2>
-                    <div class="row">
-                        {% for backend in backends.not_associated|sorted %}
-                            <div class="col-md-3 text-center">
-                                <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
+<div class="block-area">
+    <h2>Hello {{ user.username }}</h2>
+    <div class="row">
+        <div class="col-md-2 col-sm-4 col-xs-6">
+            <img src="{{ user|avatar_url }}" class="img-responsive">
         </div>
     </div>
+</div>
+<div class="block-area">
+    <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
+</div>
+<div class="block-area">
+    <div id="avatar-form" class="well tile"{% if not form.errors %}style="display:none"{% endif %}>
+        <h3>Change avatar:</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form|as_bootstrap }}
+            {% csrf_token %}
+            <button class="btn" type="submit"><i class="fa fa-check"></i> Save</button>
+            <button class="btn" onclick="$('#avatar-form').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</button>
+        </form>
+    </div>
+</div>
+<div class="block-area">
+    <dl class="dl-horizontal">
+        <dt>First name</dt>
+        <dd>{{ user.first_name }}&nbsp;</dd>
+        <dt>Last name</dt>
+        <dd>{{ user.last_name }}&nbsp;</dd>
+        <dt>Username</dt>
+        <dd>{{ user.username }}&nbsp;</dd>
+        <dt>Email</dt>
+        <dd>{{ user.email }}&nbsp;</dd>
+        <dt>Password set</dt>
+        <dd>{{ user.has_usable_password|yesno }}&nbsp;</dd>
+        <dt>User since</dt>
+        <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}&nbsp;</dd>
+        <dt>Last login</dt>
+        <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
+    </dl>
+    <a href="{% url "profile_edit" %}" class="btn"><i class="fa fa-edit"></i> Edit</a>
+    {% if user.has_usable_password %}
+    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Change password</a>
+    {% else %}
+    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Set password</a>
+    {% endif %}
+</div>
+<div class="block-area">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Connected social accounts</h3>
+            <form action="{% url "socialauth_remove" %}" method="post">
+                {% csrf_token %}
+                <ul class="list-group">
+                    {% for social_auth in user.social_auth.all %}
+                    <li class="list-group-item">
+                        {{ social_auth.provider|capfirst }}
+                        <button type="submit" class="btn btn-danger btn-xs pull-right" name="id" value="{{ social_auth.id }}">remove</button>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
+        {% if backends.not_associated %}
+        <div class="col-md-6">
+            <h2>Add social account</h2>
+            <div class="row">
+                {% for backend in backends.not_associated|sorted %}
+                <div class="col-md-3 text-center">
+                    <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

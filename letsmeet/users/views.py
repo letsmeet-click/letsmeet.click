@@ -13,15 +13,37 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from social.apps.django_app.default.models import UserSocialAuth
+from rules.contrib.views import PermissionRequiredMixin
+
+from .models import UserProfile
 
 
-class UserProfileView(LoginRequiredMixin, TemplateView):
+class UserProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = "users/profile.html"
+    model = UserProfile
+    permission_required = 'userprofile.can_change'
+    fields = ['avatar',]
+
+    def get_object(self):
+        up, created = UserProfile.objects.get_or_create(user=self.request.user)
+        return up
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx.update(next=urlquote(reverse("profile")))
         return ctx
+
+
+@rules.predicate
+def can_change_userprofile(user, userprofile):
+    print(user, userprofile)
+    if not user or not userprofile:
+        return False
+
+    return userprofile.user == user
+
+
+rules.add_perm('userprofile.can_change', can_change_userprofile)
 
 
 class UserSocialAuthChangeView(LoginRequiredMixin, DetailView):

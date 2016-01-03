@@ -2,6 +2,8 @@
 letsmeet/main/static/theme
 letsmeet/main/static/theme.tar.gz
 
+# ignore media
+letsmeet/media
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

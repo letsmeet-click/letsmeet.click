@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
     'social.apps.django_app.default',
     'rules',
+    'stdimage',
 
     # project apps
     'communities',
@@ -128,6 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'

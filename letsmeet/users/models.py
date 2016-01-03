@@ -1,4 +1,28 @@
 import rules
+from django.core.urlresolvers import reverse
+from django.db import models
+from django_extensions.db.models import TimeStampedModel
+from stdimage.models import StdImageField
+
+
+class UserProfile(TimeStampedModel):
+    user = models.OneToOneField('auth.User', unique=True)
+    avatar = StdImageField(
+        upload_to='media/avatars',
+        variations={
+            'thumbnail': (400, 400, True),
+            'mini': (200, 200, True),
+            'tiny': (100, 100, True),
+            'micro': (40, 40, True),
+        },
+        help_text='Image should be square. Otherwise it will be cropped.'
+    )
+
+    def get_absolute_url(self):
+        return reverse('profile')
+
+    def __str__(self):
+        return 'Profile of {}'.format(self.user.username)
 
 
 @rules.predicate
