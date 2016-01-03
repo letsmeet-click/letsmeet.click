@@ -53,7 +53,7 @@
                     <div class="m-b-25 text-center">
                         {% if user.is_authenticated %}
                         <div class="text-center m-20">
-                            <img src="{{ user|avatar_url }}" class="img-circle img-responsive">
+                            <a href="{% url 'profile' %}"><img src="{{ user|avatar_url }}" class="img-circle img-responsive"></a>
                         </div>
                         <h4><a href="{% url 'profile' %}">{{ user.username }} <i class="fa fa-wrench"></i></a></h4>
                         {% endif %}
