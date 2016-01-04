@@ -142,8 +142,9 @@ class CommunityUnsubscribeView(LoginRequiredMixin, DetailView):
             messages.error(request, 'You cannot unsubscribe when you are the last owner')
             return redirect(community)
 
-        EventRSVP.objects.upcoming.filter(
-            event__community=community, user=request.user).delete()
+        EventRSVP.objects.filter(
+            event__pk__in=Event.objects.upcoming().filter(community=community).values_list('pk', flat=True),
+            user=request.user).delete()
         user_subscription.delete()
         messages.success(request, 'Successfully unsubscribed from "{}"'.format(community.name))
         return redirect(community)
