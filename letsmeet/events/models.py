@@ -78,7 +78,7 @@ class Event(TimeStampedModel):
                                              'answer': 'reset'})
 
     class Meta:
-        ordering = ['name']
+        ordering = ['begin', 'name']
         unique_together = ('community', 'slug')
 
 
