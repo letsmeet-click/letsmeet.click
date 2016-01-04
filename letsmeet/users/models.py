@@ -8,7 +8,7 @@ from stdimage.models import StdImageField
 class UserProfile(TimeStampedModel):
     user = models.OneToOneField('auth.User', unique=True)
     avatar = StdImageField(
-        upload_to='media/avatars',
+        upload_to='avatars',
         variations={
             'thumbnail': (400, 400, True),
             'mini': (200, 200, True),
