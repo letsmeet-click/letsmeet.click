@@ -7,6 +7,7 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='main/home.html'), name='home'),
+    url(r'^about/$', TemplateView.as_view(template_name='main/about.html'), name='about'),
     url(r'^contact/$', TemplateView.as_view(template_name='main/contact.html'), name='contact'),
     url(r'^legal/$', TemplateView.as_view(template_name='main/legal.html'), name='legal'),
     url(r'^login/$', auth_views.login, {'template_name': 'main/login.html'}, name='login'),
