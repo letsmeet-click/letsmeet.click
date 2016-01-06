@@ -1,0 +1,12 @@
+{% extends 'mail_base.txt' %}
+
+{% block content %}
+we just wanted to inform you that {{ subscription.user.username }} subscribed to your community "{{ subscription.community }}".
+
+Use this link to see more details about the community:
+https://www.letsmeet.click{{ event.get_absolute_url }}
+{% endblock content %}
+
+{% block receive_reason %}
+You receive this mail because you are owner or admin of the community. 
+{% endblock %}

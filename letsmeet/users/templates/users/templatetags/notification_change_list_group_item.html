@@ -1,0 +1,11 @@
+<li class="list-group-item">
+    <form action="{% url "change_notification" %}" method="post">
+        <i class="fa fa-{{ notification_state|yesno:'check,times' }} m-r-10 m-l-10"></i> 
+        {{ text }}
+        <button type="submit" class="btn btn-xs pull-right" name="action" value="{{ notification_state|yesno:'disable,enable' }}">
+            {{ notification_state|yesno:'disable,enable' }}
+        </button>
+        <input type="hidden" name="type" value="{{ notification_type }}" />
+        {% csrf_token %}
+    </form>
+</li>

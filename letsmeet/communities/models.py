@@ -1,9 +1,11 @@
 import rules
 
-from django.db import models
+from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
+from django.db import models
 from django.template.defaultfilters import slugify
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django_extensions.db.models import TimeStampedModel
 
@@ -51,6 +53,20 @@ class Community(TimeStampedModel):
         subscription, created = CommunitySubscription.objects.get_or_create(
             user=user, community=self,
         )
+        if created:
+            recipients = self.community_subscriptions.filter(
+                role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
+                user__userprofile__notify_on_new_subscription=True,
+
+            ).values_list('user__email', flat=True)
+            # send notification mail to all subscribers
+            mail = EmailMessage(
+                subject='[letsmeet.click] New subscription to community {}'.format(self.name),
+                body=render_to_string('communities/mails/new_subscription.txt', {'subscription': subscription}),
+                to=recipients,
+            )
+            mail.send()
+
         return subscription
 
     def get_user_subscription(self, user):

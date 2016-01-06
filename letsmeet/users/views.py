@@ -100,6 +100,8 @@ class UserSocialAuthChangeView(LoginRequiredMixin, PermissionRequiredMixin, Deta
 
         if notification_type == 'new_event':
             profile.notify_on_new_event = target_value
+        elif notification_type == 'new_subscription':
+            profile.notify_on_new_subscription = target_value
         else:
             raise AttributeError("Invalid 'type' provided")
 

@@ -21,6 +21,7 @@ class UserProfile(TimeStampedModel):
         help_text='Image should be square. Otherwise it will be cropped.'
     )
     notify_on_new_event = models.BooleanField(default=True)
+    notify_on_new_subscription = models.BooleanField(default=True)
 
     def get_upcoming_yes_events(self):
         return Event.objects.upcoming().filter(

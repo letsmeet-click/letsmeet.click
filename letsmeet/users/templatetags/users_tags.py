@@ -16,3 +16,12 @@ def avatar_url(user, size='thumbnail'):
         return static('img/letsmeet_icon.png')
 
     return static(getattr(up.avatar, size).url)
+
+
+@register.inclusion_tag('users/templatetags/notification_change_list_group_item.html')
+def notification_change_list_group_item(notification_type, notification_state, text):
+    return {
+        'notification_type': notification_type,
+        'notification_state': notification_state,
+        'text': text,
+    }
