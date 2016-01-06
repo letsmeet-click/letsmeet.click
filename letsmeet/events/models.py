@@ -2,7 +2,9 @@ import rules
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.core.mail import EmailMessage
 from django.template.defaultfilters import slugify
+from django.template.loader import render_to_string
 from django_extensions.db.models import TimeStampedModel
 
 
@@ -41,7 +43,10 @@ class Event(TimeStampedModel):
         return self.rsvps.filter(coming=False)
 
     def save(self, *args, **kwargs):
+        create = False
         if not self.id:
+            create = True
+            # slugify the name
             slug = "{}-{}".format(slugify(self.name), str(self.begin.date()))
             if Event.objects.filter(slug=slug, community=self.community):
                 # use datetime, because date was not unique
@@ -49,6 +54,15 @@ class Event(TimeStampedModel):
             self.slug = slug
 
         super().save(*args, **kwargs)
+
+        if create:
+            # send notification mail to all subscribers
+            mail = EmailMessage(
+                subject='[letsmeet.click] New event in community {}'.format(self.community.name),
+                body=render_to_string('events/mails/new_event.txt', {'event': self}),
+                to=self.community.subscribers.values_list('email', flat=True),
+            )
+            mail.send()
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'slug': self.slug,

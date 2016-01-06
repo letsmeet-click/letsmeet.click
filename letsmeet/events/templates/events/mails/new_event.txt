@@ -1,0 +1,15 @@
+{% extends 'mail_base.txt' %}
+
+{% block content %}
+we just wanted to inform you that a new event in the community "{{ event.community }}" has been created.
+
+{{ event.name }}
+{{ event.begin }} - {{ event.end }}
+
+Use this link to see more details and RSVP:
+https://www.letsmeet.click{{ event.get_absolute_url }}
+{% endblock content %}
+
+{% block receive_reason %}
+You receive this mail because you are subscribed to the community. 
+{% endblock %}

@@ -168,3 +168,5 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

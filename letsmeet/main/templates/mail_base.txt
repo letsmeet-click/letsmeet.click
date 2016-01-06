@@ -1,0 +1,13 @@
+Hi,
+
+{% block content %}{% endblock %}
+
+Cheers,
+asmaps, mfandreas and robert_we
+Core team of letsmeet.click
+
+
+
+{% block receive_reason %}{% endblock %}
+If you don't want to receive these mails anymore check your notification settings on your profile page:
+https://letsmeet.click{% url 'profile' %}
