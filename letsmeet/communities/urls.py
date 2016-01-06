@@ -25,7 +25,6 @@ from .views import (
     CommunitySubscribeView,
     CommunityUnsubscribeView,
     CommunityRedirectView,
-    MyCommunityListView,
     SubscriptionChangeRoleView,
 )
 
@@ -40,5 +39,4 @@ urlpatterns = [
     url(r'^c/(?P<slug>[\w-]+)/unsubscribe/$', CommunityUnsubscribeView.as_view(), name='community_unsubscribe'),
     url(r'^cname/(?P<cname>[^/]+)/$', CommunityRedirectView.as_view(), name='community_cname'),
     url(r'^create-community/$', CommunityCreateView.as_view(), name='community_create'),
-    url(r'^my-communities/$', MyCommunityListView.as_view(), name='my_communities'),
 ]

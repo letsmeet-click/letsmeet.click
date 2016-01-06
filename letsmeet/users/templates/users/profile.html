@@ -1,60 +1,125 @@
 {% extends "base.html" %}
-{% load letsmeet_tags bootstrap_tags users_tags %}
+{% load rules letsmeet_tags bootstrap_tags users_tags %}
 
 {% block page_title %}
 My Profile
 {% endblock %}
 
 {% block content %}
+{% has_perm 'userprofile.can_change' user userprofile as can_edit %}
 <div class="block-area">
-    <h2>Hello {{ user.username }}</h2>
+    <h2>{{ userprofile.user.username }}</h2>
     <div class="row">
-        <div class="col-md-2 col-sm-4 col-xs-6">
-            <img src="{{ user|avatar_url }}" class="img-responsive">
+        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+            <p>
+                <img src="{{ userprofile.user|avatar_url }}" class="img-responsive"><br>
+                {% if can_edit %}
+                <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
+                <div id="avatar-form" class="well tile"{% if not form.errors %}style="display:none"{% endif %}>
+                    <h3>Change avatar:</h3>
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form|as_bootstrap }}
+                        {% csrf_token %}
+                        <button class="btn" type="submit"><i class="fa fa-check"></i> Save</button>
+                        <button class="btn" onclick="$('#avatar-form').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</button>
+                    </form>
+                </div>
+                {% endif %}
+            </p>
+            <p>
+                <dl class="dl-horizontal">
+                    <dt>First name</dt>
+                    <dd>{{ user.first_name }}&nbsp;</dd>
+                    <dt>Last name</dt>
+                    <dd>{{ user.last_name }}&nbsp;</dd>
+                    <dt>Username</dt>
+                    <dd>{{ user.username }}&nbsp;</dd>
+                    <dt>Email</dt>
+                    <dd>{{ user.email }}&nbsp;</dd>
+                    <dt>&nbsp;</dt>
+                    <dd>
+                        <a href="{% url "profile_edit" %}" class="btn btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Password set</dt>
+                    <dd>{{ user.has_usable_password|yesno }}&nbsp;
+                        {% if user.has_usable_password %}
+                        <a href="{% url "profile_edit_password" %}" class="btn btn-sm"><i class="fa fa-lock"></i> Change password</a>
+                        {% else %}
+                        <a href="{% url "profile_edit_password" %}" class="btn btn-sm"><i class="fa fa-lock"></i> Set password</a>
+                        {% endif %}
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>User since</dt>
+                    <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}&nbsp;</dd>
+                    <dt>Last login</dt>
+                    <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
+                </dl>
+            </p>
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+            <h3>Communities</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Community</th>
+                        <th>Role</th>
+                        <th>Subscribed since</th>
+                        <th>Next event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subscription in userprofile.get_communitysubscriptions %}
+                    <tr class="clickable" onclick="window.document.location='{{ subscription.community.get_absolute_url }}';">
+                        <td>{{ subscription.community.name }}</td>
+                        <td>{{ subscription.get_role_display }}</td>
+                        <td>{{ subscription.created|timesince }}</td>
+                        <td>
+                            {% if subscription.community.get_next_event %}
+                            {{ subscription.community.get_next_event.name }} in {{ subscription.community.get_next_event.begin|timeuntil }}
+                            {% else %}
+                            No upcoming event
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h3>Upcoming confirmed events</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Starts at</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in userprofile.get_upcoming_yes_events %}
+                    <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.begin }}</td>
+                        <td>
+                            {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
+                        </td>
+                        <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan=3><em>Currently no upcoming events</em></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <div class="block-area">
-    <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
-</div>
-<div class="block-area">
-    <div id="avatar-form" class="well tile"{% if not form.errors %}style="display:none"{% endif %}>
-        <h3>Change avatar:</h3>
-        <form method="POST" enctype="multipart/form-data">
-            {{ form|as_bootstrap }}
-            {% csrf_token %}
-            <button class="btn" type="submit"><i class="fa fa-check"></i> Save</button>
-            <button class="btn" onclick="$('#avatar-form').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</button>
-        </form>
-    </div>
-</div>
-<div class="block-area">
-    <dl class="dl-horizontal">
-        <dt>First name</dt>
-        <dd>{{ user.first_name }}&nbsp;</dd>
-        <dt>Last name</dt>
-        <dd>{{ user.last_name }}&nbsp;</dd>
-        <dt>Username</dt>
-        <dd>{{ user.username }}&nbsp;</dd>
-        <dt>Email</dt>
-        <dd>{{ user.email }}&nbsp;</dd>
-        <dt>Password set</dt>
-        <dd>{{ user.has_usable_password|yesno }}&nbsp;</dd>
-        <dt>User since</dt>
-        <dd title="{{ user.date_joined }}">{{ user.date_joined|timesince }}&nbsp;</dd>
-        <dt>Last login</dt>
-        <dd title="{{ user.last_login }}">{{ user.last_login|timesince }}&nbsp;</dd>
-    </dl>
-    <a href="{% url "profile_edit" %}" class="btn"><i class="fa fa-edit"></i> Edit</a>
-    {% if user.has_usable_password %}
-    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Change password</a>
-    {% else %}
-    <a href="{% url "profile_edit_password" %}" class="btn"><i class="fa fa-lock"></i> Set password</a>
-    {% endif %}
-</div>
-<div class="block-area">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <h3>Connected social accounts</h3>
             <form action="{% url "socialauth_remove" %}" method="post">
                 {% csrf_token %}
@@ -69,14 +134,16 @@ My Profile
             </form>
         </div>
         {% if backends.not_associated %}
-        <div class="col-md-6">
-            <h2>Add social account</h2>
-            <div class="row">
-                {% for backend in backends.not_associated|sorted %}
-                <div class="col-md-3 text-center">
-                    <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+        <div class="col-md-6 col-md-offset-1">
+            <div class="well tile">
+                <h2>Add social account</h2>
+                <div class="row">
+                    {% for backend in backends.not_associated|sorted %}
+                    <div class="col-md-3 text-center">
+                        <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
         {% endif %}

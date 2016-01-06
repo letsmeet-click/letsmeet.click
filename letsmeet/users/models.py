@@ -4,6 +4,9 @@ from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from stdimage.models import StdImageField
 
+from communities.models import CommunitySubscription
+from events.models import Event, EventRSVP
+
 
 class UserProfile(TimeStampedModel):
     user = models.OneToOneField('auth.User', unique=True)
@@ -17,6 +20,13 @@ class UserProfile(TimeStampedModel):
         },
         help_text='Image should be square. Otherwise it will be cropped.'
     )
+
+    def get_upcoming_yes_events(self):
+        return Event.objects.upcoming().filter(
+            pk__in=EventRSVP.objects.filter(user=self.user, coming=True).values_list('event__pk', flat=True))
+
+    def get_communitysubscriptions(self):
+        return CommunitySubscription.objects.filter(user=self.user)
 
     def get_absolute_url(self):
         return reverse('profile')
