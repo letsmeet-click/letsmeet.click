@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^', include('events.urls')),
     url(r'^', include('main.urls')),
     url(r'^', include('users.urls')),
+    url(r'^', include('locations.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
