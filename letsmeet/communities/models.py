@@ -151,7 +151,6 @@ def can_set_owner(user, community):
     if not user or not community:
         return False
 
-    print('can_set_owner')
     try:
         return community.community_subscriptions.get(user=user).role == CommunitySubscription.ROLE_OWNER
     except CommunitySubscription.DoesNotExist:

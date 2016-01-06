@@ -142,7 +142,6 @@ class SubscriptionChangeRoleView(LoginRequiredMixin, PermissionRequiredMixin, De
     allowed_methods = ['post']
 
     def get_permission_object(self):
-        print('community.can_set_owner')
         return self.get_object().community
 
     def get_permission_required(self):

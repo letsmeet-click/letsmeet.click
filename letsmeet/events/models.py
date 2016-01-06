@@ -56,11 +56,14 @@ class Event(TimeStampedModel):
         super().save(*args, **kwargs)
 
         if create:
+            recipients = self.community.subscribers.filter(
+                userprofile__notify_on_new_event=True
+            ).values_list('email', flat=True)
             # send notification mail to all subscribers
             mail = EmailMessage(
                 subject='[letsmeet.click] New event in community {}'.format(self.community.name),
                 body=render_to_string('events/mails/new_event.txt', {'event': self}),
-                to=self.community.subscribers.values_list('email', flat=True),
+                to=recipients,
             )
             mail.send()
 

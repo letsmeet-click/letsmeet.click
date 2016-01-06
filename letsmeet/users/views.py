@@ -73,6 +73,41 @@ class UserSocialAuthChangeView(LoginRequiredMixin, DetailView):
         return redirect('profile')
 
 
+class UserSocialAuthChangeView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    model = UserSocialAuth
+    permission_required = 'userprofile.can_change'
+    model = UserProfile
+
+    def get_object(self, queryset=None):
+        return self.request.user.userprofile
+
+    def post(self, request, *args, **kwargs):
+        profile = self.get_object()
+        action = self.request.POST.get('action')
+        if not action:
+            raise AttributeError("Post parameter 'action' is required.")
+
+        notification_type = self.request.POST.get('type')
+        if not action:
+            raise AttributeError("Post parameter 'type' is required.")
+
+        if action == 'enable':
+            target_value = True
+        elif action == 'disable':
+            target_value = False
+        else:
+            raise AttributeError("Invalid 'action' provided")
+
+        if notification_type == 'new_event':
+            profile.notify_on_new_event = target_value
+        else:
+            raise AttributeError("Invalid 'type' provided")
+
+        profile.save()
+
+        return redirect('profile')
+
+
 class UserChangeView(LoginRequiredMixin, UpdateView):
     model = User
     fields = ['first_name', 'last_name', 'username']
