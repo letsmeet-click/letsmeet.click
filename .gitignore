@@ -2,6 +2,9 @@
 letsmeet/main/static/theme
 letsmeet/main/static/theme.tar.gz
 
+# local settings are local
+letsmeet/letsmeet/settings/local.py
+
 # ignore media
 letsmeet/media
 
