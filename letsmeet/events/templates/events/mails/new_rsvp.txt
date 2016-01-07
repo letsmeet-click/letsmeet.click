@@ -1,0 +1,12 @@
+{% extends 'mail_base.txt' %}
+
+{% block content %}
+we just wanted to inform you that {{ rsvp.user.username }} just said that she/he will come to {{ rsvp.event.name }}.
+
+Use this link to see all RSVPs:
+https://www.letsmeet.click{{ rsvp.event.get_absolute_url }}
+{% endblock content %}
+
+{% block receive_reason %}
+You receive this mail because you are subscribed to notifications for this event. 
+{% endblock %}

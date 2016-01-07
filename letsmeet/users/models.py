@@ -22,6 +22,8 @@ class UserProfile(TimeStampedModel):
     )
     notify_on_new_event = models.BooleanField(default=True)
     notify_on_new_subscription = models.BooleanField(default=True)
+    notify_on_new_rsvp_for_organizer = models.BooleanField(default=True)
+    notify_on_new_rsvp_for_attending = models.BooleanField(default=True)
 
     def get_upcoming_yes_events(self):
         return Event.objects.upcoming().filter(

@@ -7,6 +7,8 @@ from django.template.defaultfilters import slugify
 from django.template.loader import render_to_string
 from django_extensions.db.models import TimeStampedModel
 
+from communities.models import CommunitySubscription
+
 
 class EventManager(models.Manager):
     def upcoming(self):
@@ -124,6 +126,28 @@ class EventRSVP(TimeStampedModel):
     event = models.ForeignKey('Event', related_name='rsvps')
     user = models.ForeignKey('auth.User', related_name='rsvps')
     coming = models.BooleanField()
+
+    def save(self, *args, **kwargs):
+        create = not self.id
+
+        super().save(*args, **kwargs)
+
+        if create:
+            recipients = set(self.event.rsvp_yes().filter(
+                user__userprofile__notify_on_new_rsvp_for_attending=True
+            ).exclude(user=self.user).values_list('user__email', flat=True))
+            recipients |= set(self.event.community.community_subscriptions.filter(
+                role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
+                user__userprofile__notify_on_new_rsvp_for_organizer=True,
+
+            ).exclude(user=self.user).values_list('user__email', flat=True))
+            # send notification mail to all subscribers
+            mail = EmailMessage(
+                subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
+                body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
+                to=recipients,
+            )
+            mail.send()
 
     class Meta:
         ordering = ('-coming', 'user')

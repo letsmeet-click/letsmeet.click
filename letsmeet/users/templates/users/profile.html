@@ -144,6 +144,8 @@ Profile of {{ userprofile.user.username }}
                         <ul class="list-group">
                             {% notification_change_list_group_item 'new_event' userprofile.notify_on_new_event 'New event in a subscribed community' %}
                             {% notification_change_list_group_item 'new_subscription' userprofile.notify_on_new_subscription 'New subscription to your community' %}
+                            {% notification_change_list_group_item 'new_rsvp_for_organizer' userprofile.notify_on_new_rsvp_for_organizer 'New RSVP for an event you are admin or owner' %}
+                            {% notification_change_list_group_item 'new_rsvp_for_attendee' userprofile.notify_on_new_rsvp_for_attending 'New RSVP for an event you will attend' %}
                         </ul>
                     </div>
                 </div>
