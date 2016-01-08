@@ -15,6 +15,8 @@ class CommunityAdmin(admin.ModelAdmin):
     inlines = [
         CommunitySubscriptionInline,
     ]
+    list_display = ['name', 'subscribers', 'is_deleted']
+    list_filter = ['is_deleted']
 
     def get_queryset(self, request):
         return self.model.default.get_queryset()
