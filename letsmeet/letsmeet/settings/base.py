@@ -137,15 +137,17 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
+SOCIAL_AUTH_FORCE_EMAIL_VALIDATION = True
 
 AUTHENTICATION_BACKENDS = (
     'rules.permissions.ObjectPermissionBackend',
     'social.backends.github.GithubOAuth2',
     'social.backends.twitter.TwitterOAuth',
     'social.backends.facebook.FacebookOAuth2',
-    'social.backends.battlenet.BattleNetOAuth2',
+#    'social.backends.battlenet.BattleNetOAuth2',
     'social.backends.steam.SteamOpenId',
     'social.backends.google.GoogleOAuth2',
+    'social.backends.email.EmailAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
