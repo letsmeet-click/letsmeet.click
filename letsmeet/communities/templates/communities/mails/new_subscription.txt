@@ -4,7 +4,7 @@
 we just wanted to inform you that {{ subscription.user.username }} subscribed to your community "{{ subscription.community }}".
 
 Use this link to see more details about the community:
-https://www.letsmeet.click{{ event.get_absolute_url }}
+https://www.letsmeet.click{{ subscription.community.get_absolute_url }}
 {% endblock content %}
 
 {% block receive_reason %}
