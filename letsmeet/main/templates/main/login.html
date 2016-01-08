@@ -12,14 +12,17 @@ LOGIN
             <div class="col-md-5 col-md-offset-1 text-center box tile animated {% if not form.errors %}active{% endif %}" id="box-oauth">
                 <h2>Log in with your existing account</h2>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a onclick="ga('send', 'event', 'login', 'github')" class="text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-5x"></i><br>Github</a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a onclick="ga('send', 'event', 'login', 'twitter')" class= text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-5x"></i><br>Twitter</a>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <a onclick="ga('send', 'event', 'login', 'facebook')" class= text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
+                    </div>
+                    <div class="col-md-3">
+                        <a onclick="ga('send', 'event', 'login', 'google-plus')" class= text-center" href="{% url 'social:begin' 'google-plus' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-5x"></i><br>Google+</a>
                     </div>
                 </div>
                 <p>
@@ -45,4 +48,42 @@ LOGIN
         </div>
     </div>
 </section>
+
+<script src="https://apis.google.com/js/api:client.js"></script>
+
+<script type="text/javascript">
+  gapi.load('auth2', function () {
+    var auth2;
+
+    auth2 = gapi.auth2.init({
+      client_id: "249584979490-p3j41k8gtr2r66sdprkpupka93jagt3t.apps.googleusercontent.com",
+      scope: "plus.profile.emails.read"
+    });
+
+    auth2.then(function () {
+      var button = document.getElementById("google-plus-button");
+      console.log("User is signed-in in Google+ platform?", auth2.isSignedIn.get() ? "Yes" : "No");
+
+      auth2.attachClickHandler(button, {}, function (googleUser) {
+        // Send access-token to backend to finish the authenticate
+        // with your application
+
+        var authResponse = googleUser.getAuthResponse();
+        var $form;
+        var $input;
+
+        $form = $("<form>");
+        $form.attr("action", "/complete/google-plus");
+        $form.attr("method", "post");
+        $input = $("<input>");
+        $input.attr("name", "access_token");
+        $input.attr("value", authResponse.access_token);
+        $form.append($input);
+        // Add csrf-token if needed
+        $(document.body).append($form);
+        $form.submit();
+      });
+    });
+  });
+</script>
 {% endblock content %}
