@@ -1,0 +1,16 @@
+{% extends 'mail_base.txt' %}
+
+{% block content %}
+we just wanted to inform you that {{ comment.user.username }} just commented on {{ comment.event.name }}.
+
+-----
+{{ comment.text }}
+-----
+
+Use this link to see all comments:
+https://www.letsmeet.click{{ comment.event.get_absolute_url }}
+{% endblock content %}
+
+{% block receive_reason %}
+You receive this mail because you are subscribed to comment notifications for this event. 
+{% endblock %}

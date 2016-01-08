@@ -160,3 +160,27 @@ class EventComment(TimeStampedModel):
     event = models.ForeignKey('Event', related_name='comments')
     user = models.ForeignKey('auth.User', related_name='comments')
     text = models.TextField()
+
+    def save(self, *args, **kwargs):
+        create = not self.id
+
+        super().save(*args, **kwargs)
+
+        if create:
+            recipients = set(self.event.rsvp_yes().filter(
+                user__userprofile__notify_on_new_comment=True
+            ).exclude(user=self.user).values_list('user__email', flat=True))
+            recipients |= set(self.event.comments.filter(
+                user__userprofile__notify_on_new_comment=True
+            ).exclude(user=self.user).values_list('user__email', flat=True))
+            recipients |= set(self.event.community.community_subscriptions.filter(
+                role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
+                user__userprofile__notify_on_new_comment=True,
+
+            ).exclude(user=self.user).values_list('user__email', flat=True))
+            mail = EmailMessage(
+                subject='[letsmeet.click] New comment for {}'.format(self.event.name),
+                body=render_to_string('events/mails/new_comment.txt', {'comment': self}),
+                to=recipients,
+            )
+            mail.send()
