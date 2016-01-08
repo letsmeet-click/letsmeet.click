@@ -10,6 +10,11 @@ from django.utils import timezone
 from django_extensions.db.models import TimeStampedModel
 
 
+class CommunityManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted=False)
+
+
 class Community(TimeStampedModel):
     name = models.CharField(max_length=64, unique=True)
     slug = models.SlugField(max_length=64, unique=True)
@@ -39,6 +44,11 @@ class Community(TimeStampedModel):
     )
     slack = models.CharField(max_length=128, blank=True, null=True,
                              help_text="Slack organisation name")
+
+    is_deleted = models.BooleanField(default=False)
+
+    objects = CommunityManager()
+    default = models.Manager()   # the default manager
 
     def __str__(self):
         return self.name
