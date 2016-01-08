@@ -145,7 +145,7 @@ AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.battlenet.BattleNetOAuth2',
     'social.backends.steam.SteamOpenId',
-    'social.backends.google.GoogleOAuth2',
+    'social.backends.google.GooglePlusAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
