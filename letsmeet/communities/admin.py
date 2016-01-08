@@ -15,3 +15,6 @@ class CommunityAdmin(admin.ModelAdmin):
     inlines = [
         CommunitySubscriptionInline,
     ]
+
+    def get_queryset(self, request):
+        return self.model.default.get_queryset()
