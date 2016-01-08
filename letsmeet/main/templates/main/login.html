@@ -22,7 +22,7 @@ LOGIN
                         <a onclick="ga('send', 'event', 'login', 'facebook')" class= text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
                     </div>
                     <div class="col-md-3">
-                        <a onclick="ga('send', 'event', 'login', 'google-oauth2)" class= text-center" href="{% url 'social:begin' 'google-oauth2 %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-5x"></i><br>Google+</a>
+                        <a onclick="ga('send', 'event', 'login', 'google-oauth2')" class= text-center" href="{% url 'social:begin' 'google-oauth2 %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-5x"></i><br>Google+</a>
                     </div>
                 </div>
                 <p>
