@@ -147,7 +147,7 @@ AUTHENTICATION_BACKENDS = (
 #    'social.backends.battlenet.BattleNetOAuth2',
     'social.backends.steam.SteamOpenId',
     'social.backends.google.GoogleOAuth2',
-    'social.backends.email.EmailAuth',
+#    'social.backends.email.EmailAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
 
