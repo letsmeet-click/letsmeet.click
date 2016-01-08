@@ -22,7 +22,7 @@ LOGIN
                         <a onclick="ga('send', 'event', 'login', 'facebook')" class= text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-5x"></i><br>Facebook</a>
                     </div>
                     <div class="col-md-3">
-                        <a onclick="ga('send', 'event', 'login', 'google-plus')" class= text-center" href="{% url 'social:begin' 'google-plus' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-5x"></i><br>Google+</a>
+                        <a onclick="ga('send', 'event', 'login', 'google-oauth2)" class= text-center" href="{% url 'social:begin' 'google-oauth2 %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-5x"></i><br>Google+</a>
                     </div>
                 </div>
                 <p>
@@ -48,42 +48,4 @@ LOGIN
         </div>
     </div>
 </section>
-
-<script src="https://apis.google.com/js/api:client.js"></script>
-
-<script type="text/javascript">
-  gapi.load('auth2', function () {
-    var auth2;
-
-    auth2 = gapi.auth2.init({
-      client_id: "249584979490-p3j41k8gtr2r66sdprkpupka93jagt3t.apps.googleusercontent.com",
-      scope: "plus.profile.emails.read"
-    });
-
-    auth2.then(function () {
-      var button = document.getElementById("google-plus-button");
-      console.log("User is signed-in in Google+ platform?", auth2.isSignedIn.get() ? "Yes" : "No");
-
-      auth2.attachClickHandler(button, {}, function (googleUser) {
-        // Send access-token to backend to finish the authenticate
-        // with your application
-
-        var authResponse = googleUser.getAuthResponse();
-        var $form;
-        var $input;
-
-        $form = $("<form>");
-        $form.attr("action", "/complete/google-plus");
-        $form.attr("method", "post");
-        $input = $("<input>");
-        $input.attr("name", "access_token");
-        $input.attr("value", authResponse.access_token);
-        $form.append($input);
-        // Add csrf-token if needed
-        $(document.body).append($form);
-        $form.submit();
-      });
-    });
-  });
-</script>
 {% endblock content %}
