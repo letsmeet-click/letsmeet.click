@@ -46,7 +46,7 @@ def can_change_userprofile(user, userprofile):
 rules.add_perm('userprofile.can_change', can_change_userprofile)
 
 
-class UserSocialAuthChangeView(LoginRequiredMixin, DetailView):
+class UserSocialAuthRemoveView(LoginRequiredMixin, DetailView):
     model = UserSocialAuth
     allowed_methods = ['post']
 
