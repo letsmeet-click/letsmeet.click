@@ -61,13 +61,16 @@ class Event(TimeStampedModel):
             recipients = self.community.subscribers.filter(
                 userprofile__notify_on_new_event=True
             ).values_list('email', flat=True)
+            # remove empty strings from list:
+            recipients = filter(None, recipients)
             # send notification mail to all subscribers
-            mail = EmailMessage(
-                subject='[letsmeet.click] New event in community {}'.format(self.community.name),
-                body=render_to_string('events/mails/new_event.txt', {'event': self}),
-                to=recipients,
-            )
-            mail.send()
+            if recipients:
+                mail = EmailMessage(
+                    subject='[letsmeet.click] New event in community {}'.format(self.community.name),
+                    body=render_to_string('events/mails/new_event.txt', {'event': self}),
+                    to=recipients,
+                )
+                mail.send()
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'slug': self.slug,
@@ -139,15 +142,17 @@ class EventRSVP(TimeStampedModel):
             recipients |= set(self.event.community.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_rsvp_for_organizer=True,
-
             ).exclude(user=self.user).values_list('user__email', flat=True))
+            # remove empty strings from list:
+            recipients = filter(None, recipients)
             # send notification mail to all subscribers
-            mail = EmailMessage(
-                subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
-                body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
-                to=recipients,
-            )
-            mail.send()
+            if recipients:
+                mail = EmailMessage(
+                    subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
+                    body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
+                    to=recipients,
+                )
+                mail.send()
 
     class Meta:
         ordering = ('-coming', 'user')
@@ -176,11 +181,13 @@ class EventComment(TimeStampedModel):
             recipients |= set(self.event.community.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_comment=True,
-
             ).exclude(user=self.user).values_list('user__email', flat=True))
-            mail = EmailMessage(
-                subject='[letsmeet.click] New comment for {}'.format(self.event.name),
-                body=render_to_string('events/mails/new_comment.txt', {'comment': self}),
-                to=recipients,
-            )
-            mail.send()
+            # remove empty strings from list:
+            recipients = filter(None, recipients)
+            if recipients:
+                mail = EmailMessage(
+                    subject='[letsmeet.click] New comment for {}'.format(self.event.name),
+                    body=render_to_string('events/mails/new_comment.txt', {'comment': self}),
+                    to=recipients,
+                )
+                mail.send()

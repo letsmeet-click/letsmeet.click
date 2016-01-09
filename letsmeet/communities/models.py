@@ -67,15 +67,17 @@ class Community(TimeStampedModel):
             recipients = self.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_subscription=True,
-
             ).values_list('user__email', flat=True)
+            # remove empty strings from list:
+            recipients = filter(None, recipients)
             # send notification mail to all subscribers
-            mail = EmailMessage(
-                subject='[letsmeet.click] New subscription to community {}'.format(self.name),
-                body=render_to_string('communities/mails/new_subscription.txt', {'subscription': subscription}),
-                to=recipients,
-            )
-            mail.send()
+            if recipients:
+                mail = EmailMessage(
+                    subject='[letsmeet.click] New subscription to community {}'.format(self.name),
+                    body=render_to_string('communities/mails/new_subscription.txt', {'subscription': subscription}),
+                    to=recipients,
+                )
+                mail.send()
 
         return subscription
 
