@@ -25,3 +25,10 @@ def notification_change_list_group_item(notification_type, notification_state, t
         'notification_state': notification_state,
         'text': text,
     }
+
+
+@register.filter
+def backend_name(backend):
+    name = backend
+    name = name.replace('-oauth2', '')
+    return name

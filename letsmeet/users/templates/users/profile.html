@@ -179,7 +179,7 @@ Profile of {{ userprofile.user.username }}
                         <div class="row">
                             {% for backend in backends.not_associated|sorted %}
                             <div class="col-md-3 text-center">
-                                <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend }} fa-5x"></i><br>{{ backend|capfirst }}</a>
+                                <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend|backend_name }} fa-5x"></i><br>{{ backend|backend_name|capfirst }}</a>
                             </div>
                             {% endfor %}
                         </div>
