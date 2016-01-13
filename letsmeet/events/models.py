@@ -1,5 +1,6 @@
 import rules
 from django.db import models
+from django.conf import settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.core.mail import EmailMessage
@@ -68,7 +69,8 @@ class Event(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New event in community {}'.format(self.community.name),
                     body=render_to_string('events/mails/new_event.txt', {'event': self}),
-                    to=recipients,
+                    to=settings.DEFAULT_FROM_EMAIL,
+                    bcc=recipients,
                 )
                 mail.send()
 
@@ -150,7 +152,8 @@ class EventRSVP(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
                     body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
-                    to=recipients,
+                    to=settings.DEFAULT_FROM_EMAIL,
+                    bcc=recipients,
                 )
                 mail.send()
 
@@ -188,6 +191,7 @@ class EventComment(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New comment for {}'.format(self.event.name),
                     body=render_to_string('events/mails/new_comment.txt', {'comment': self}),
-                    to=recipients,
+                    to=settings.DEFAULT_FROM_EMAIL,
+                    bcc=recipients,
                 )
                 mail.send()

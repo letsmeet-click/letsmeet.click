@@ -1,5 +1,6 @@
 import rules
 
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.core.urlresolvers import reverse
 from django.core.validators import RegexValidator
@@ -75,7 +76,8 @@ class Community(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New subscription to community {}'.format(self.name),
                     body=render_to_string('communities/mails/new_subscription.txt', {'subscription': subscription}),
-                    to=recipients,
+                    to=settings.DEFAULT_FROM_EMAIL,
+                    bcc=recipients,
                 )
                 mail.send()
 
