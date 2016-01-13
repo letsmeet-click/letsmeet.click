@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 
 
 def send_notification(recipients, subject, template, context):
+    recipients = recipients.exclude(email='')
     addresses = recipients.values_list('email', flat=True)
     if addresses:
         text = render_to_string(template, context)

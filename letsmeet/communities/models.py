@@ -66,7 +66,6 @@ class Community(TimeStampedModel):
             recipients = User.objects.filter(pk__in=self.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_subscription=True,
-                user__email__isnull=False,
             ).values_list('user__pk', flat=True))
             # send notification mail to all subscribers
             if recipients:

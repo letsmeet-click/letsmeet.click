@@ -59,7 +59,6 @@ class Event(TimeStampedModel):
         if create:
             recipients = self.community.subscribers.filter(
                 userprofile__notify_on_new_event=True,
-                email__isnull=False,
             )
             # send notification mail to all subscribers
             if recipients:
@@ -137,7 +136,6 @@ class EventRSVP(TimeStampedModel):
         if create:
             recipients = set(self.event.rsvp_yes().filter(
                 user__userprofile__notify_on_new_rsvp_for_attending=True,
-                user__email__isnull=False,
             ).exclude(user=self.user).values_list('user__pk', flat=True))
             recipients |= set(self.event.community.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
