@@ -76,7 +76,7 @@ class Community(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New subscription to community {}'.format(self.name),
                     body=render_to_string('communities/mails/new_subscription.txt', {'subscription': subscription}),
-                    to=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.DEFAULT_FROM_EMAIL],
                     bcc=recipients,
                 )
                 mail.send()

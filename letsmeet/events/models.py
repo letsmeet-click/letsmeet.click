@@ -69,7 +69,7 @@ class Event(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New event in community {}'.format(self.community.name),
                     body=render_to_string('events/mails/new_event.txt', {'event': self}),
-                    to=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.DEFAULT_FROM_EMAIL],
                     bcc=recipients,
                 )
                 mail.send()
@@ -152,7 +152,7 @@ class EventRSVP(TimeStampedModel):
                 mail = EmailMessage(
                     subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
                     body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
-                    to=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.DEFAULT_FROM_EMAIL],
                     bcc=recipients,
                 )
                 mail.send()
