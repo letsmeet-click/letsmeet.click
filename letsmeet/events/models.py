@@ -1,11 +1,9 @@
 import rules
 from django.db import models
-from django.conf import settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
-from django.core.mail import EmailMessage
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from django.template.loader import render_to_string
 from django_extensions.db.models import TimeStampedModel
 
 from communities.models import CommunitySubscription
@@ -60,19 +58,18 @@ class Event(TimeStampedModel):
 
         if create:
             recipients = self.community.subscribers.filter(
-                userprofile__notify_on_new_event=True
-            ).values_list('email', flat=True)
-            # remove empty strings from list:
-            recipients = filter(None, recipients)
+                userprofile__notify_on_new_event=True,
+                email__isnull=False,
+            )
             # send notification mail to all subscribers
             if recipients:
-                mail = EmailMessage(
-                    subject='[letsmeet.click] New event in community {}'.format(self.community.name),
-                    body=render_to_string('events/mails/new_event.txt', {'event': self}),
-                    to=[settings.DEFAULT_FROM_EMAIL],
-                    bcc=recipients,
+                from main.utils import send_notification
+                send_notification(
+                    recipients=recipients,
+                    subject='New event in community {}'.format(self.name),
+                    template='events/mails/new_event.txt',
+                    context={'event': self},
                 )
-                mail.send()
 
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'slug': self.slug,
@@ -139,23 +136,22 @@ class EventRSVP(TimeStampedModel):
 
         if create:
             recipients = set(self.event.rsvp_yes().filter(
-                user__userprofile__notify_on_new_rsvp_for_attending=True
-            ).exclude(user=self.user).values_list('user__email', flat=True))
+                user__userprofile__notify_on_new_rsvp_for_attending=True,
+                user__email__isnull=False,
+            ).exclude(user=self.user).values_list('user__pk', flat=True))
             recipients |= set(self.event.community.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_rsvp_for_organizer=True,
-            ).exclude(user=self.user).values_list('user__email', flat=True))
-            # remove empty strings from list:
-            recipients = filter(None, recipients)
+            ).exclude(user=self.user).values_list('user__pk', flat=True))
             # send notification mail to all subscribers
             if recipients:
-                mail = EmailMessage(
-                    subject='[letsmeet.click] New RSVP for {}'.format(self.event.name),
-                    body=render_to_string('events/mails/new_rsvp.txt', {'rsvp': self}),
-                    to=[settings.DEFAULT_FROM_EMAIL],
-                    bcc=recipients,
+                from main.utils import send_notification
+                send_notification(
+                    recipients=User.objects.filter(pk__in=list(recipients)),
+                    subject='New RSVP for {}'.format(self.event.name),
+                    template='events/mails/new_rsvp.txt',
+                    context={'rsvp': self},
                 )
-                mail.send()
 
     class Meta:
         ordering = ('-coming', 'user')
@@ -177,21 +173,21 @@ class EventComment(TimeStampedModel):
         if create:
             recipients = set(self.event.rsvp_yes().filter(
                 user__userprofile__notify_on_new_comment=True
-            ).exclude(user=self.user).values_list('user__email', flat=True))
+            ).exclude(user=self.user).values_list('user__pk', flat=True))
             recipients |= set(self.event.comments.filter(
                 user__userprofile__notify_on_new_comment=True
-            ).exclude(user=self.user).values_list('user__email', flat=True))
+            ).exclude(user=self.user).values_list('user__pk', flat=True))
             recipients |= set(self.event.community.community_subscriptions.filter(
                 role__in=[CommunitySubscription.ROLE_ADMIN, CommunitySubscription.ROLE_OWNER],
                 user__userprofile__notify_on_new_comment=True,
-            ).exclude(user=self.user).values_list('user__email', flat=True))
-            # remove empty strings from list:
-            recipients = filter(None, recipients)
+            ).exclude(user=self.user).values_list('user__pk', flat=True))
+
             if recipients:
-                mail = EmailMessage(
-                    subject='[letsmeet.click] New comment for {}'.format(self.event.name),
-                    body=render_to_string('events/mails/new_comment.txt', {'comment': self}),
-                    to=settings.DEFAULT_FROM_EMAIL,
-                    bcc=recipients,
+                from main.utils import send_notification
+                print(recipients)
+                send_notification(
+                    recipients=User.objects.filter(pk__in=recipients),
+                    subject='New comment for {}'.format(self.event.name),
+                    template='events/mails/new_comment.txt',
+                    context={'comment': self},
                 )
-                mail.send()
