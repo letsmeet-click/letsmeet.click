@@ -18,6 +18,21 @@ from rules.contrib.views import PermissionRequiredMixin
 from .models import UserProfile
 
 
+class HomeView(DetailView):
+    def get_object(self):
+        if self.request.user.is_authenticated():
+            up, created = UserProfile.objects.get_or_create(user=self.request.user)
+            return up
+
+        return None
+
+    def get_template_names(self):
+        if self.request.user.is_authenticated():
+            return 'users/dashboard.html'
+
+        return 'main/home.html'
+
+
 class UserProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = "users/profile.html"
     model = UserProfile

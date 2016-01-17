@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load rules letsmeet_tags bootstrap_tags users_tags %}
+
+{% block page_title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+{% has_perm 'userprofile.can_change' user userprofile as can_edit %}
+<div class="row">
+    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
+        <div class="block-area">
+            <h2>{{ userprofile.user.username }}</h2>
+            <img src="{{ userprofile.user|avatar_url }}" class="img-responsive"><br>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+        <div class="block-area">
+            <div class="well tile">
+                {% if userprofile.get_next_event.name %}
+                <h2>Your next event:</h2>
+                <h1>
+                    <a href="{{ userprofile.get_next_event.get_absolute_url }}">
+                        {{ userprofile.get_next_event.name }} <small>in {{ user.userprofile.get_next_event.begin|timeuntil }}</small>
+                    </a>
+                </h1>
+                <p><a href="{{ userprofile.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
+                {% else %}
+                <h2>You have no upcoming events</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+        <div class="block-area">
+            <h3><span id="communityCount"></span><noscript>{{ userprofile.get_communitysubscriptions.count }}</noscript> Communit{{ userprofile.get_communitysubscriptions.count|pluralize:'y,ies' }}</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Community</th>
+                        <th>Role</th>
+                        <th>Subscribed since</th>
+                        <th>Next event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subscription in userprofile.get_communitysubscriptions %}
+                    <tr class="clickable" onclick="window.document.location='{{ subscription.community.get_absolute_url }}';">
+                        <td>{{ subscription.community.name }}</td>
+                        <td>{{ subscription.get_role_display }}</td>
+                        <td>{{ subscription.created|timesince }}</td>
+                        <td>
+                            {% if subscription.community.get_next_event %}
+                            {{ subscription.community.get_next_event.name }} in {{ subscription.community.get_next_event.begin|timeuntil }}
+                            {% else %}
+                            No upcoming event
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="block-area">
+            <h3><span id="eventCount"></span><noscript>{{ userprofile.get_upcoming_yes_events.count }}</noscript> upcoming confirmed event{{ userprofile.get_upcoming_yes_events.count|pluralize }}</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Community</th>
+                        <th>Event</th>
+                        <th>Starts at</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in userprofile.get_upcoming_yes_events %}
+                    <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+                        <td>{{ event.community.name }}</td>
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.begin }}</td>
+                        <td>
+                            {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
+                        </td>
+                        <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan=3><em>Currently no upcoming events</em></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_js %}
+<script>
+    $(function() {
+        new CountUp("communityCount", 0, {{ userprofile.get_communitysubscriptions.count }}).start();
+        new CountUp("eventCount", 0, {{ userprofile.get_upcoming_yes_events.count }}).start();
+    });
+</script>
+{% endblock %}

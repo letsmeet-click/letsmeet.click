@@ -26,6 +26,9 @@ class UserProfile(TimeStampedModel):
     notify_on_new_rsvp_for_attending = models.BooleanField(default=True)
     notify_on_new_comment = models.BooleanField(default=True)
 
+    def get_next_event(self):
+        return self.get_upcoming_yes_events().order_by('begin').first()
+
     def get_upcoming_yes_events(self):
         return Event.objects.upcoming().filter(
             pk__in=EventRSVP.objects.filter(user=self.user, coming=True).values_list('event__pk', flat=True))
