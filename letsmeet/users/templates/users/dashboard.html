@@ -24,6 +24,11 @@ Dashboard
                         {{ userprofile.get_next_event.name }} <small>in {{ user.userprofile.get_next_event.begin|timeuntil }}</small>
                     </a>
                 </h1>
+                <h3>
+                    <a href="{{ userprofile.get_next_event.community.get_absolute_url }}">
+                        {{ userprofile.get_next_event.community.name }}
+                    </a>
+                </h3>
                 <p><a href="{{ userprofile.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
                 {% else %}
                 <h2>You have no upcoming events</h2>
