@@ -77,64 +77,6 @@ Profile of {{ userprofile.user.username }}
         </div>
     </div>
     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
-        <div class="block-area">
-            <h3><span id="communityCount"></span><noscript>{{ userprofile.get_communitysubscriptions.count }}</noscript> Communit{{ userprofile.get_communitysubscriptions.count|pluralize:'y,ies' }}</h3>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Community</th>
-                        <th>Role</th>
-                        <th>Subscribed since</th>
-                        <th>Next event</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for subscription in userprofile.get_communitysubscriptions %}
-                    <tr class="clickable" onclick="window.document.location='{{ subscription.community.get_absolute_url }}';">
-                        <td>{{ subscription.community.name }}</td>
-                        <td>{{ subscription.get_role_display }}</td>
-                        <td>{{ subscription.created|timesince }}</td>
-                        <td>
-                            {% if subscription.community.get_next_event %}
-                            {{ subscription.community.get_next_event.name }} in {{ subscription.community.get_next_event.begin|timeuntil }}
-                            {% else %}
-                            No upcoming event
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr><td colspan=2><em>You currently have no active community subscriptions.</em></td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="block-area">
-            <h3><span id="eventCount"></span><noscript>{{ userprofile.get_upcoming_yes_events.count }}</noscript> upcoming confirmed event{{ userprofile.get_upcoming_yes_events.count|pluralize }}</h3>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Event</th>
-                        <th>Starts at</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for event in userprofile.get_upcoming_yes_events %}
-                    <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
-                        <td>{{ event.name }}</td>
-                        <td>{{ event.begin }}</td>
-                        <td>
-                            {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
-                        </td>
-                        <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
-                    </tr>
-                    {% empty %}
-                    <tr><td colspan=3><em>Currently no upcoming events</em></td></tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
         {% if can_edit %}
         <div class="block-area">
             <div class="well tile">
