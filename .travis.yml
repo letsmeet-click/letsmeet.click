@@ -8,3 +8,6 @@ python:
 script:
   - docker-compose up -d
   - docker exec -ti letsmeetclick_web_1 py.test
+notifications:
+  email: false
+  slack: letsmeet-click:$SLACK_TOKEN
