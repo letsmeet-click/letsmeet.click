@@ -22,8 +22,13 @@ from .views import (
     EventDetailView,
     EventRSVPView,
 )
+from .feeds import LatestEventsFeed
+
 
 urlpatterns = [
+    # feeds
+    url(r'^c/(?P<community_slug>[\w-]+)/rss/$', LatestEventsFeed(), name='events_feed'),
+    # views
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/write-comment/$', EventCommentCreateView.as_view(), name='eventcomment_create'),
