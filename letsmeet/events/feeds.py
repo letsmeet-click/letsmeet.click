@@ -23,3 +23,6 @@ class LatestEventsFeed(Feed):
 
     def item_description(self, item):
         return item.description
+
+    def item_pubdate(self, item):
+        return item.created
