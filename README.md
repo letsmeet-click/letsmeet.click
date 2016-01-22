@@ -10,6 +10,8 @@ obviously our production settings 😉
 
 [![wercker status](https://app.wercker.com/status/89b3339132593babc02214800fd00941/m "wercker status")](https://app.wercker.com/project/bykey/89b3339132593babc02214800fd00941)
 
+[![Build Status](https://travis-ci.org/letsmeet-click/letsmeet.click.svg?branch=master)](https://travis-ci.org/letsmeet-click/letsmeet.click)
+
 [![Code Issues](https://www.quantifiedcode.com/api/v1/project/11cf956b337f43abb2429dd08fbfe707/badge.svg)](https://www.quantifiedcode.com/app/project/11cf956b337f43abb2429dd08fbfe707)
 
 
