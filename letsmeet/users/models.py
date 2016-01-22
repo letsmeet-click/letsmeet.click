@@ -34,7 +34,7 @@ class UserProfile(TimeStampedModel):
             pk__in=EventRSVP.objects.filter(user=self.user, coming=True).values_list('event__pk', flat=True))
 
     def get_communitysubscriptions(self):
-        return CommunitySubscription.objects.filter(user=self.user)
+        return CommunitySubscription.objects.exclude(community__is_deleted=True).filter(user=self.user)
 
     def get_absolute_url(self):
         return reverse('profile')
