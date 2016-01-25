@@ -18,7 +18,8 @@ obviously our production settings 😉
 
 ## Timeframe
 
-We want to develop letsmeet.click at #32c3 in Hamburg. And we have a plan:
+We developed the first version of letsmeet.click at #32c3 in Hamburg.
+The plan for future features is here:
 https://github.com/letsmeet-click/meta/blob/master/plan.md
 
 
