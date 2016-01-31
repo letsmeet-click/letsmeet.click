@@ -1,20 +1,6 @@
-"""letsmeet URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Add an import:  from blog import urls as blog_urls
-    2. Import the include() function: from django.conf.urls import url, include
-    3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
-"""
 from django.conf.urls import url
+from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import GenericSitemap
 
 from .views import (
     EventCommentCreateView,
@@ -23,7 +9,18 @@ from .views import (
     EventRSVPView,
 )
 from .feeds import LatestEventsFeed
+from communities.models import Community
+from .models import Event
 
+community_dict = {
+    'queryset': Community.objects.exclude(is_deleted=True),
+    'date_field': 'modified',
+}
+
+event_dict = {
+    'queryset': Event.objects.all(),
+    'date_field': 'modified',
+}
 
 urlpatterns = [
     # feeds
@@ -33,4 +30,9 @@ urlpatterns = [
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/write-comment/$', EventCommentCreateView.as_view(), name='eventcomment_create'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/rsvp/(?P<answer>(yes|no|reset))/$', EventRSVPView.as_view(), name='event_rsvp'),
+    url(r'^sitemap\.xml$', sitemap,
+        {'sitemaps': {
+            'communities': GenericSitemap(community_dict, priority=0.7),
+            'events': GenericSitemap(event_dict, priority=0.6)}},
+        name='django.contrib.sitemaps.views.sitemap')
 ]
