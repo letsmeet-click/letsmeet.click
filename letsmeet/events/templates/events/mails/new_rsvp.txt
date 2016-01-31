@@ -1,7 +1,7 @@
 {% extends 'mail_base.txt' %}
 
 {% block content %}
-we just wanted to inform you that {{ rsvp.user.username }} just said that she/he will {{ rsvp.coming|yesno:',not' }} come to {{ rsvp.event.name }}.
+we just wanted to inform you that "{{ rsvp.user.username }}" just said that she/he will {{ rsvp.coming|yesno:',not' }} come to "{{ rsvp.event.name }}".
 
 Use this link to see all RSVPs:
 https://www.letsmeet.click{{ rsvp.event.get_absolute_url }}

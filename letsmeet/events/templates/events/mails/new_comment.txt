@@ -1,7 +1,7 @@
 {% extends 'mail_base.txt' %}
 
 {% block content %}
-we just wanted to inform you that {{ comment.user.username }} just commented on {{ comment.event.name }}.
+we just wanted to inform you that "{{ comment.user.username }}" just commented on "{{ comment.event.name }}".
 
 -----
 {{ comment.text }}
