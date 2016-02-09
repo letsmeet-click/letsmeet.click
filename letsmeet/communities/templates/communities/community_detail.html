@@ -19,17 +19,43 @@ Community: {{ community }}
 {% has_perm 'community.can_set_subscriber' user community as can_set_subscriber %}
 {% endif %}
 
-<div class="block-area">
-    <h2>{{ community }}</h2>
-    {% if community.description %}
-    <p class="p-20">
-        {{ community.description|linebreaksbr }}
-    </p>
-    {% elif can_edit %}
-    <div class="alert alert-info" role="alert">
-        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ community.get_update_url }}">Set a description</a> to provide further information about this community</em>
+<div class="row">
+    <div class="block-area">
+        <div class="col-sm-7 col-xs-12">
+            <h2>{{ community }}</h2>
+            {% if community.description %}
+            <p class="p-20">
+                {{ community.description|linebreaksbr }}
+            </p>
+            {% elif can_edit %}
+            <div class="alert alert-info" role="alert">
+                <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ community.get_update_url }}">Set a description</a> to provide further information about this community</em>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-sm-5 col-xs-12">
+            <div class="block-area">
+                <div class="well tile">
+                    {% if community.get_next_event.name %}
+                    <h2>Next upcoming event:</h2>
+                    <h1>
+                        <a href="{{ community.get_next_event.get_absolute_url }}">
+                            {{ community.get_next_event.name }} <small>in {{ community.get_next_event.begin|timeuntil }}</small>
+                        </a>
+                    </h1>
+                    <h3>
+                        <a href="{{ community.get_next_event.community.get_absolute_url }}">
+                            {{ community.get_next_event.community.name }}
+                        </a>
+                    </h3>
+                    <p><a href="{{ community.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
+                    {% else %}
+                    <h2>No upcoming event</h2>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
 </div>
 
 <div class="block-area text-right">
