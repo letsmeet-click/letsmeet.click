@@ -1,26 +1,28 @@
-web:
-  build: .
-  command: "runserver 0.0.0.0:8011"
-  environment:
-      PYTHONUNBUFFERED: 0
-      PYTHONDONTWRITEBYTECODE: 1
-      DJANGO_SETTINGS_MODULE: letsmeet.settings.dev
-      TOX_WORK_DIR: /opt/tox
-  entrypoint:
-   - './manage.py'
-  links:
-   - db
-  volumes:
-   - .:/opt/code
-  volumes_from:
-   - data
-  ports:
-   - "8011:8011"
+version: '2'
+services:
+    web:
+      build: .
+      command: "runserver 0.0.0.0:8011"
+      environment:
+          PYTHONUNBUFFERED: 0
+          PYTHONDONTWRITEBYTECODE: 1
+          DJANGO_SETTINGS_MODULE: letsmeet.settings.dev
+          TOX_WORK_DIR: /opt/tox
+      entrypoint:
+       - './manage.py'
+      links:
+       - db
+      volumes:
+       - .:/opt/code
+      volumes_from:
+       - data
+      ports:
+       - "8011:8011"
 
-data:
-  image: aexea/aexea-base
-  volumes:
-    - /home/uid1000
+    data:
+      image: aexea/aexea-base
+      volumes:
+        - /home/uid1000
 
-db:
-  image: mdillon/postgis:9.4
+    db:
+      image: mdillon/postgis:9.4
