@@ -33,10 +33,10 @@ Community: {{ community }}
             </div>
             {% endif %}
         </div>
+        {% if community.get_next_event %}
         <div class="col-sm-5 col-xs-12">
             <div class="block-area">
                 <div class="well tile">
-                    {% if community.get_next_event.name %}
                     <h2>Next upcoming event:</h2>
                     <h1>
                         <a href="{{ community.get_next_event.get_absolute_url }}">
@@ -49,12 +49,10 @@ Community: {{ community }}
                         </a>
                     </h3>
                     <p><a href="{{ community.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
-                    {% else %}
-                    <h2>No upcoming event</h2>
-                    {% endif %}
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 
