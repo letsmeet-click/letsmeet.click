@@ -1,5 +1,4 @@
 from django import template
-from communities.models import CommunitySubscription
 
 register = template.Library()
 

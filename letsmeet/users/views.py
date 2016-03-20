@@ -9,11 +9,10 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.http.response import Http404
 from django.shortcuts import redirect
 from django.utils.http import urlquote
-from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
-from social.apps.django_app.default.models import UserSocialAuth
 from rules.contrib.views import PermissionRequiredMixin
+from social.apps.django_app.default.models import UserSocialAuth
 
 from .models import UserProfile
 
