@@ -58,12 +58,10 @@ Event: {{ event.name }} ({{ event.begin }})
     <p>
     You answered <span class="label label-{% if rsvp.coming %}success{% else %}danger{% endif %}">{% if rsvp.coming %}Yes{% else %}No{% endif %}</span>.
     </p>
-    <p>
-        <form method="POST" action="{{ event.get_rsvp_reset_url }}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-link">Change answer</button>
-        </form>
-    </p>
+    <form method="POST" action="{{ event.get_rsvp_reset_url }}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-link">Change answer</button>
+    </form>
     {% else %}
     {% if not user_subscription %}
     <div class="alert alert-info" role="alert">
@@ -99,11 +97,12 @@ Event: {{ event.name }} ({{ event.begin }})
         <div class="col-md-1">
             <a
                 href="https://twitter.com/share"
-                class="twitter-share-button"{count}
+                class="twitter-share-button"
                 data-url="https://www.letsmeet.click{{ event.get_absolute_url }}"
                 data-text="Join me at {{ event.name }}."
                 data-via="letsmeet_click"
-                {% if event.twitter_hashtag %} data-hashtags="{{ event.twitter_hashtag }}"{% endif %}></a>
+                {% if event.twitter_hashtag %} data-hashtags="{{ event.twitter_hashtag }}"{% endif %}
+            ></a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         </div>
 
