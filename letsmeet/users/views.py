@@ -19,7 +19,7 @@ from .models import UserProfile
 
 
 class HomeView(DetailView):
-    def get_object(self):
+    def get_object(self, queryset=None):
         if self.request.user.is_authenticated():
             up, created = UserProfile.objects.get_or_create(user=self.request.user)
             return up
@@ -39,7 +39,7 @@ class UserProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'userprofile.can_change'
     fields = ['avatar',]
 
-    def get_object(self):
+    def get_object(self, queryset=None):
         up, created = UserProfile.objects.get_or_create(user=self.request.user)
         return up
 

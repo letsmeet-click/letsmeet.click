@@ -36,7 +36,8 @@ class UserProfile(TimeStampedModel):
     def get_communitysubscriptions(self):
         return CommunitySubscription.objects.exclude(community__is_deleted=True).filter(user=self.user)
 
-    def get_absolute_url(self):
+    @staticmethod
+    def get_absolute_url():
         return reverse('profile')
 
     def __str__(self):

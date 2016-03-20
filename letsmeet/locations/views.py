@@ -13,7 +13,7 @@ class LocationSearchView(FormView):
     template_name = 'locations/locations_create.html'
     form_class = SearchForm
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         context = self.get_context_data()
         form = self.get_form(self.form_class)
         if form.is_valid():
