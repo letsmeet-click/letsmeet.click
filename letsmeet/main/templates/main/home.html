@@ -30,13 +30,13 @@ Welcome!
             <h1><i class="fa fa-sign-in fa-5x"></i></h1>
             <h2>No registration required</h2>
             <p>Log in with your existing Facebook, Twitter, Github or another existing account - no separate registration needed. For you and for your guests.</p>
-            <p><a class="btn btn-lg" href="/login/" role="button">Start for free now &raquo;</a></p>
+            <p><a class="btn btn-lg" href="{% url 'login' %}" role="button">Start for free now &raquo;</a></p>
         </div>
         <div class="col-md-3 col-md-offset-1 text-center">
             <h1><i class="fa fa-users fa-5x"></i></h1>
             <h2>Organize your event attendees</h2>
             <p>Get RSVPs for your events - and see who and how many people will join you. </p>
-            <p><a class="btn btn-lg" href="/create-community/" role="button">Set up your first event now &raquo;</a></p>
+            <p><a class="btn btn-lg" href="{% url 'community_create' %}" role="button">Set up your first event now &raquo;</a></p>
         </div>
         <div class="col-md-3 col-md-offset-1 text-center">
             <h1><i class="fa fa-comment fa-5x"></i></h1>
@@ -56,7 +56,7 @@ Welcome!
         <div class="col-md-3 col-md-offset-2 text-center">
             <h1><i class="fa fa-rocket fa-5x"></i></h1>
             <h2>Kickstart your event</h2>
-            <p><a class="btn btn-lg" href="/create-community/" role="button">Lift off &raquo;</a></p>
+            <p><a class="btn btn-lg" href="{% url 'community_create' %}" role="button">Lift off &raquo;</a></p>
         </div>
     </div>
 </div>
