@@ -26,6 +26,9 @@ class Event(TimeStampedModel):
     end = models.DateTimeField(default=timezone.now)
     twitter_hashtag = models.CharField(
         max_length=140, null=True, blank=True, help_text='Twitter hashtag of this event (without leading #)')
+    max_attendees = models.PositiveIntegerField(
+        null=True, help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
+
     objects = EventManager()
 
     def __str__(self):
@@ -36,6 +39,9 @@ class Event(TimeStampedModel):
 
     def is_past(self):
         return self.end < timezone.now()
+
+    def is_full(self):
+        return self.rsvp_yes().count() >= self.max_attendees
 
     def rsvp_yes(self):
         return self.rsvps.filter(coming=True)
