@@ -16,26 +16,24 @@ LOGIN
                         <a onclick="ga('send', 'event', 'login', 'github')" class="text-center" href="{% url 'social:begin' 'github' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-github fa-3x"></i><br>Github</a>
                     </div>
                     <div class="col-md-2">
-                        <a onclick="ga('send', 'event', 'login', 'twitter')" class= text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-3x"></i><br>Twitter</a>
+                        <a onclick="ga('send', 'event', 'login', 'twitter')" class="text-center" href="{% url 'social:begin' 'twitter' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-twitter fa-3x"></i><br>Twitter</a>
                     </div>
                     <div class="col-md-2">
-                        <a onclick="ga('send', 'event', 'login', 'facebook')" class= text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-3x"></i><br>Facebook</a>
+                        <a onclick="ga('send', 'event', 'login', 'facebook')" class="text-center" href="{% url 'social:begin' 'facebook' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-facebook fa-3x"></i><br>Facebook</a>
                     </div>
                     <div class="col-md-2">
-                        <a onclick="ga('send', 'event', 'login', 'google-oauth2')" class= text-center" href="{% url 'social:begin' 'google-oauth2' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-3x"></i><br>Google+</a>
+                        <a onclick="ga('send', 'event', 'login', 'google-oauth2')" class="text-center" href="{% url 'social:begin' 'google-oauth2' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-google-plus fa-3x"></i><br>Google+</a>
                     </div>
                     <div class="col-md-2">
-                        <a onclick="ga('send', 'event', 'login', 'steam')" class= text-center" href="{% url 'social:begin' 'steam' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-steam fa-3x"></i><br>Steam</a>
+                        <a onclick="ga('send', 'event', 'login', 'steam')" class="text-center" href="{% url 'social:begin' 'steam' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-steam fa-3x"></i><br>Steam</a>
                     </div>
                     <div class="col-md-2">
-                        <a onclick="ga('send', 'event', 'login', 'slack')" class= text-center" href="{% url 'social:begin' 'slack' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-slack fa-3x"></i><br>Slack</a>
+                        <a onclick="ga('send', 'event', 'login', 'slack')" class="text-center" href="{% url 'social:begin' 'slack' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-slack fa-3x"></i><br>Slack</a>
                     </div>
                 </div>
-                <p>
-                    <div class="alert alert-info" role="alert">
-                        <i class="fa fa-sticky-note"></i> Note: If you have already created an account use the same log in again. If you use another one a second account will be created. To connect other logins please check your profile after you have logged in.
-                    </div>
-                </p>
+                <div class="alert alert-info" role="alert">
+                    <i class="fa fa-sticky-note"></i> Note: If you have already created an account use the same log in again. If you use another one a second account will be created. To connect other logins please check your profile after you have logged in.
+                </div>
                 <small>
                     <a class="box-switcher" data-switch="box-local" href="">Login with password?</a>
                 </small>

@@ -16,7 +16,7 @@ Profile of {{ userprofile.user.username }}
             <img src="{{ userprofile.user|avatar_url:'mini' }}" class="img-responsive"><br>
             {% if can_edit %}
             <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
-            <div id="avatar-form" class="well tile"{% if not form.errors %}style="display:none"{% endif %}>
+            <div id="avatar-form" class="well tile" {% if not form.errors %}style="display:none"{% endif %}>
                 <h3>Change avatar:</h3>
                 <form method="POST" enctype="multipart/form-data">
                     {{ form|as_bootstrap }}
