@@ -4,10 +4,21 @@ from django.template.defaultfilters import slugify
 from events.models import Event, EventComment
 
 
+class EventCreateForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ('name', 'begin', 'end', 'max_attendees')
+        # FIXME find or write a good datetime picker
+        # widgets = {
+        #     'begin': widgets.AdminDateWidget(),
+        #     'end': widgets.AdminDateWidget(),
+        # }
+
+
 class EventUpdateForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ('name', 'slug', 'description', 'begin', 'end', 'twitter_hashtag', )
+        fields = ('name', 'slug', 'description', 'begin', 'end', 'twitter_hashtag', 'max_attendees')
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])

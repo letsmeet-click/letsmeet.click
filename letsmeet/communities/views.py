@@ -15,7 +15,8 @@ from django.views.generic import (
 )
 
 from events.models import Event, EventRSVP
-from .forms import EventCreateForm, CommunityUpdateForm
+from .forms import CommunityUpdateForm
+from events.forms import EventCreateForm
 from .models import Community, CommunitySubscription
 
 

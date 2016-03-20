@@ -1,19 +1,7 @@
 from django import forms
 from django.template.defaultfilters import slugify
 
-from events.models import Event
 from .models import Community
-
-
-class EventCreateForm(forms.ModelForm):
-    class Meta:
-        model = Event
-        fields = ('name', 'begin', 'end', )
-        # FIXME find or write a good datetime picker
-        # widgets = {
-        #     'begin': widgets.AdminDateWidget(),
-        #     'end': widgets.AdminDateWidget(),
-        # }
 
 
 class CommunityUpdateForm(forms.ModelForm):
