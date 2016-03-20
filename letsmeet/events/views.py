@@ -44,8 +44,13 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         event = self.get_object()
+
         if event.is_past():
             messages.error(request, 'You can not RSVP for past events.')
+            return redirect(event)
+
+        if event.is_full():
+            messages.error(request, 'Sorry this event is full.')
             return redirect(event)
 
         return super().get(request, *args, **kwargs)
@@ -53,8 +58,13 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
     @transaction.atomic()
     def post(self, request, *args, **kwargs):
         event = self.get_object()
+
         if event.is_past():
             messages.error(request, 'You can not RSVP for past events.')
+            return redirect(event)
+
+        if event.is_full():
+            messages.error(request, 'Sorry this event is full.')
             return redirect(event)
 
         event.community.subscribe_user(request.user)
