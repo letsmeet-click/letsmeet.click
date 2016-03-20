@@ -26,7 +26,7 @@ Event: {{ event.name }} ({{ event.begin }})
 </div>
 
 <div class="block-area">
-    <h1>{{ event.name }} <small>in {{ event.begin|timeuntil }}</small></h2>
+    <h1>{{ event.name }} <small>in {{ event.begin|timeuntil }}</small></h1>
     {% if event.description %}
     <p class="p-20">
         {{ event.description|linebreaksbr }}
@@ -51,7 +51,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </table>
 </div>
 
-{% if event.is_upcoming %}
+{% if event.is_upcoming and not event.is_full %}
 <div class="block-area">
     <h3>Will you join?</h3>
     {% if rsvp %}
