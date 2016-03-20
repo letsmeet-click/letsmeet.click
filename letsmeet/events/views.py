@@ -63,10 +63,6 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
             messages.error(request, 'You can not RSVP for past events.')
             return redirect(event)
 
-        if event.is_full():
-            messages.error(request, 'Sorry this event is full.')
-            return redirect(event)
-
         event.community.subscribe_user(request.user)
         answer = self.kwargs.get('answer')
         if answer == 'reset':
@@ -75,6 +71,10 @@ class EventRSVPView(LoginRequiredMixin, CommunityEventMixin, DetailView):
             except EventRSVP.DoesNotExist:
                 pass  # yes, quantifiedcode, this is intentional
         else:
+            if answer == 'yes' and event.is_full():
+                messages.error(request, 'Sorry this event is full.')
+                return redirect(event)
+
             EventRSVP.objects.get_or_create(
                 event=event, user=request.user,
                 defaults={
