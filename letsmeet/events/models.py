@@ -27,7 +27,8 @@ class Event(TimeStampedModel):
     twitter_hashtag = models.CharField(
         max_length=140, null=True, blank=True, help_text='Twitter hashtag of this event (without leading #)')
     max_attendees = models.PositiveIntegerField(
-        null=True, help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
+        blank=True, null=True,
+        help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
 
     objects = EventManager()
 
