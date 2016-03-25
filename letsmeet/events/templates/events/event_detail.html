@@ -18,68 +18,68 @@ Event: {{ event.name }} ({{ event.begin }})
 {% get_community_subscription user event.community as user_subscription %}
 {% endif %}
 
-<div class="block-area text-right">
+<div class="text-right">
     {% if can_edit %}
     <a class="btn" href="{{ event.get_update_url }}"><i class="fa fa-pencil-square-o"></i> Edit</a>
     {% endif %}
     <a class="btn" href="{{ event.community.get_absolute_url }}"><i class="fa fa-users"></i> Back to community</a>
 </div>
 
-<div class="block-area">
-    <h1>{{ event.name }} <small>in {{ event.begin|timeuntil }}</small></h1>
-    {% if event.description %}
-    <p class="p-20">
-        {{ event.description|linebreaksbr }}
-    </p>
-    {% elif can_edit %}
-    <div class="alert alert-info" role="alert">
-        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
-    </div>
-    {% endif %}
+<h1>{{ event.name }} <small>in {{ event.begin|timeuntil }}</small></h1>
+{% if event.description %}
+<p>
+    {{ event.description|linebreaksbr }}
+</p>
+{% elif can_edit %}
+<div class="alert alert-info" role="alert">
+    <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
 </div>
+{% endif %}
 
-<div class="block-area">
-    <table class="table">
-        <tr>
-            <th>Begin</th>
-            <td>{{ event.begin }}</td>
-        </tr>
-        <tr>
-            <th>End</th>
-            <td>{{ event.end }}</td>
-        </tr>
-    </table>
-</div>
+<table class="table">
+    <tr>
+        <th>Begin</th>
+        <td>{{ event.begin }}</td>
+    </tr>
+    <tr>
+        <th>End</th>
+        <td>{{ event.end }}</td>
+    </tr>
+</table>
 
-{% if event.is_upcoming and not event.is_full %}
-<div class="block-area">
-    <h3>Will you join?</h3>
-    {% if rsvp %}
-    <p>
+{% if event.is_upcoming %}
+<h3>Will you join?</h3>
+{% if rsvp %}
+<p>
     You answered <span class="label label-{% if rsvp.coming %}success{% else %}danger{% endif %}">{% if rsvp.coming %}Yes{% else %}No{% endif %}</span>.
-    </p>
-    <form method="POST" action="{{ event.get_rsvp_reset_url }}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-link">Change answer</button>
-    </form>
-    {% else %}
-    {% if not user_subscription %}
-    <div class="alert alert-info" role="alert">
-        Note: You will be automatically subscribed to the community when you RSVP.
-    </div>
-    {% endif %}
-    <div class="row">
-        <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
-        </form>
-        <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
-        </form>
-    </div>
-    {% endif %}
+</p>
+<form method="POST" action="{{ event.get_rsvp_reset_url }}">
+    {% csrf_token %}
+    <button type="submit" class="btn">Change answer</button>
+</form>
+{% else %}
+{% if event.is_full %}
+<div class="alert alert-danger" role="alert">
+    Maximum number of attendees reached. You can not RSVP anymore.
 </div>
+{% else %}
+{% if not user_subscription %}
+<div class="alert alert-info" role="alert">
+    Note: You will be automatically subscribed to the community when you RSVP.
+</div>
+{% endif %}
+<div class="row">
+    <form method="POST" action="{{ event.get_rsvp_yes_url }}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-lg btn-success"><i class="fa fa-check"></i> Yes</button>
+    </form>
+    <form method="POST" action="{{ event.get_rsvp_no_url }}" class="inline m-l-20">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-lg btn-danger"><i class="fa fa-times"></i> No</button>
+    </form>
+</div>
+{% endif %}
+{% endif %}
 {% endif %}
 
 <div class="block-area">
