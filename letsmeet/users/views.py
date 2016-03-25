@@ -142,7 +142,7 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
 
 class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
     model = User
-    template_name = "users/profile_edit.html"
+    template_name = "users/change_password.html"
     success_url = reverse_lazy("profile")
 
     def get_object(self, queryset=None):

@@ -7,128 +7,113 @@ Profile of {{ userprofile.user.username }}
 
 {% block content %}
 {% has_perm 'userprofile.can_change' user userprofile as can_edit %}
-<div class="block-area">
-    <h2>{{ userprofile.user.username }}</h2>
-</div>
+<h2>{{ userprofile.user.username }}</h2>
+
 <div class="row">
-    <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12">
-        <div class="block-area">
-            <img src="{{ userprofile.user|avatar_url:'mini' }}" class="img-responsive"><br>
-            {% if can_edit %}
-            <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
-            <div id="avatar-form" class="well tile" {% if not form.errors %}style="display:none"{% endif %}>
-                <h3>Change avatar:</h3>
-                <form method="POST" enctype="multipart/form-data">
-                    {{ form|as_bootstrap }}
-                    {% csrf_token %}
-                    <button class="btn" type="submit"><i class="fa fa-check"></i> Save</button>
-                    <button class="btn" onclick="$('#avatar-form').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</button>
-                </form>
-            </div>
-            {% endif %}
+    <div class="col-md-4 col-sm-5 col-xs-12">
+        <img src="{{ userprofile.user|avatar_url:'mini' }}" class="img-responsive"><br>
+        {% if can_edit %}
+        <button class="btn" onclick="$('#avatar-form').slideDown()"><i class="fa fa-picture-o"></i> Change avatar</button>
+        <div id="avatar-form" class="well tile" {% if not form.errors %}style="display:none"{% endif %}>
+            <h3>Change avatar:</h3>
+            <form method="POST" enctype="multipart/form-data">
+                {{ form|as_bootstrap }}
+                {% csrf_token %}
+                <button class="btn" type="submit"><i class="fa fa-check"></i> Save</button>
+                <button class="btn" onclick="$('#avatar-form').slideUp(); return false;"><i class="fa fa-times"></i> Cancel</button>
+            </form>
         </div>
-        <div class="block-area">
-            <div class="well tile">
-                <h3>User data</h3>
-                <table class="table">
-                    <tr>
-                        <th>First name</th>
-                        <td>{{ user.first_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Last name</th>
-                        <td>{{ user.last_name }}</td>
-                    </tr>
-                    <tr>
-                        <td colspan=2 class="text-right">
-                            <a href="{% url "profile_edit" %}" class="btn btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                        </td>
-                    </tr>
-                </table>
-                {% if can_edit %}
-                <table class="table">
-                    <tr>
-                        <th>Password set</th>
-                        <td>{{ user.has_usable_password|yesno }}
-                            {% if user.has_usable_password %}
-                            <a href="{% url "profile_edit_password" %}" class="btn btn-xs pull-right"><i class="fa fa-lock"></i> Change password</a>
-                            {% else %}
-                            <a href="{% url "profile_edit_password" %}" class="btn btn-xs pull-right"><i class="fa fa-lock"></i> Set password</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </table>
-                {% endif %}
-                <table class="table">
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ user.email }}</td>
-                    </tr>
-                    <tr>
-                        <th>User since</th>
-                        <td title="{{ user.date_joined }}">{{ user.date_joined|timesince }}</td>
-                    </tr>
-                    <tr>
-                        <th>Last login</th>
-                        <td title="{{ user.last_login }}">{{ user.last_login|timesince }} ago</td>
-                    </tr>
-                </table>
-            </div>
+        {% endif %}
+        <div class="well">
+            <h3>User data</h3>
+            <table class="table">
+                <tr>
+                    <th>First name</th>
+                    <td>{{ user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th>Last name</th>
+                    <td>{{ user.last_name }}</td>
+                </tr>
+                <tr>
+                    <td colspan=2 class="text-right">
+                        <a href="{% url "profile_edit" %}" class="btn btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                    </td>
+                </tr>
+            </table>
+            {% if can_edit %}
+            <table class="table">
+                <tr>
+                    <th>Password set</th>
+                    <td>{{ user.has_usable_password|yesno }}
+                        {% if user.has_usable_password %}
+                        <a href="{% url "profile_edit_password" %}" class="btn btn-xs pull-right"><i class="fa fa-lock"></i> Change password</a>
+                        {% else %}
+                        <a href="{% url "profile_edit_password" %}" class="btn btn-xs pull-right"><i class="fa fa-lock"></i> Set password</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+            {% endif %}
+            <table class="table">
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>User since</th>
+                    <td title="{{ user.date_joined }}">{{ user.date_joined|timesince }}</td>
+                </tr>
+                <tr>
+                    <th>Last login</th>
+                    <td title="{{ user.last_login }}">{{ user.last_login|timesince }} ago</td>
+                </tr>
+            </table>
         </div>
     </div>
-    <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
+    <div class="col-md-8 col-sm-7 col-xs-12">
         {% if can_edit %}
-        <div class="block-area">
-            <div class="well tile">
-                <div class="row">
-                    <div class="col-lg-8 col-md-12">
-                        <h3>Notification settings</h3>
-                        <ul class="list-group">
-                            {% notification_change_list_group_item 'new_event' userprofile.notify_on_new_event 'New event in a subscribed community' %}
-                            {% notification_change_list_group_item 'new_subscription' userprofile.notify_on_new_subscription 'New subscription to your community' %}
-                            {% notification_change_list_group_item 'new_rsvp_for_organizer' userprofile.notify_on_new_rsvp_for_organizer 'New RSVP for an event you are admin or owner' %}
-                            {% notification_change_list_group_item 'new_rsvp_for_attendee' userprofile.notify_on_new_rsvp_for_attending 'New RSVP for an event you will attend' %}
-                            {% notification_change_list_group_item 'new_comment' userprofile.notify_on_new_comment 'New comment on an event you are admin, will attend or have commented on' %}
-                        </ul>
+        <div class="well">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <h3>Notification settings</h3>
+                    <div class="list-group">
+                        {% notification_change_list_group_item 'new_event' userprofile.notify_on_new_event 'New event in a subscribed community' %}
+                        {% notification_change_list_group_item 'new_subscription' userprofile.notify_on_new_subscription 'New subscription to your community' %}
+                        {% notification_change_list_group_item 'new_rsvp_for_organizer' userprofile.notify_on_new_rsvp_for_organizer 'New RSVP for an event you are admin or owner' %}
+                        {% notification_change_list_group_item 'new_rsvp_for_attendee' userprofile.notify_on_new_rsvp_for_attending 'New RSVP for an event you will attend' %}
+                        {% notification_change_list_group_item 'new_comment' userprofile.notify_on_new_comment 'New comment on an event you are admin, will attend or have commented on' %}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="block-area">
-            <div class="well tile">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h3>Connected social accounts</h3>
-                        <form action="{% url "socialauth_remove" %}" method="post">
-                            {% csrf_token %}
-                            <ul class="list-group">
-                                {% for social_auth in user.social_auth.all %}
-                                <li class="list-group-item">
-                                    {{ social_auth.provider|capfirst }}
-                                    <button type="submit" class="btn btn-danger btn-xs pull-right" name="id" value="{{ social_auth.id }}">remove</button>
-                                </li>
-                                {% empty %}
-                                <li class="list-group-item">
-                                    <em>You currently have no connected social accounts</em>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                        </form>
-                    </div>
-                    {% if backends.not_associated %}
-                    <div class="col-md-6 col-md-offset-1">
-                        <h2>Add social account</h2>
-                        <div class="row">
-                            {% for backend in backends.not_associated|sorted %}
-                            <div class="col-md-3 text-center">
-                                <a href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend|backend_name }} fa-5x"></i><br>{{ backend|backend_name|capfirst }}</a>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
+        <div class="well">
+            <h2>Connected social accounts</h2>
+            <form action="{% url "socialauth_remove" %}" method="post">
+                {% csrf_token %}
+                <ul class="list-group">
+                    {% for social_auth in user.social_auth.all %}
+                    <li class="list-group-item">
+                        {{ social_auth.provider|capfirst }}
+                        <button type="submit" class="btn btn-danger btn-xs pull-right" name="id" value="{{ social_auth.id }}">remove</button>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">
+                        <em>You currently have no connected social accounts</em>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </form>
+            {% if backends.not_associated %}
+            <h2>Add social account</h2>
+            <div class="row">
+                {% for backend in backends.not_associated|sorted %}
+                <div class="col-md-4 text-center">
+                    <a class="btn" href="{% url 'social:begin' backend %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-{{ backend|backend_name }} fa-5x"></i><br>{{ backend|backend_name|capfirst }}</a>
                 </div>
+                {% endfor %}
             </div>
+            {% endif %}
         </div>
         {% endif %}
     </div>

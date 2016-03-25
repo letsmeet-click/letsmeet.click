@@ -5,10 +5,6 @@
 
 {% block og_title %}{{ community }} on letsmeet.click{% endblock %}
 
-{% block page_title %}
-Community: {{ community }}
-{% endblock %}
-
 {% block content %}
 {% if user.is_authenticated %}
 {% get_community_subscription user community as user_subscription %}
@@ -19,44 +15,33 @@ Community: {{ community }}
 {% has_perm 'community.can_set_subscriber' user community as can_set_subscriber %}
 {% endif %}
 
+<h1>Community: {{ community }}</h1>
 <div class="row">
-    <div class="block-area">
-        <div class="col-sm-7 col-xs-12">
-            <h2>{{ community }}</h2>
-            {% if community.description %}
-            <p class="p-20">
-                {{ community.description|linebreaksbr }}
-            </p>
-            {% elif can_edit %}
-            <div class="alert alert-info" role="alert">
-                <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ community.get_update_url }}">Set a description</a> to provide further information about this community</em>
-            </div>
-            {% endif %}
-        </div>
-        {% if community.get_next_event %}
-        <div class="col-sm-5 col-xs-12">
-            <div class="block-area">
-                <div class="well tile">
-                    <h2>Next upcoming event:</h2>
-                    <h1>
-                        <a href="{{ community.get_next_event.get_absolute_url }}">
-                            {{ community.get_next_event.name }} <small>in {{ community.get_next_event.begin|timeuntil }}</small>
-                        </a>
-                    </h1>
-                    <h3>
-                        <a href="{{ community.get_next_event.community.get_absolute_url }}">
-                            {{ community.get_next_event.community.name }}
-                        </a>
-                    </h3>
-                    <p><a href="{{ community.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
-                </div>
-            </div>
+    <div class="col-sm-7 col-xs-12">
+        {% if community.description %}
+        <p>
+            {{ community.description|linebreaksbr }}
+        </p>
+        {% elif can_edit %}
+        <div class="alert alert-info" role="alert">
+            <i class="fa fa-lightbulb-o"></i> <em>Hint: <a class="alert-link" href="{{ community.get_update_url }}">Set a description</a> to provide further information about this community</em>
         </div>
         {% endif %}
     </div>
+    {% if community.get_next_event %}
+    <div class="col-sm-5 col-xs-12">
+        <div class="well well-sm">
+            <h2>Next event:</h2>
+            <h4>{{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}</h4>
+            <p class="text-right">
+                <a href="{{ community.get_next_event.get_absolute_url }}" class="btn">Details</a>
+            </p>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
-<div class="block-area text-right">
+<div class="text-right">
     {% if user_subscription %}
     <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>
     {% else %}
@@ -73,57 +58,52 @@ Community: {{ community }}
 </div>
 
 {% if community.twitter or community.github or community.homepage or community.slack or community.irc_channel and community.irc_network %}
-<div class="block-area">
-    <h3>Find this community on the web</h3>
-    <p>
-        {% if community.homepage %}
-        <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
-        {% endif %}
-        {% if community.twitter %}
-        <a class="btn btn-default" href="https://twitter.com/{{ community.twitter }}/"><i class="fa fa-twitter"></i> @{{ community.twitter }}</a>
-        {% endif %}
-        {% if community.github %}
-        <a class="btn btn-default" href="https://github.com/{{ community.github }}/"><i class="fa fa-github"></i> {{ community.github }}</a>
-        {% endif %}
-        {% if community.slack %}
-        <a class="btn btn-default" href="https://{{ community.slack }}.slack.com/"><i class="fa fa-slack"></i> {{ community.slack }}</a>
-        {% endif %}
-        {% if community.irc_channel and community.irc_network %}
-        <button class="btn btn-disabled"><i class="fa fa-comment"></i> {{ community.irc_channel }} ({{ community.irc_network }})</button>
-        {% endif %}
-    </p>
-</div>
+<h3>Find this community on the web</h3>
+<p>
+    {% if community.homepage %}
+    <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
+    {% endif %}
+    {% if community.twitter %}
+    <a class="btn btn-default" href="https://twitter.com/{{ community.twitter }}/"><i class="fa fa-twitter"></i> @{{ community.twitter }}</a>
+    {% endif %}
+    {% if community.github %}
+    <a class="btn btn-default" href="https://github.com/{{ community.github }}/"><i class="fa fa-github"></i> {{ community.github }}</a>
+    {% endif %}
+    {% if community.slack %}
+    <a class="btn btn-default" href="https://{{ community.slack }}.slack.com/"><i class="fa fa-slack"></i> {{ community.slack }}</a>
+    {% endif %}
+    {% if community.irc_channel and community.irc_network %}
+    <button class="btn btn-disabled"><i class="fa fa-comment"></i> {{ community.irc_channel }} ({{ community.irc_network }})</button>
+    {% endif %}
+</p>
 {% endif %}
 
-<div class="block-area">
-    <h3>Share this community</h3>
-    <div class="row">
-        <div class="col-md-1">
-            <a
-                href="https://twitter.com/share"
-                class="twitter-share-button"
-                data-url="https://www.letsmeet.click{{ community.get_absolute_url }}"
-                data-text="Join me at {{ community }}."
-                data-via="letsmeet_click"
+<h3>Share this community</h3>
+<div class="row">
+    <div class="col-md-1">
+        <a
+            href="https://twitter.com/share"
+            class="twitter-share-button"
+            data-url="https://www.letsmeet.click{{ community.get_absolute_url }}"
+            data-text="Join me at {{ community }}."
+            data-via="letsmeet_click"
             ></a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </div>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
 
-        <div class="col-md-1">
-            <div id="fb-root"></div>
-            <script>(function(d, s, id) {
+    <div class="col-md-1">
+        <div id="fb-root"></div>
+        <script>(function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=212341402442310";
             fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));</script>
-            <div class="fb-share-button" data-href="https://www.letsmeet.click{{ community.get_absolute_url }}" data-layout="button"></div>
-        </div>
-    </div>
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-share-button" data-href="https://www.letsmeet.click{{ community.get_absolute_url }}" data-layout="button"></div>
 </div>
+    </div>
 
-<div class="block-area">
     <h3>Subscribers</h3>
     <table class="table table-striped">
         <thead>
@@ -170,9 +150,7 @@ Community: {{ community }}
             {% endfor %}
         </tbody>
     </table>
-</div>
 
-<div class="block-area">
     <h3>Upcoming events</h3>
     <table class="table table-hover">
         <thead>
@@ -198,9 +176,7 @@ Community: {{ community }}
             {% endfor %}
         </tbody>
     </table>
-</div>
 
-<div class="block-area">
     <h3>Past events</h3>
     <table class="table table-hover">
         <thead>
@@ -226,5 +202,4 @@ Community: {{ community }}
             {% endfor %}
         </tbody>
     </table>
-</div>
-{% endblock content %}
+    {% endblock content %}

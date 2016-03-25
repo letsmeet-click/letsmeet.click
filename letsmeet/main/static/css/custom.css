@@ -1,38 +1,13 @@
-.page-title {
-    text-transform: uppercase;
+body {
+    margin-top: 70px;
 }
 
-.menu {
-    margin-top: 30px;
+.footer {
+    padding-top: 5rem;
 }
 
-.menu > a {
-    display: block;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
-    margin: 0px 10px;
-    padding: 10px 0px;
-    transition: background-color 0.3s;
-}
-
-.menu > a:hover {
-    background-color: rgba(0, 0, 0, 0.14);
-}
-
-#skin-blur-sunset {
-    background-color: #A86344; /* Old browsers */
-}
-
-#skin-blur-chrome {
-    background: #575761; /* Old browsers */
-    background: -moz-linear-gradient(top, #575761 0%, #080b14 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #575761 0%,#080b14 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #575761 0%,#080b14 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-#top-menu > .media-body {
-    padding-top: 12px;
+.btn-xs {
+    margin: 0;
 }
 
 .home-banner {
@@ -53,35 +28,4 @@
 
 .clickable {
     cursor: pointer;
-}
-
-.logo {
-    line-height: 50px;
-    padding: 0 0 0 45px;
-}
-.logo img {
-    max-width: 170px;
-    max-height: 28px;
-}
-
-#sidebar footer {
-    margin-top: 100px;
-    font-size: 80%;
-}
-
-#sidebar footer ul {
-    padding: 0;
-    margin: 0;
-}
-
-#sidebar footer li {
-    list-style: none;
-    padding: 0;
-}
-
-#sidebar footer a {
-    opacity: 0.7;
-}
-#sidebar footer a:hover {
-    opacity: 1;
 }

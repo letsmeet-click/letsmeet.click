@@ -1,17 +1,14 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
-{% block page_title %}
-Unsubscribe from community "{{ community.name }}"?
-{% endblock %}
-
-{% block small_content %}
+{% block content %}
+<h1>Unsubscribe from community "{{ community.name }}"?</h1>
 <div class="alert alert-info" role="alert">
     <em>Note: Unsubscribing from a community will remove all your RSVPs from future events of this community</em>
 </div>
 <form method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn"><i class="fa fa-user-plus"></i> Yes, unsubscribe</button>
-    <a href="{{ community.get_absolute_url }}" class="btn"><i class="fa fa-user-times"></i> Oups, that was an accident</a>
+    <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Yes, unsubscribe</button>
+    <a href="{{ community.get_absolute_url }}" class="btn btn-danger"><i class="fa fa-user-times"></i> Oups, that was an accident</a>
 </form>
-{% endblock small_content %}
+{% endblock content %}

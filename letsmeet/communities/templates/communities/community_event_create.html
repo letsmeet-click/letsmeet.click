@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
-{% block page_title %}
-Schedule an event for "{{ community.name }}"
-{% endblock %}
-
 {% block small_content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form|as_bootstrap }}
-    <button type="submit" class="btn pull-right"><i class="fa fa-plus-circle"></i> Schedule</button>
-    <a href="{{ community.get_absolute_url }}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
-</form>
+<h1>Schedule an event for "{{ community.name }}"</h1>
+<div class="well">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" class="btn pull-right"><i class="fa fa-plus-circle"></i> Schedule</button>
+        <a href="{{ community.get_absolute_url }}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
+    </form>
+</div>
 {% endblock small_content %}

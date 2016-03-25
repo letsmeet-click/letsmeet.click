@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
-{% block page_title %}
-Subscribe to community "{{ community.name }}"?
-{% endblock %}
-
-{% block small_content %}
+{% block content %}
+<h1>Subscribe to community "{{ community.name }}"?</h1>
 <form method="POST">
     {% csrf_token %}
-    <button type="submit" class="btn"><i class="fa fa-user-plus"></i> Yes, subscribe</button>
-    <a href="{{ community.get_absolute_url }}" class="btn"><i class="fa fa-user-times"></i> Oups, get me outta here</a>
+    <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Yes, subscribe</button>
+    <a href="{{ community.get_absolute_url }}" class="btn btn-danger"><i class="fa fa-user-times"></i> Oups, get me outta here</a>
 </form>
-{% endblock small_content %}
+{% endblock %}

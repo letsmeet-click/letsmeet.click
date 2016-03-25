@@ -6,44 +6,40 @@
 {% endblock %}
 
 {% block content %}
-<div class="block-area">
-    <a class="btn pull-right" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
-    <h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communit{{ community_list.count|pluralize:'y,ies' }}</h3>
-</div>
+<a class="btn pull-right" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+<h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communit{{ community_list.count|pluralize:'y,ies' }}</h3>
 
-<div class="block-area">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Community</th>
-                <th>Your Role</th>
-                <th>Subscribers</th>
-                <th>Next event</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for community in community_list %}
-            {% if user.is_authenticated %}
-            {% get_community_subscription user community as subscription %}
-            {% endif %}
-            <tr class="clickable" onclick="window.document.location='{{ community.get_absolute_url }}';">
-                <td>{{ community.name }}</td>
-                <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>
-                <td>{{ community.community_subscriptions.count }} <i class="fa fa-users"></i></td>
-                <td>
-                    {% if community.get_next_event %}
-                    {{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}
-                    {% else %}
-                    No upcoming event
-                    {% endif %}
-                </td>
-            </tr>
-            {% empty %}
-            <tr><td colspan=2><em>No communities yet.</em></td></tr>
-        </tbody>
-        {% endfor %}
-    </table>
-</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Community</th>
+            <th>Your Role</th>
+            <th>Subscribers</th>
+            <th>Next event</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for community in community_list %}
+        {% if user.is_authenticated %}
+        {% get_community_subscription user community as subscription %}
+        {% endif %}
+        <tr class="clickable" onclick="window.document.location='{{ community.get_absolute_url }}';">
+            <td>{{ community.name }}</td>
+            <td>{% if subscription %}{{ subscription.get_role_display }}{% else %}Not subscribed{% endif %}</td>
+            <td>{{ community.community_subscriptions.count }} <i class="fa fa-users"></i></td>
+            <td>
+                {% if community.get_next_event %}
+                {{ community.get_next_event.name }} in {{ community.get_next_event.begin|timeuntil }}
+                {% else %}
+                No upcoming event
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan=2><em>No communities yet.</em></td></tr>
+    </tbody>
+    {% endfor %}
+</table>
 {% endblock content %}
 
 {% block bottom_js %}

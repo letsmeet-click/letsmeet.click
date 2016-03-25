@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
-{% block page_title %}
-Update community "{{ community }}"
-{% endblock %}
-
 {% block small_content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form|as_bootstrap }}
-    <button type="submit" class="btn pull-right"><i class="fa fa-floppy-o"></i> Save</button>
-    <a href="{{ community.get_absolute_url }}" class="btn"><i class="fa fa-times"></i> Cancel</a>
-</form>
+<h1>Update community "{{ community }}"</h1>
+<div class="well">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" class="btn pull-right"><i class="fa fa-floppy-o"></i> Save</button>
+        <a href="{{ community.get_absolute_url }}" class="btn"><i class="fa fa-times"></i> Cancel</a>
+    </form>
+</div>
 {% endblock small_content %}

@@ -9,194 +9,130 @@
         <meta name="keywords" content="">
         <meta name="author" content="">
         <meta name="format-detection" content="telephone=no">
-        <meta property="og:url"                content="https://www.letsmeet.click{% block og_url_path %}{% endblock %}" />
-        <meta property="og:title"              content="{% block og_title %}Letsmeet.click{% endblock %}" />
-        <meta property="og:description"        content="Makes meeting fellow humans easy." />
-        <meta property="og:image"              content="https://www.letsmeet.click/static/img/letsmeet_icon.png" />
-        <meta property="fb:app_id"             content="212341402442310" />
+        <meta property="og:url"              content="https://www.letsmeet.click{% block og_url_path %}{% endblock %}" />
+        <meta property="og:title"            content="{% block og_title %}Letsmeet.click{% endblock %}" />
+        <meta property="og:description"      content="Makes meeting fellow humans easy." />
+        <meta property="og:image"            content="https://www.letsmeet.click/static/img/letsmeet_icon.png" />
+        <meta property="fb:app_id"           content="212341402442310" />
 	<meta name="google-signin-client_id" content="249584979490-p3j41k8gtr2r66sdprkpupka93jagt3t.apps.googleusercontent.com">
 
-        <title>{% block title %}Letsmeet.click{% endblock %}</title>
+        <title>{% block title %}{% if object %}{{ object }} | {% endif %}Letsmeet.click{% endblock %}</title>
 
-        <link href="{% static 'theme/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/dataTables.bootstrap.min.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/buttons.bootstrap.min.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-material-design.min.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/ripples.min.css' %}"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        <link href="{% static 'theme/css/animate.min.css' %}" rel="stylesheet">
-        <link href="{% static 'theme/css/form.css' %}" rel="stylesheet">
-        <link href="{% static 'theme/css/calendar.css' %}" rel="stylesheet">
-        <link href="{% static 'theme/css/style.css' %}" rel="stylesheet">
-        <link href="{% static 'theme/css/icons.css' %}" rel="stylesheet">
-        <link href="{% static 'theme/css/generics.css' %}" rel="stylesheet">
+
         <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     </head>
-    <body id="skin-blur-sunset">
-
-        <header id="header" class="media">
-            <a href="" id="menu-toggle"></a>
-            <a class="logo pull-left" href="{% url 'home' %}"><img src="{% static 'img/letsmeet-inv.svg' %}" alt="Start"></a>
-            <div class="media-body">
-                <div class="media" id="top-menu">
-                    <div class="media-body text-right">
-                    </div>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'home' %}"><img style="height:30px" alt="Letsmeet logo" src="{% static 'img/letsmeet-inv.svg' %}" alt="Start"></a>
                 </div>
-            </div>
-        </header>
-
-        <div class="clearfix"></div>
-
-        <section id="main" class="p-relative" role="main">
-            <div></div>
-
-            <!-- Sidebar -->
-            <aside id="sidebar">
-
-                <!-- Sidbar Widgets -->
-                <div class="side-widgets overflow">
-                    <div class="m-b-25 text-center">
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'community_list' %}">All Communities</a></li>
                         {% if user.is_authenticated %}
-                        <div class="text-center m-20">
-                            <a href="{% url 'profile' %}"><img src="{{ user|avatar_url }}" class="img-circle img-responsive"></a>
-                        </div>
-                        <h4><a href="{% url 'profile' %}">{{ user.username }} <i class="fa fa-wrench"></i></a></h4>
-                        {% endif %}
-                        <div class="menu">
-                                <a href="{% url 'home' %}">Home</a>
-                                <a href="{% url 'community_list' %}">All Communities</a>
-                            {% if user.is_authenticated %}
-                                <a href="{% url 'profile' %}">Profile</a>
-                                {% if request.user.is_staff %}
-                                    <a href="{% url 'admin:index' %}">Admin</a>
-                                {% endif %}
-                                <a href="{% url 'logout' %}">Logout</a>
-                            {% else %}
-                                <a href="{% url 'login' %}">Login</a>
+                            <li><a href="{% url 'profile' %}">Profile</a></li>
+                            {% if request.user.is_staff %}
+                                <li><a href="{% url 'admin:index' %}">Admin</a></li>
                             {% endif %}
-                        </div>
-                        <footer>
-                            <ul>
-                                <li><a href="{% url 'about' %}">About / FAQ</a></li>
-                                <li><a href="{% url 'legal' %}">Legal / Contact</a></li>
-                            </ul>
-                        </footer>
-                    </div>
+                        {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        {% if user.is_authenticated %}
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        {% else %}
+                            <li><a href="{% url 'login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
                 </div>
-            </aside>
-
-            <div id="content" class="container">
-                <h4 class="page-title">{% block page_title %}Please put something in block page_title{% endblock %}</h4>
-                <div class="block-area">
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="alert alert-{{ message.level_tag }} {{ message.extra_tags }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-
-                <div class="block-area">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
-                            {% block small_content %}
-                            {% endblock small_content %}
-                        </div>
-                    </div>
-                </div>
-                {% block content %}
-                {% endblock content %}
             </div>
+        </nav>
 
+        <div class="container">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.level_tag }} {{ message.extra_tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
 
-            <!-- Older IE Message -->
-            <!--[if lt IE 9]>
-            <div class="ie-block">
-                <h1 class="Ops">Ooops!</h1>
-                <p>You are using an outdated version of Internet Explorer, upgrade to any of the following web browser in order to access the maximum functionality of this website. </p>
-                <ul class="browsers">
-                    <li>
-                        <a href="https://www.google.com/intl/en/chrome/browser/">
-                            <img src="{% static 'theme/img/browsers/chrome.png' %}" alt="">
-                            <div>Google Chrome</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.mozilla.org/en-US/firefox/new/">
-                            <img src="{% static 'theme/img/browsers/firefox.png' %}" alt="">
-                            <div>Mozilla Firefox</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.opera.com/computer/windows">
-                            <img src="{% static 'theme/img/browsers/opera.png' %}" alt="">
-                            <div>Opera</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://safari.en.softonic.com/">
-                            <img src="{% static 'theme/img/browsers/safari.png' %}" alt="">
-                            <div>Safari</div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://windows.microsoft.com/en-us/internet-explorer/downloads/ie-10/worldwide-languages">
-                            <img src="{% static 'theme/img/browsers/ie.png' %}" alt="">
-                            <div>Internet Explorer(New)</div>
-                        </a>
-                    </li>
-                </ul>
-                <p>Upgrade your browser for a Safer and Faster web experience. <br/>Thank you for your patience...</p>
+            <div class="row">
+                <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
+                    {% block small_content %}
+                    {% endblock small_content %}
+                </div>
             </div>
-            <![endif]-->
-        </section>
+            {% block content %}
+            {% endblock content %}
+        </div>
 
-        <!-- Javascript Libraries -->
-        <!-- jQuery -->
-        <script src="{% static 'theme/js/jquery.min.js' %}"></script> <!-- jQuery Library -->
-        <script src="{% static 'theme/js/jquery-ui.min.js' %}"></script> <!-- jQuery UI -->
-        <script src="{% static 'theme/js/jquery.easing.1.3.js' %}"></script> <!-- jQuery Easing - Requirred for Lightbox + Pie Charts-->
+        <footer class="footer">
+            <div class="container">
+                <p class="text-muted text-right">
+                    <a href="{% url 'about' %}">About/FAQ</a> | <a href="{% url 'legal' %}">Legal/Contact</a>
+                </p>
+            </div>
+        </footer>
 
-        <!-- Bootstrap -->
-        <script src="{% static 'theme/js/bootstrap.min.js' %}"></script>
-
-        <!-- Charts -->
-        {# <script src="{% static 'theme/js/charts/jquery.flot.js' %}"></script> <!-- Flot Main --> #}
-        {# <script src="{% static 'theme/js/charts/jquery.flot.time.js' %}"></script> <!-- Flot sub --> #}
-        {# <script src="{% static 'theme/js/charts/jquery.flot.animator.min.js' %}"></script> <!-- Flot sub --> #}
-        {# <script src="{% static 'theme/js/charts/jquery.flot.resize.min.js' %}"></script> <!-- Flot sub - for repaint when resizing the screen --> #}
-
-        {# <script src="{% static 'theme/js/sparkline.min.js' %}"></script> <!-- Sparkline - Tiny charts --> #}
-        {# <script src="{% static 'theme/js/easypiechart.js' %}"></script> <!-- EasyPieChart - Animated Pie Charts --> #}
-        {# <script src="{% static 'theme/js/charts.js' %}"></script> <!-- All the above chart related functions --> #}
-
-        <!-- Map -->
-        {# <script src="{% static 'theme/js/maps/jvectormap.min.js' %}"></script> <!-- jVectorMap main library --> #}
-        {# <script src="{% static 'theme/js/maps/usa.js' %}"></script> <!-- USA Map for jVectorMap --> #}
-
-        <!--  Form Related -->
-        <script src="{% static 'theme/js/icheck.js' %}"></script> <!-- Custom Checkbox + Radio -->
-
-        <!-- UX -->
-        <script src="{% static 'theme/js/scroll.min.js' %}"></script> <!-- Custom Scrollbar -->
-
-        <!-- Other -->
-        {# <script src="{% static 'theme/js/calendar.min.js' %}"></script> <!-- Calendar --> #}
-        {# <script src="{% static 'theme/js/feeds.min.js' %}"></script> <!-- News Feeds --> #}
-
-
-        <!-- All JS functions -->
-        <script src="{% static 'theme/js/functions.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/buttons.bootstrap.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/natural.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/material.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/ripples.min.js' %}"></script>
 
         <script src="{% static 'js/countUp.min.js' %}"></script>
 
         {% block bottom_js %}
         {% endblock %}
 
-{% if environment == 'production' %}
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        <script>
+            function initDatatables() {
+                $.each($('.datatable'), function(index, value) {
+                    try {
+                        $(value).DataTable({
+                            "bPaginate": false,
+                            columnDefs: [ { type: 'natural', targets: 0 } ]
+                        });
+                    } catch(err) {
+                        console.log('Unable to init datatable: ' + err);
+                        console.log(value);
+                    }
+                });
+                $('.datatable').css('width', '100%');
+            }
+            $(function () {
+                $.material.init()
+                initDatatables();
+            } );
+        </script>
+        {% if environment == 'production' %}
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-71775275-1', 'auto');
-  ga('send', 'pageview');
+ga('create', 'UA-71775275-1', 'auto');
+ga('send', 'pageview');
 </script>
 {% endif %}
     </body>

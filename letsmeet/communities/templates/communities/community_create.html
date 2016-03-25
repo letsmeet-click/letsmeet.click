@@ -2,14 +2,16 @@
 {% load bootstrap_tags %}
 
 {% block page_title %}
-Found a new community
 {% endblock %}
 
 {% block small_content %}
-<form method="POST">
-    {% csrf_token %}
-    {{ form|as_bootstrap }}
-    <button type="submit" class="btn pull-right"><i class="fa fa-plus-circle"></i> Create</button>
-    <a href="{% url 'community_list' %}" class="btn"><i class="fa fa-times"></i> Cancel</a>
-</form>
+<h1>Found a new community</h1>
+<div class="well">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" class="btn pull-right"><i class="fa fa-plus-circle"></i> Create</button>
+        <a href="{% url 'community_list' %}" class="btn"><i class="fa fa-times"></i> Cancel</a>
+    </form>
+</div>
 {% endblock small_content %}
