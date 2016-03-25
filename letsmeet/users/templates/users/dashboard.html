@@ -17,21 +17,23 @@ Dashboard
     <div class="col-lg-9 col-md-8 col-sm-7 col-xs-12">
         <div class="block-area">
             <div class="well tile">
-                {% if userprofile.get_next_event.name %}
+                {% if userprofile.get_next_yes_event.name %}
                 <h2>Your next event:</h2>
-                <h1>
-                    <a href="{{ userprofile.get_next_event.get_absolute_url }}">
-                        {{ userprofile.get_next_event.name }} <small>in {{ user.userprofile.get_next_event.begin|timeuntil }}</small>
-                    </a>
-                </h1>
                 <h3>
-                    <a href="{{ userprofile.get_next_event.community.get_absolute_url }}">
-                        {{ userprofile.get_next_event.community.name }}
+                    {{ userprofile.get_next_yes_event.name }} <small>in {{ user.userprofile.get_next_yes_event.begin|timeuntil }}</small><br>
+                    <a href="{{ userprofile.get_next_yes_event.community.get_absolute_url }}">
+                        {{ userprofile.get_next_yes_event.community.name }}
                     </a>
                 </h3>
-                <p><a href="{{ userprofile.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
+                <p class="text-right"><a href="{{ userprofile.get_next_yes_event.get_absolute_url }}" class="btn">Details</a></p>
                 {% else %}
-                <h2>You have no upcoming events</h2>
+                <h2>You have no upcoming events.</h2>
+                Next event in your communities:
+                <h4>
+                    {{ userprofile.get_next_event.community.name }}<br>
+                    {{ userprofile.get_next_event.name }} <small>in {{ user.userprofile.get_next_event.begin|timeuntil }}</small>
+                </h4>
+                <p class="text-right"><a href="{{ userprofile.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
                 {% endif %}
             </div>
         </div>

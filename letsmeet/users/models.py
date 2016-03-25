@@ -27,6 +27,12 @@ class UserProfile(TimeStampedModel):
     notify_on_new_comment = models.BooleanField(default=True)
 
     def get_next_event(self):
+        return self.get_upcoming_events().order_by('begin').first()
+
+    def get_upcoming_events(self):
+        return Event.objects.upcoming()
+
+    def get_next_yes_event(self):
         return self.get_upcoming_yes_events().order_by('begin').first()
 
     def get_upcoming_yes_events(self):
