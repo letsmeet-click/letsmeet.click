@@ -42,10 +42,10 @@ class Event(TimeStampedModel):
         return self.end < timezone.now()
 
     def is_full(self):
-        if self.max_attendees:
-            return self.rsvp_yes().count() >= self.max_attendees
+        if not self.max_attendees:
+            return False
 
-        return False
+        return self.rsvp_yes().count() >= self.max_attendees
 
     def rsvp_yes(self):
         return self.rsvps.filter(coming=True)

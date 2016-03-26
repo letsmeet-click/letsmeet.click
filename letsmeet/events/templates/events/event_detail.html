@@ -32,7 +32,7 @@ Event: {{ event.name }} ({{ event.begin }})
 </p>
 {% elif can_edit %}
 <div class="alert alert-info" role="alert">
-    <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
+    <i class="fa fa-lightbulb-o"></i> <em>Hint: <a class="alert-link" href="{{ event.get_update_url }}">Set a description</a> to provide further information for your attendees</em>
 </div>
 {% endif %}
 
@@ -90,7 +90,7 @@ Event: {{ event.name }} ({{ event.begin }})
     </p>
     {% elif can_edit %}
     <div class="alert alert-info" role="alert">
-        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a href="{{ event.get_update_url }}">Set a hashtag</a> to tell your attendees how they can reference your event in social media</em>
+        <i class="fa fa-lightbulb-o"></i> <em>Hint: <a class="alert-link" href="{{ event.get_update_url }}">Set a hashtag</a> to tell your attendees how they can reference your event in social media</em>
     </div>
     {% endif %}
     <div class="row">
