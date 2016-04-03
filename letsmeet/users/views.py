@@ -36,7 +36,7 @@ class UserProfileView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = "users/profile.html"
     model = UserProfile
     permission_required = 'userprofile.can_change'
-    fields = ['avatar',]
+    fields = ['avatar', ]
 
     def get_object(self, queryset=None):
         up, created = UserProfile.objects.get_or_create(user=self.request.user)
