@@ -15,3 +15,4 @@ Pillow
 django-stdimage==2.2.0
 django-mailgun==0.8.0
 opencage
+pylama==7.0.7
