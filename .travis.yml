@@ -1,15 +1,22 @@
 sudo: required
-
 services:
   - docker
 language: python
 python:
-  - "3.4"
+  - 3.4
 install:
-  - echo "nope"
+  - sudo apt-get update
+  - sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-engine
+  - sudo pip install docker-compose
+before_script:
+  - docker version
+  - docker-compose --version
 script:
+  - docker-compose build --pull
   - docker-compose up -d
   - docker exec -ti letsmeetclick_web_1 py.test
+  - docker exec -ti letsmeetclick_web_1 pylama
+  - docker exec -u root -ti letsmeetclick_web_1 pip list --outdated
 notifications:
   email: false
   slack:
