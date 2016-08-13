@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load bootstrap_tags %}
+
+{% block small_content %}
+<div class="well">
+    <h1>Change email</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" class="btn pull-right"><i class="fa fa-check-circle"></i> Save</button>
+        <a href="{% url 'profile' %}" class="btn"><i class="fa fa-times"></i> Cancel</a>
+    </form>
+</div>
+{% endblock small_content %}

@@ -1,0 +1,7 @@
+{% extends 'mail_base.txt' %}
+
+{% block content %}
+please use this link to confirm your new Email address:
+
+https://www.letsmeet.click{{ confirm_url }}
+{% endblock content %}

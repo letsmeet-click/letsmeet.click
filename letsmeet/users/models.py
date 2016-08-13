@@ -25,6 +25,7 @@ class UserProfile(TimeStampedModel):
     notify_on_new_rsvp_for_organizer = models.BooleanField(default=True)
     notify_on_new_rsvp_for_attending = models.BooleanField(default=True)
     notify_on_new_comment = models.BooleanField(default=True)
+    pending_email_address = models.EmailField(default='')
 
     def get_next_event(self):
         return self.get_upcoming_events().order_by('begin').first()
