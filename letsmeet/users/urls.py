@@ -12,7 +12,7 @@ from .views import (
 )
 
 
-urlpatterns = (
+urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^profile/$', UserProfileView.as_view(), name="profile"),
     url(r'^profile/change-notification/$', UserSocialAuthChangeView.as_view(), name="change_notification"),
@@ -21,4 +21,4 @@ urlpatterns = (
     url(r'^profile/edit/password/$', UserPasswordChangeView.as_view(), name="profile_edit_password"),
     url(r'^profile/edit/email/$', UserEmailChangeView.as_view(), name="profile_edit_email"),
     url(r'^profile/edit/email/(?P<token>[a-z0-9]{64})$', UserEmailChangeConfirmView.as_view(), name="profile_edit_email_confirm"),
-)
+]
