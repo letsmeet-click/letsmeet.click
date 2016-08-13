@@ -1,4 +1,6 @@
 import json
+
+from django.conf import settings
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
@@ -9,7 +11,7 @@ def send_notification(recipients, subject, template, context):
     if addresses:
         text = render_to_string(template, context)
         mail = EmailMessage(
-            subject='[letsmeet.click] ' + subject,
+            subject=settings.EMAIL_SUBJECT_PREFIX + ' ' + subject,
             body=text,
             to=addresses,
         )

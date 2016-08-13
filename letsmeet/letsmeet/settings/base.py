@@ -180,5 +180,6 @@ MESSAGE_TAGS = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_SUBJECT_PREFIX = '[letsmeet.click] '
 
 SITE_ID = 1

@@ -58,7 +58,12 @@ Profile of {{ userprofile.user.username }}
             <table class="table">
                 <tr>
                     <th>Email</th>
-                    <td>{{ user.email }}</td>
+                    <td>
+                        {{ user.email }}
+                        {% if can_edit %}
+                        <a href="{% url "profile_edit_email" %}" class="btn btn-xs pull-right"><i class="fa fa-lock"></i> Change E-Mail</a>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <th>User since</th>

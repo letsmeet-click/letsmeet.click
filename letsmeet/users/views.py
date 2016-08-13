@@ -1,4 +1,7 @@
-import rules
+import hashlib
+
+from django import forms
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
@@ -11,6 +14,11 @@ from django.shortcuts import redirect
 from django.utils.http import urlquote
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+from django.views.generic.base import View
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+
+import rules
 from rules.contrib.views import PermissionRequiredMixin
 from social.apps.django_app.default.models import UserSocialAuth
 
@@ -164,3 +172,48 @@ class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
         ret = super().form_valid(form)
         update_session_auth_hash(self.request, self.object)
         return ret
+
+def calculate_email_change_token(email_address):
+    return hashlib.sha256(
+        ('%s:%s' % (settings.SECRET_KEY, email_address)).encode('utf-8')
+    ).hexdigest()
+
+class UserEmailChangeView(LoginRequiredMixin, UpdateView):
+    model = UserProfile
+    fields = ['pending_email_address']
+    template_name = 'users/change_email.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self, queryset=None):
+        return self.request.user.userprofile
+
+    def form_valid(self, form):
+        from main.utils import send_notification
+
+        confirm_url = reverse('profile_edit_email_confirm', kwargs={
+            'token': calculate_email_change_token(form.cleaned_data['pending_email_address'])
+        })
+
+        text = render_to_string('users/mails/confirm_email_change.txt', {'confirm_url': confirm_url})
+        EmailMessage(
+            to=[form.cleaned_data['pending_email_address']],
+            subject=settings.EMAIL_SUBJECT_PREFIX + ' Confirm your new email address',
+            body=text
+        ).send()
+
+        messages.info(self.request, 'Sent email to confirm email change')
+        return super().form_valid(form)
+
+class UserEmailChangeConfirmView(LoginRequiredMixin, View):
+
+    def get(self, request, token):
+        valid_token = calculate_email_change_token(self.request.user.userprofile.pending_email_address)
+        if token != valid_token:
+            messages.error(self.request, 'Didn\'t change your email address because your token is invalid')
+        else:
+            self.request.user.email = self.request.user.userprofile.pending_email_address
+            self.request.user.save()
+            self.request.user.userprofile.pending_email_address = ''
+            self.request.user.userprofile.save()
+            messages.success(self.request, 'Saved your new email address')
+        return redirect('profile')
