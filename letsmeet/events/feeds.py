@@ -30,7 +30,7 @@ class LatestEventsFeed(Feed):
 
 
 class ICalCommunityEventsFeed(ICalFeed):
-    description = "letsmeet.click events feed"
+    description = "letsmeet.click community events feed"
     product_id = '-//letsmeet.click//Event//DE'
     timezone = 'UTC'
 
@@ -55,3 +55,9 @@ class ICalCommunityEventsFeed(ICalFeed):
 
     def item_start_datetime(self, item):
         return item.begin
+
+    def item_end_datetime(self, item):
+        return item.end
+
+    def item_link(self, item):
+        return item.get_absolute_url()
