@@ -34,11 +34,11 @@ class ICalCommunityEventsFeed(ICalFeed):
     product_id = '-//letsmeet.click//Event//DE'
     timezone = 'UTC'
 
-    def title(self, item):
-        return "{} calendar".format(item.name)
+    def title(self, obj):
+        return "{} calendar".format(obj.name)
 
-    def file_name(self, item):
-        return "feed_{}.ics".format(item.slug)
+    def file_name(self, obj):
+        return "feed_{}.ics".format(obj.slug)
 
     def get_object(self, request, community_slug):
         from communities.models import Community
@@ -64,3 +64,18 @@ class ICalCommunityEventsFeed(ICalFeed):
 
     def item_link(self, item):
         return item.get_absolute_url()
+
+
+class ICalUserEventsFeed(ICalCommunityEventsFeed):
+
+    def title(self, item):
+        return "your letsmeet.click calendar"
+
+    def file_name(self, item):
+        return "feed_user.ics"
+
+    def get_object(self, request):
+        return request.user
+
+    def items(self, obj):
+        return obj.userprofile.get_upcoming_yes_events().order_by('-created')

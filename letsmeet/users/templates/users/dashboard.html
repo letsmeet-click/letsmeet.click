@@ -37,6 +37,13 @@ Dashboard
                 {% endif %}
             </div>
         </div>
+	{% if request.user %}
+        <div class="block-area">
+          <div class="well tile">
+	      <a class="btn btn-default" href="{% url 'personal_events_ical_feed' %}"><i class="fa fa-calendar"></i> your personal ical calendar</a>
+            </div>
+        </div>
+	{% endif %}
     </div>
 </div>
 <div class="row">
