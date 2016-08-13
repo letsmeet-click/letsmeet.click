@@ -34,6 +34,9 @@ class ICalCommunityEventsFeed(ICalFeed):
     product_id = '-//letsmeet.click//Event//DE'
     timezone = 'UTC'
 
+    def title(self, item):
+        return "{} calendar".format(item.name)
+
     def file_name(self, item):
         return "feed_{}.ics".format(item.slug)
 
