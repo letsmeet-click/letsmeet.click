@@ -51,7 +51,7 @@ class ICalCommunityEventsFeed(ICalFeed):
         return item.name
 
     def item_description(self, item):
-        return item.description
+        return "{}\n\n{}".format(item.description, item.get_absolute_url())
 
     def item_pubdate(self, item):
         return item.created
