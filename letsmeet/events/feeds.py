@@ -42,7 +42,10 @@ class ICalCommunityEventsFeed(ICalFeed):
 
     def get_object(self, request, community_slug):
         from communities.models import Community
-        return Community.objects.get(slug=community_slug)
+        try:
+            return Community.objects.get(slug=community_slug)
+        except Community.DoesNotExist:
+            return []
 
     def items(self, obj):
         return Event.objects.filter(community=obj).order_by('-created')
@@ -78,4 +81,6 @@ class ICalUserEventsFeed(ICalCommunityEventsFeed):
         return request.user
 
     def items(self, obj):
-        return obj.userprofile.get_upcoming_yes_events().order_by('-created')
+        if hasattr(obj, 'userprofile'):
+            return obj.userprofile.get_upcoming_yes_events().order_by('-created')
+        return []
