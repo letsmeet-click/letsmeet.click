@@ -154,7 +154,7 @@ def can_create_community_event(user, community):
     try:
         community_subscription = community.community_subscriptions.get(user=user)
         if community_subscription:
-            return community_subscription.role == CommunitySubscription.ROLE_OWNER
+            return community_subscription.role == CommunitySubscription.ROLE_OWNER or community_subscription.role == CommunitySubscription.ROLE_ADMIN
     except CommunitySubscription.DoesNotExist:
         pass  # yes, quantifiedcode, this is intentional
     return False
