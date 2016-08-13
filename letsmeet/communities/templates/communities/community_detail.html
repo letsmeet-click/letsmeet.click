@@ -60,6 +60,7 @@
 {% if community.twitter or community.github or community.homepage or community.slack or community.irc_channel and community.irc_network %}
 <h3>Find this community on the web</h3>
 <p>
+    <a class="btn btn-default" href="{{ community.get_ical_url }}"><i class="fa fa-calendar"></i> ical for this community</a>
     {% if community.homepage %}
     <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
     {% endif %}

@@ -89,6 +89,9 @@ class Community(TimeStampedModel):
 
         return self._next_event
 
+    def get_ical_url(self):
+        return reverse('community_events_ical_feed', kwargs={'community_slug': self.slug})
+
     def get_absolute_url(self):
         return reverse('community_detail', kwargs={'slug': self.slug})
 
