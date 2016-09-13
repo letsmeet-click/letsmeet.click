@@ -104,6 +104,32 @@
     <div class="fb-share-button" data-href="https://www.letsmeet.click{{ community.get_absolute_url }}" data-layout="button"></div>
 </div>
     </div>
+    
+    <h3>Upcoming events</h3>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Event</th>
+                <th>Date</th>
+                <th>Attendees</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in community.events.upcoming.all %}
+            <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
+                <td>{{ event.name }}</td>
+                <td>{{ event.begin }} - {{ event.end }}</td>
+                <td>
+                    {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
+                </td>
+                <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <h3>Subscribers</h3>
     <table class="table table-striped">
@@ -148,32 +174,6 @@
             </tr>
             {% empty %}
             <tr><td colspan=2><em>No subscribers! (this should not happen...)</em></td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <h3>Upcoming events</h3>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Event</th>
-                <th>Date</th>
-                <th>Attendees</th>
-                <th>Comments</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event in community.events.upcoming.all %}
-            <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
-                <td>{{ event.name }}</td>
-                <td>{{ event.begin }} - {{ event.end }}</td>
-                <td>
-                    {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
-                </td>
-                <td>{{ event.comments.count }} <i class="fa fa-comment"></i></td>
-            </tr>
-            {% empty %}
-            <tr><td colspan=4><em>Currently no scheduled events</em></td></tr>
             {% endfor %}
         </tbody>
     </table>
