@@ -1,18 +1,19 @@
-FROM aexea/aexea-base
+FROM aexea/aexea-base:py3.5
 MAINTAINER letsmeet.click Contributors
 
 USER root
 
 # install geo stuff
-RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin
+RUN apt-get update && apt-get install -y \
+	binutils \
+	gdal-bin \
+	libproj-dev \
+	&& rm -rf /var/lib/apt/lists/*
 
-# install uwsgi for production
-RUN pip3 install uwsgi
-
-ADD requirements.txt /opt/code/requirements.txt
+COPY requirements.txt /opt/code/requirements.txt
 WORKDIR /opt/code
 RUN pip3 install --find-links=http://pypi.qax.io/wheels/ --trusted-host pypi.qax.io -Ur requirements.txt
-ADD . /opt/code
+COPY . /opt/code
 
 RUN chown -R uid1000: /opt
 

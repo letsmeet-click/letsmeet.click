@@ -31,9 +31,9 @@ with Docker-Compose to get up and running in finite amount of time:
 
 ```
 docker-compose build
-docker-compose run web reset_db
-docker-compose run web migrate
-docker-compose run web createsuperuser
+docker-compose run --rm web reset_db
+docker-compose run --rm web migrate
+docker-compose run --rm web createsuperuser
 docker-compose up -d
 ```
 
@@ -43,7 +43,7 @@ In order to make the test setup easier, you can also execute them within the
 Docker container:
 
 ```
-docker exec -ti letsmeetclick_web_1 tox
+docker-compose exec web tox
 ```
 
 ## Production setup
