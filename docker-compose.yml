@@ -10,19 +10,21 @@ services:
           TOX_WORK_DIR: /opt/tox
       entrypoint:
        - './manage.py'
-      links:
-       - db
       volumes:
        - .:/opt/code
-      volumes_from:
-       - data
+       - userhome:/home/uid1000
       ports:
        - "8011:8011"
-
-    data:
-      image: aexea/aexea-base
-      volumes:
-        - /home/uid1000
+      depends_on:
+       - db
 
     db:
       image: mdillon/postgis:9.4
+      volumes:
+       - postgisdata:/var/lib/postgresql/data
+
+volumes:
+  userhome:
+    driver: local
+  postgisdata:
+    driver: local

@@ -3,7 +3,7 @@ services:
   - docker
 language: python
 python:
-  - 3.4
+  - 3.5
 install:
   - sudo apt-get update
   - sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-engine
@@ -14,9 +14,9 @@ before_script:
 script:
   - docker-compose build --pull
   - docker-compose up -d
-  - docker exec -ti letsmeetclick_web_1 py.test
-  - docker exec -ti letsmeetclick_web_1 pylama
-  - docker exec -u root -ti letsmeetclick_web_1 pip list --outdated
+  - docker-compose exec web py.test
+  - docker-compose exec web pylama
+  - docker-compose run web pipchecker -r ../requirements.txt
 notifications:
   email: false
   slack:
