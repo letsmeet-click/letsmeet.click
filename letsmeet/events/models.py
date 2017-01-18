@@ -119,6 +119,7 @@ def can_edit_event(user, event):
 
     return user.has_perm('community.can_edit', event.community)
 
+
 rules.add_perm('event.can_edit', can_edit_event)
 
 
@@ -128,6 +129,7 @@ def is_subscriber(user, event):
         return False
 
     return user in event.community.subscribers.all()
+
 
 rules.add_perm('event.can_rsvp', is_subscriber)
 rules.add_perm('event.can_create_comment', is_subscriber)

@@ -1,6 +1,5 @@
 import hashlib
 
-from django import forms
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -173,10 +172,12 @@ class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
         update_session_auth_hash(self.request, self.object)
         return ret
 
+
 def calculate_email_change_token(email_address):
     return hashlib.sha256(
         ('%s:%s' % (settings.SECRET_KEY, email_address)).encode('utf-8')
     ).hexdigest()
+
 
 class UserEmailChangeView(LoginRequiredMixin, UpdateView):
     model = UserProfile
@@ -188,8 +189,6 @@ class UserEmailChangeView(LoginRequiredMixin, UpdateView):
         return self.request.user.userprofile
 
     def form_valid(self, form):
-        from main.utils import send_notification
-
         confirm_url = reverse('profile_edit_email_confirm', kwargs={
             'token': calculate_email_change_token(form.cleaned_data['pending_email_address'])
         })
@@ -203,6 +202,7 @@ class UserEmailChangeView(LoginRequiredMixin, UpdateView):
 
         messages.info(self.request, 'Sent email to confirm email change')
         return super().form_valid(form)
+
 
 class UserEmailChangeConfirmView(LoginRequiredMixin, View):
 
