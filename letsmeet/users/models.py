@@ -1,4 +1,5 @@
 import rules
+import uuid
 from django.core.urlresolvers import reverse
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
@@ -26,6 +27,7 @@ class UserProfile(TimeStampedModel):
     notify_on_new_rsvp_for_attending = models.BooleanField(default=True)
     notify_on_new_comment = models.BooleanField(default=True)
     pending_email_address = models.EmailField(default='')
+    personal_ical_uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
     def get_next_event(self):
         return self.get_upcoming_events().order_by('begin').first()

@@ -8,7 +8,7 @@ from .views import (
     EventDetailView,
     EventRSVPView,
 )
-from .feeds import LatestEventsFeed, ICalCommunityEventsFeed, ICalUserEventsFeed
+from .feeds import LatestEventsFeed, ICalCommunityEventsFeed, ICalUserEventsFeed, ICalPersonalUserEventsFeed
 from communities.models import Community
 from .models import Event
 
@@ -24,6 +24,7 @@ event_dict = {
 
 urlpatterns = [
     # feeds
+    url(r'^ical/(?P<uuid>.+)/$', ICalPersonalUserEventsFeed(), name='personal_events_ical_feed_uuid'),
     url(r'^ical/$', ICalUserEventsFeed(), name='personal_events_ical_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/rss/$', LatestEventsFeed(), name='events_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/ical/$', ICalCommunityEventsFeed(), name='community_events_ical_feed'),
