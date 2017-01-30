@@ -74,23 +74,6 @@ class ICalCommunityEventsFeed(ICalFeed):
 class ICalUserEventsFeed(ICalCommunityEventsFeed):
 
     def title(self, item):
-        return "your letsmeet.click calendar"
-
-    def file_name(self, item):
-        return "feed_user.ics"
-
-    def get_object(self, request):
-        return request.user
-
-    def items(self, obj):
-        if hasattr(obj, 'userprofile'):
-            return obj.userprofile.get_upcoming_yes_events().order_by('-created')
-        return []
-
-
-class ICalPersonalUserEventsFeed(ICalCommunityEventsFeed):
-
-    def title(self, item):
         return "your personal letsmeet.click calendar"
 
     def file_name(self, item):
