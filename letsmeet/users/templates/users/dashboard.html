@@ -40,7 +40,7 @@ Dashboard
 	{% if request.user %}
         <div class="block-area">
           <div class="well tile">
-	        <a class="btn btn-default" href="{% url 'personal_events_ical_feed' uuid=userprofile.personal_ical_uuid %}"><i class="fa fa-calendar"></i> Your ical calendar</a>
+              <a class="btn btn-default" href="{% url 'personal_events_ical_feed' uuid=userprofile.personal_ical_uuid %}"><i class="fa fa-calendar"></i> Your ical calendar</a>
           </div>
         </div>
 	{% endif %}

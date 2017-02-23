@@ -47,7 +47,6 @@ class Community(TimeStampedModel):
     is_deleted = models.BooleanField(default=False)
 
     objects = CommunityManager()
-
     default = models.Manager()   # the default manager
 
     def __str__(self):
