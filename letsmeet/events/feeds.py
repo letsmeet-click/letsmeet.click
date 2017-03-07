@@ -1,5 +1,7 @@
 from django_ical.views import ICalFeed
 from django.contrib.syndication.views import Feed
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from .models import Event
 
 
@@ -72,13 +74,13 @@ class ICalCommunityEventsFeed(ICalFeed):
 class ICalUserEventsFeed(ICalCommunityEventsFeed):
 
     def title(self, item):
-        return "your letsmeet.click calendar"
+        return "your personal letsmeet.click calendar"
 
     def file_name(self, item):
         return "feed_user.ics"
 
-    def get_object(self, request):
-        return request.user
+    def get_object(self, request, uuid):
+        return get_object_or_404(get_user_model(), userprofile__personal_ical_uuid=uuid)
 
     def items(self, obj):
         if hasattr(obj, 'userprofile'):

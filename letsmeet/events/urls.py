@@ -24,7 +24,7 @@ event_dict = {
 
 urlpatterns = [
     # feeds
-    url(r'^ical/$', ICalUserEventsFeed(), name='personal_events_ical_feed'),
+    url(r'^ical/(?P<uuid>.+)/$', ICalUserEventsFeed(), name='personal_events_ical_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/rss/$', LatestEventsFeed(), name='events_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/ical/$', ICalCommunityEventsFeed(), name='community_events_ical_feed'),
     # views
