@@ -164,7 +164,7 @@ class EventRSVP(TimeStampedModel):
                 )
 
     class Meta:
-        ordering = ('-coming', 'user')
+        ordering = ('-coming', 'user__username')
         unique_together = (
             ('event', 'user'),
         )
