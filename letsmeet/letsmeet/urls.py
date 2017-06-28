@@ -4,7 +4,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('social_django.urls', namespace='social')),
     url(r'^', include('communities.urls')),
     url(r'^', include('events.urls')),
     url(r'^', include('main.urls')),
