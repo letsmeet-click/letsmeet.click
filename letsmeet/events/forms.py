@@ -1,13 +1,20 @@
 from django import forms
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 from events.models import Event, EventComment
+from locations.models import Location
 
 
 class EventCreateForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ('name', 'begin', 'end', 'max_attendees')
+        fields = ['name', 'begin', 'end', 'max_attendees']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(settings, 'SHACKSPACE'):
+            self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(), empty_label=None)
         # FIXME find or write a good datetime picker
         # widgets = {
         #     'begin': widgets.AdminDateWidget(),
