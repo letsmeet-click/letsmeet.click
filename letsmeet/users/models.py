@@ -33,7 +33,7 @@ class UserProfile(TimeStampedModel):
         return self.get_upcoming_events().order_by('begin').first()
 
     def get_upcoming_events(self):
-        return Event.objects.upcoming()
+        return Event.objects.upcoming().filter(community__in=self.user.communities.all().values_list('id', flat=True))
 
     def get_next_yes_event(self):
         return self.get_upcoming_yes_events().order_by('begin').first()
