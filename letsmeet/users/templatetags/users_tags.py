@@ -15,7 +15,7 @@ def avatar_url(user, size='thumbnail'):
     if not up.avatar:
         return static('img/letsmeet_icon.png')
 
-    return static(getattr(up.avatar, size).url)
+    return getattr(up.avatar, size).url
 
 
 @register.inclusion_tag('users/templatetags/notification_change_list_group_item.html')
