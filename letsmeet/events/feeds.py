@@ -89,6 +89,13 @@ class ICalCommunityEventsFeed(ICalFeed):
         return item.get_absolute_url()
 
 
+class JsonCommunityEventsFeed(ICalCommunityEventsFeed):
+    feed_type = JSONFeed
+
+    def file_name(self, obj):
+        return "feed_{}.json".format(obj.slug)
+
+
 class ICalUserEventsFeed(ICalCommunityEventsFeed):
 
     def title(self, item):
@@ -102,7 +109,7 @@ class ICalUserEventsFeed(ICalCommunityEventsFeed):
 
     def items(self, obj):
         if hasattr(obj, 'userprofile'):
-            return obj.userprofile.get_upcoming_yes_events().order_by('-created')
+            return obj.userprofile.get_upcoming_yes_events().order_by('begin')
         return []
 
 

@@ -61,6 +61,9 @@
 <h3>Find this community on the web</h3>
 <p>
     <a class="btn btn-default" href="{{ community.get_ical_url }}"><i class="fa fa-calendar"></i> ical for this community</a>
+    <a class="btn btn-default" href="{{ community.get_json_feed_url }}"><i class="fa fa-calendar"></i> json feed for this community</a>
+</p>
+<p>
     {% if community.homepage %}
     <a class="btn btn-default" href="{{ community.homepage }}"><i class="fa fa-globe"></i> Homepage</a>
     {% endif %}

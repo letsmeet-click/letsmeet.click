@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^feed/(?P<uuid>.+)/json/$', feeds.JsonUserEventsFeed(), name='personal_events_json_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/rss/$', feeds.LatestEventsFeed(), name='events_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/ical/$', feeds.ICalCommunityEventsFeed(), name='community_events_ical_feed'),
+    url(r'^c/(?P<community_slug>[\w-]+)/json/$', feeds.JsonCommunityEventsFeed(), name='community_events_json_feed'),
     # views
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),
