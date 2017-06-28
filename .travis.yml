@@ -4,19 +4,24 @@ services:
 language: python
 python:
   - 3.6
-install:
+
+before_install:
   - sudo apt-get update
+
+install:
   - sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-ce
   - pip install docker-compose docker==2.3.0
+
 before_script:
   - docker version
   - docker-compose version
-script:
   - docker-compose build --pull
   - docker-compose up -d
-  - docker-compose exec web py.test
-  - docker-compose exec web pylama
+
+script:
+  - docker-compose exec web py.test --pylama -s
   - docker-compose run web pipchecker -r ../requirements.txt
+
 notifications:
   email: false
   slack:
