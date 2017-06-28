@@ -1,4 +1,4 @@
-FROM aexea/aexea-base:py3.5
+FROM aexea/aexea-base:py3.6
 MAINTAINER letsmeet.click Contributors
 
 USER root
