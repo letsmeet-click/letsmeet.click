@@ -15,6 +15,7 @@ from django.views.generic import (
 )
 
 from events.models import Event, EventRSVP
+from locations.models import Location
 from .forms import CommunityUpdateForm
 from events.forms import EventCreateForm
 from .models import Community, CommunitySubscription
@@ -72,6 +73,8 @@ class CommunityEventCreateView(LoginRequiredMixin, PermissionRequiredMixin, Crea
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.community = self.get_community()
+        if form.data.get('location'):
+            self.object.location = Location.objects.get(pk=form.data.get('location'))
         self.object.save()
         return redirect(self.get_success_url())
 

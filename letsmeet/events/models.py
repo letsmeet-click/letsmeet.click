@@ -29,6 +29,7 @@ class Event(TimeStampedModel):
     max_attendees = models.PositiveIntegerField(
         blank=True, null=True,
         help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
+    location = models.ForeignKey('locations.Location', related_name='events', null=True, blank=True)
 
     objects = EventManager()
 
