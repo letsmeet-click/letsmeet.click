@@ -8,7 +8,7 @@ from .views import (
     EventDetailView,
     EventRSVPView,
 )
-from .feeds import LatestEventsFeed, ICalCommunityEventsFeed, ICalUserEventsFeed
+from . import feeds
 from communities.models import Community
 from .models import Event
 
@@ -24,9 +24,11 @@ event_dict = {
 
 urlpatterns = [
     # feeds
-    url(r'^ical/(?P<uuid>.+)/$', ICalUserEventsFeed(), name='personal_events_ical_feed'),
-    url(r'^c/(?P<community_slug>[\w-]+)/rss/$', LatestEventsFeed(), name='events_feed'),
-    url(r'^c/(?P<community_slug>[\w-]+)/ical/$', ICalCommunityEventsFeed(), name='community_events_ical_feed'),
+    url(r'^ical/(?P<uuid>.+)/$', feeds.ICalUserEventsFeed(), name='personal_events_ical_feed_legacy'),  # support legacy
+    url(r'^feed/(?P<uuid>.+)/ical/$', feeds.ICalUserEventsFeed(), name='personal_events_ical_feed'),
+    url(r'^feed/(?P<uuid>.+)/json/$', feeds.JsonUserEventsFeed(), name='personal_events_json_feed'),
+    url(r'^c/(?P<community_slug>[\w-]+)/rss/$', feeds.LatestEventsFeed(), name='events_feed'),
+    url(r'^c/(?P<community_slug>[\w-]+)/ical/$', feeds.ICalCommunityEventsFeed(), name='community_events_ical_feed'),
     # views
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/$', EventDetailView.as_view(), name='event_detail'),
     url(r'^c/(?P<community_slug>[\w-]+)/(?P<slug>[\w-]+)/edit/$', EventUpdateView.as_view(), name='event_update'),

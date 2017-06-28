@@ -1,8 +1,26 @@
-from django_ical.views import ICalFeed
-from django.contrib.syndication.views import Feed
+import json
 from django.contrib.auth import get_user_model
+from django.contrib.syndication.views import Feed
+from django.core.serializers.json import DjangoJSONEncoder
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils.feedgenerator import SyndicationFeed
+from django_ical.views import ICalFeed
+
 from .models import Event
+
+
+class JSONFeed(SyndicationFeed):
+    mime_type = "application/json"
+
+    def write(self, outfile, encoding):
+        data = {}
+        data.update(self.feed)
+        data['items'] = self.items
+        json.dump(data, outfile, cls=DjangoJSONEncoder)
+        # outfile is a HttpResponse
+        if isinstance(outfile, HttpResponse):
+            outfile['Access-Control-Allow-Origin'] = '*'
 
 
 class LatestEventsFeed(Feed):
@@ -53,7 +71,7 @@ class ICalCommunityEventsFeed(ICalFeed):
         return Event.objects.filter(community=obj).order_by('-created')
 
     def item_title(self, item):
-        return item.name
+        return '{}: {}'.format(item.community.name, item.name)
 
     def item_description(self, item):
         return "{}\n\n{}".format(item.description, item.get_absolute_url())
@@ -86,3 +104,10 @@ class ICalUserEventsFeed(ICalCommunityEventsFeed):
         if hasattr(obj, 'userprofile'):
             return obj.userprofile.get_upcoming_yes_events().order_by('-created')
         return []
+
+
+class JsonUserEventsFeed(ICalUserEventsFeed):
+    feed_type = JSONFeed
+
+    def file_name(self, item):
+        return "feed_user.json"
