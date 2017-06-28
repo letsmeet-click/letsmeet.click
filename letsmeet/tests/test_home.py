@@ -11,7 +11,6 @@ def test_home(client):
 def test_home_logged_in(logged_in_client):
     resp = logged_in_client.get('/')
     assert resp.status_code == 200
-    print('DEBUG', vars(resp).keys())
     assert b'Logout' in resp.content
     assert b'Home' in resp.content
     assert b'Communities' in resp.content
