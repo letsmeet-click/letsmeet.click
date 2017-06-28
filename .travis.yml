@@ -7,7 +7,7 @@ python:
 install:
   - sudo apt-get update
   - sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-ce
-  - pip install docker-compose
+  - pip install docker-compose docker==2.3.0
 before_script:
   - docker version
   - docker-compose version
