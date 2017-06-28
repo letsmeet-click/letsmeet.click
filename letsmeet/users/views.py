@@ -19,7 +19,7 @@ from django.core.mail import EmailMessage
 
 import rules
 from rules.contrib.views import PermissionRequiredMixin
-from social.apps.django_app.default.models import UserSocialAuth
+from social_django.models import UserSocialAuth
 
 from .models import UserProfile
 
