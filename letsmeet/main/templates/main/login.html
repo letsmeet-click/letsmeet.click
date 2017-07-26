@@ -6,6 +6,12 @@ LOGIN
 {% endblock %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
+<div class="alert alert-danger">
+  <strong>You are not allowed to do this!</strong>
+</div>
+
+{% else %}
 <div class="row">
     <div class="col-md-6 text-center well">
         <h2>Log in with your existing account</h2>
@@ -44,4 +50,5 @@ LOGIN
         </form>
     </div>
 </div>
+{% endif %}
 {% endblock content %}

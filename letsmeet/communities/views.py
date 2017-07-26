@@ -25,10 +25,11 @@ class CommunityListView(ListView):
     model = Community
 
 
-class CommunityCreateView(LoginRequiredMixin, CreateView):
+class CommunityCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Community
     fields = ['name', ]
     template_name = 'communities/community_create.html'
+    permission_required = 'community.can_create'
 
     def form_valid(self, form):
         with transaction.atomic():

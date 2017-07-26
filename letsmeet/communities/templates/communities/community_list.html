@@ -6,7 +6,10 @@
 {% endblock %}
 
 {% block content %}
+{% has_perm 'community.can_create' request.user as community_can_create %}
+{% if community_can_create %}
 <a class="btn pull-right" href="{% url 'community_create' %}"><i class="fa fa-plus-circle"></i> Found new community</a>
+{% endif %}
 <h3><span id="communityCount"></span><noscript>{{ community_list.count }}</noscript> communit{{ community_list.count|pluralize:'y,ies' }}</h3>
 
 <table class="table table-hover datatable">
