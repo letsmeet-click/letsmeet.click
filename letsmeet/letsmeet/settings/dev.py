@@ -9,6 +9,8 @@ SECRET_KEY = 'test_shahng3oothai4Eaneehai4Eiquohv6quohkouzah8aibeehiupieSieBohCu
 
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
+# SHACKSPACE = True
+
 try:
     from .local import *
 except ImportError:
