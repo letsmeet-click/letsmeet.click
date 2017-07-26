@@ -14,7 +14,8 @@ class EventCreateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if hasattr(settings, 'SHACKSPACE'):
-            self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(), empty_label=None)
+            self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(),
+                                                             empty_label=None, widget=forms.RadioSelect, required=True)
         # FIXME find or write a good datetime picker
         # widgets = {
         #     'begin': widgets.AdminDateWidget(),
