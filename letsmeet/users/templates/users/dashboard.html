@@ -30,8 +30,12 @@ Dashboard
                 <h2>You have no upcoming events.</h2>
                 Next event in your communities:
                 <h4>
+                    {% if userprofile.get_next_event %}
                     {{ userprofile.get_next_event.community.name }}<br>
                     {{ userprofile.get_next_event.name }} <small>in {{ user.userprofile.get_next_event.begin|timeuntil }}</small>
+                    {% else %}
+                    There are none.
+                    {% endif %}
                 </h4>
                 <p class="text-right"><a href="{{ userprofile.get_next_event.get_absolute_url }}" class="btn">Details</a></p>
                 {% endif %}
