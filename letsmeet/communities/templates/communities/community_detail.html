@@ -43,6 +43,8 @@
 
 <div class="text-right">
     {% if user_subscription %}
+    <a class="btn btn-default" href="{{ community.get_ical_url }}"><i class="fa fa-calendar"></i> ical calendar</a>
+    <a class="btn btn-default" href="{{ community.get_json_feed_url }}"><i class="fa fa-calendar"></i> json calendar</a>
     <a class="btn btn-default" href="{{ community.get_unsubscribe_url }}"><i class="fa fa-user-times"></i> Unsubscribe</a>
     {% else %}
     <a class="btn btn-default" href="{{ community.get_subscribe_url }}"><i class="fa fa-user-plus"></i> Subscribe</a>
