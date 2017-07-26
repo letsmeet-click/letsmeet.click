@@ -36,6 +36,7 @@ def test_communities(
 
 def _check_communites_common(content, communities):
     assert f'<noscript>{len(communities)}</noscript> communities'.encode() in content
+    assert 'Found new community' in content.decode('utf-8')
 
     for table_header in table_headers:
         assert table_header.encode() in content
