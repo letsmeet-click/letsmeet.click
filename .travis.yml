@@ -11,10 +11,12 @@ before_install:
 install:
   - sudo apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" docker-ce
   - pip install docker-compose docker==2.3.0
-
-before_script:
   - docker version
   - docker-compose version
+
+before_script:
+  - docker-compose pull
+  - docker-compose up -d db
   - docker-compose build --pull
   - docker-compose up -d
 
