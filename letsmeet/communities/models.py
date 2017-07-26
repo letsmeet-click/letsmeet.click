@@ -9,6 +9,15 @@ from django.utils import timezone
 from django_extensions.db.models import TimeStampedModel
 
 
+def add_perm(name: str):
+
+    def wrapper(pred):
+        rules.add_perm(name, pred)
+        return pred
+
+    return wrapper
+
+
 class CommunityManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_deleted=False)
@@ -136,6 +145,7 @@ class CommunitySubscription(TimeStampedModel):
         )
 
 
+@add_perm('community.can_edit')
 @rules.predicate
 def can_create_community(user):
     if not user:
@@ -158,9 +168,7 @@ def can_edit_community(user, community):
         return False
 
 
-rules.add_perm('community.can_edit', can_edit_community)
-
-
+@add_perm('community.can_create_event')
 @rules.predicate
 def can_create_community_event(user, community):
     if not user or not community:
@@ -175,9 +183,7 @@ def can_create_community_event(user, community):
     return False
 
 
-rules.add_perm('community.can_create_event', can_create_community_event)
-
-
+@add_perm('is_last_owner')
 @rules.predicate
 def is_last_owner(user, community_subscription):
     if not user or not community_subscription:
@@ -188,10 +194,10 @@ def is_last_owner(user, community_subscription):
             community=community_subscription.community, role=CommunitySubscription.ROLE_OWNER).count() == 1
 
 
-rules.add_rule('is_last_owner', is_last_owner)
 rules.add_rule('can_unsubscribe', ~is_last_owner)
 
 
+@add_perm('community.can_set_owner')
 @rules.predicate
 def can_set_owner(user, community):
     if not user or not community:
@@ -203,9 +209,8 @@ def can_set_owner(user, community):
         return False
 
 
-rules.add_perm('community.can_set_owner', can_set_owner)
-
-
+@add_perm('community.can_set_admin')
+@add_perm('community.can_set_subscriber')
 @rules.predicate
 def can_set_admin(user, community):
     if not user or not community:
@@ -216,7 +221,3 @@ def can_set_admin(user, community):
             CommunitySubscription.ROLE_OWNER, CommunitySubscription.ROLE_ADMIN]
     except CommunitySubscription.DoesNotExist:
         return False
-
-
-rules.add_perm('community.can_set_admin', can_set_admin)
-rules.add_perm('community.can_set_subscriber', can_set_admin)
