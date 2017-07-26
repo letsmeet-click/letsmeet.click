@@ -27,6 +27,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-material-design.min.css' %}"/>
         <link rel="stylesheet" type="text/css" href="{% static 'css/ripples.min.css' %}"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/flatpickr.min.css' %}"/>
 
         <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     </head>
@@ -99,6 +100,8 @@
         <script type="text/javascript" src="{% static 'js/material.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/ripples.min.js' %}"></script>
 
+        <script type="text/javascript" src="{% static 'js/flatpickr.min.js' %}" charset="utf-8"></script>
+
         <script src="{% static 'js/countUp.min.js' %}"></script>
 
         {% block bottom_js %}
@@ -122,6 +125,7 @@
             $(function () {
                 $.material.init()
                 initDatatables();
+                flatpickr(".datetimepicker", {enableTime: true});
             } );
         </script>
         {% if environment == 'production' %}

@@ -10,17 +10,16 @@ class EventCreateForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'begin', 'end', 'max_attendees']
+        widgets = {
+            'begin': forms.TextInput(attrs={'class': 'datetimepicker'}),
+            'end': forms.TextInput(attrs={'class': 'datetimepicker'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if hasattr(settings, 'SHACKSPACE'):
             self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(),
                                                              empty_label=None, widget=forms.RadioSelect, required=True)
-        # FIXME find or write a good datetime picker
-        # widgets = {
-        #     'begin': widgets.AdminDateWidget(),
-        #     'end': widgets.AdminDateWidget(),
-        # }
 
 
 class EventUpdateForm(forms.ModelForm):

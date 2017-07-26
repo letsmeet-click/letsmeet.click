@@ -22,8 +22,8 @@ class Event(TimeStampedModel):
     name = models.CharField(max_length=64)
     description = models.TextField(null=True, blank=True)
     slug = models.SlugField(max_length=64, help_text="Note: changing the slug will change the URL of the event")
-    begin = models.DateTimeField(default=timezone.now)
-    end = models.DateTimeField(default=timezone.now)
+    begin = models.DateTimeField()
+    end = models.DateTimeField()
     twitter_hashtag = models.CharField(
         max_length=140, null=True, blank=True, help_text='Twitter hashtag of this event (without leading #)')
     max_attendees = models.PositiveIntegerField(
