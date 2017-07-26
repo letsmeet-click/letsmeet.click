@@ -45,6 +45,12 @@ Event: {{ event.name }} ({{ event.begin }})
         <th>End</th>
         <td>{{ event.end }}</td>
     </tr>
+{% if shackspace %}
+    <tr>
+        <th>Location</th>
+        <td>{{ event.location }}</td>
+    </tr>
+{% endif %}
 </table>
 
 {% if event.is_upcoming %}
