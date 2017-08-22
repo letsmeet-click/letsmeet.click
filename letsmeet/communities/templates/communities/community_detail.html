@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load rules community_tags %}
+{% load rules community_tags rich_text %}
 
 {% block og_url_path %}{{ request.path }}{% endblock %}
 
@@ -20,7 +20,7 @@
     <div class="col-sm-7 col-xs-12">
         {% if community.description %}
         <p>
-            {{ community.description|linebreaksbr }}
+            {{ community.description|rich_text }}
         </p>
         {% elif can_edit %}
         <div class="alert alert-info" role="alert">

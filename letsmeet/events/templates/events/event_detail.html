@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load rules event_tags community_tags static bootstrap_tags users_tags %}
+{% load rules event_tags community_tags static bootstrap_tags users_tags rich_text %}
 
 {% block og_url_path %}{{ request.path }}{% endblock %}
 
@@ -28,7 +28,7 @@ Event: {{ event.name }} ({{ event.begin }})
 <h1>{{ event.name }} <small>in {{ event.begin|timeuntil }}</small></h1>
 {% if event.description %}
 <p>
-    {{ event.description|linebreaksbr }}
+    {{ event.description|rich_text }}
 </p>
 {% elif can_edit %}
 <div class="alert alert-info" role="alert">
