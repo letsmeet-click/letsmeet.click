@@ -118,3 +118,24 @@ class JsonUserEventsFeed(ICalUserEventsFeed):
 
     def file_name(self, item):
         return "feed_user.json"
+
+
+class ICalSiteEventFeed(ICalCommunityEventsFeed):
+    def title(self, item):
+        return "site wide letsmeet.click calendar"
+
+    def file_name(self, item):
+        return "feed_site.ics"
+
+    def get_object(self, *args, **kwargs):
+        return None
+
+    def items(self, obj):
+        return Event.objects.all().order_by('-created')
+
+
+class JsonSiteEventsFeed(ICalSiteEventsFeed):
+    feed_type = JSONFeed
+
+    def file_name(self, item):
+        return "feed_site.json"

@@ -25,6 +25,8 @@ event_dict = {
 urlpatterns = [
     # feeds
     url(r'^ical/(?P<uuid>.+)/$', feeds.ICalUserEventsFeed(), name='personal_events_ical_feed_legacy'),  # support legacy
+    url(r'^feed/ical/$', feeds.ICalUserEventsFeed(), name='all_events_ical_feed'),
+    url(r'^feed/json/$', feeds.JsonUserEventsFeed(), name='all_events_json_feed'),
     url(r'^feed/(?P<uuid>.+)/ical/$', feeds.ICalUserEventsFeed(), name='personal_events_ical_feed'),
     url(r'^feed/(?P<uuid>.+)/json/$', feeds.JsonUserEventsFeed(), name='personal_events_json_feed'),
     url(r'^c/(?P<community_slug>[\w-]+)/rss/$', feeds.LatestEventsFeed(), name='events_feed'),
