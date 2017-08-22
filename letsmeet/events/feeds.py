@@ -120,7 +120,7 @@ class JsonUserEventsFeed(ICalUserEventsFeed):
         return "feed_user.json"
 
 
-class ICalSitesEventFeed(ICalCommunityEventsFeed):
+class ICalSiteEventsFeed(ICalCommunityEventsFeed):
     def title(self, item):
         return "site wide letsmeet.click calendar"
 
