@@ -20,7 +20,7 @@ class EventManager(models.Manager):
 class Event(TimeStampedModel):
     community = models.ForeignKey('communities.Community', related_name='events')
     name = models.CharField(max_length=64)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True, help_text="You can write markdown here!")
     slug = models.SlugField(max_length=64, help_text="Note: changing the slug will change the URL of the event")
     begin = models.DateTimeField()
     end = models.DateTimeField()
