@@ -124,7 +124,7 @@
             {% for event in community.events.upcoming.all %}
             <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
                 <td>{{ event.name }}</td>
-                <td>{{ event.begin }} - {{ event.end }}</td>
+                <td>{{ event.begin|date:"D, Y-m-d H:m" }} - {{ event.end|date:"D, Y-m-d H:m" }}</td>
                 <td>
                     {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
                 </td>
@@ -197,7 +197,7 @@
             {% for event in community.events.past.all %}
             <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
                 <td>{{ event.name }}</td>
-                <td>{{ event.begin }} - {{ event.end }}</td>
+                <td>{{ event.begin|date:"D, Y-m-d H:m" }} - {{ event.end|date:"D, Y-m-d H:m" }}</td>
                 <td>
                     {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
                 </td>

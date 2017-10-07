@@ -101,7 +101,7 @@ Dashboard
                     <tr class="clickable" onclick="window.document.location='{{ event.get_absolute_url }}';">
                         <td>{{ event.community.name }}</td>
                         <td>{{ event.name }}</td>
-                        <td>{{ event.begin }}</td>
+                        <td>{{ event.begin|date:"D, Y-m-d H:m" }}</td>
                         <td>
                             {{ event.rsvp_yes.count }} <i class="fa fa-users"></i>
                         </td>
