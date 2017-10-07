@@ -39,11 +39,11 @@ Event: {{ event.name }} ({{ event.begin }})
 <table class="table">
     <tr>
         <th>Begin</th>
-        <td>{{ event.begin }}</td>
+        <td>{{ event.begin|date:"D, Y-m-d H:m" }}</td>
     </tr>
     <tr>
         <th>End</th>
-        <td>{{ event.end }}</td>
+        <td>{{ event.end|date:"D, Y-m-d H:m" }}</td>
     </tr>
 {% if shackspace %}
     <tr>
@@ -151,7 +151,7 @@ Event: {{ event.name }} ({{ event.begin }})
                     {{ rsvp.coming|yesno }}
                 </td>
                 <td>
-                    {{ rsvp.modified }}
+                    {{ rsvp.modified|date:"D, Y-m-d H:m" }}
                 </td>
             </tr>
             {% empty %}
