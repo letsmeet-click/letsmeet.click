@@ -3,6 +3,7 @@
 set -e
 
 git pull
+docker pull python:3.6
 docker build --tag=letsmeet-prod .
 docker rm -f letsmeet letsmeet-nginx
 docker run -d --volumes-from letsmeet-data --link letsmeet-db:db -v `pwd`/letsmeet/letsmeet/settings/production.py:/opt/code/letsmeet/letsmeet/settings/production.py --restart=always --name letsmeet letsmeet-prod
