@@ -20,12 +20,20 @@ class EventCreateForm(forms.ModelForm):
         if hasattr(settings, 'SHACKSPACE'):
             self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(),
                                                              empty_label=None, widget=forms.RadioSelect, required=True)
+            self.fields['publish'] = forms.BooleanField(required=False, initial=True)
 
 
 class EventUpdateForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('name', 'slug', 'description', 'begin', 'end', 'twitter_hashtag', 'max_attendees')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(settings, 'SHACKSPACE'):
+            self.fields['location'] = forms.ModelChoiceField(queryset=Location.objects.all(),
+                                                             empty_label=None, widget=forms.RadioSelect, required=True)
+            self.fields['publish'] = forms.BooleanField(required=False, initial=True)
 
     def clean_slug(self):
         slug = slugify(self.cleaned_data['slug'])
