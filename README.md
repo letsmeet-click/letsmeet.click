@@ -35,6 +35,10 @@ docker-compose run --rm web createsuperuser
 docker-compose up -d
 ```
 
+Then head [here](http://localhost:8011/) to test your installation.
+
+Use ``docker-compose logs`` for your debugging needs.
+
 ## Testing
 
 In order to make the test setup easier, you can also execute them within the
