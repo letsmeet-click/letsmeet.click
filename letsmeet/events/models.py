@@ -30,6 +30,7 @@ class Event(TimeStampedModel):
         blank=True, null=True,
         help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
     location = models.ForeignKey('locations.Location', related_name='events', null=True, blank=True)
+    publish = models.BooleanField(default=True, help_text='Should this event be published elsewhere?')  # for shackspace blog posts
 
     objects = EventManager()
 
