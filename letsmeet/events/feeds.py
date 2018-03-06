@@ -88,6 +88,16 @@ class ICalCommunityEventsFeed(ICalFeed):
     def item_link(self, item):
         return item.get_absolute_url()
 
+    def item_categories(self, item):
+        categories = []
+        if item.publish:
+            categories.append('publish:true')
+        else:
+            categories.append('publish:false')
+        if item.location:
+            categories.append('location:{}'.format(item.location.name))
+        return categories
+
 
 class JsonCommunityEventsFeed(ICalCommunityEventsFeed):
     feed_type = JSONFeed
