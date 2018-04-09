@@ -8,14 +8,7 @@ from django.template.defaultfilters import slugify
 from django.utils import timezone
 from django_extensions.db.models import TimeStampedModel
 
-
-def add_perm(name: str):
-
-    def wrapper(pred):
-        rules.add_perm(name, pred)
-        return pred
-
-    return wrapper
+from main.utils import add_perm
 
 
 class CommunityManager(models.Manager):
@@ -167,8 +160,8 @@ def can_edit_community(user, community):
         return False
 
 
-@rules.predicate
 @add_perm('community.can_create_event')
+@rules.predicate
 def can_create_community_event(user, community):
     if not user or not community:
         return False
@@ -182,8 +175,8 @@ def can_create_community_event(user, community):
     return False
 
 
-@rules.predicate
 @add_perm('is_last_owner')
+@rules.predicate
 def is_last_owner(user, community_subscription):
     if not user or not community_subscription:
         return False
@@ -196,8 +189,8 @@ def is_last_owner(user, community_subscription):
 rules.add_rule('can_unsubscribe', ~is_last_owner)
 
 
-@rules.predicate
 @add_perm('community.can_set_owner')
+@rules.predicate
 def can_set_owner(user, community):
     if not user or not community:
         return False
@@ -208,9 +201,9 @@ def can_set_owner(user, community):
         return False
 
 
-@rules.predicate
 @add_perm('community.can_set_admin')
 @add_perm('community.can_set_subscriber')
+@rules.predicate
 def can_set_admin(user, community):
     if not user or not community:
         return False

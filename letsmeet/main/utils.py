@@ -1,4 +1,5 @@
 import json
+import rules
 
 from django.conf import settings
 from django.core.mail import EmailMessage
@@ -23,3 +24,12 @@ def send_notification(recipients, subject, template, context):
 
         mail.extra_headers['recipient_variables'] = json.dumps(recipient_variables)
         mail.send()
+
+
+def add_perm(name: str):
+
+    def wrapper(pred):
+        rules.add_perm(name, pred)
+        return pred
+
+    return wrapper

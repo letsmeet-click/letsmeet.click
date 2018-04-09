@@ -7,6 +7,7 @@ from django.template.defaultfilters import slugify
 from django_extensions.db.models import TimeStampedModel
 
 from communities.models import CommunitySubscription
+from main.utils import add_perm
 
 
 class EventManager(models.Manager):
@@ -114,6 +115,7 @@ class Event(TimeStampedModel):
         unique_together = ('community', 'slug')
 
 
+@add_perm('event.can_edit')
 @rules.predicate
 def can_edit_event(user, event):
     if not user or not event:
@@ -122,19 +124,14 @@ def can_edit_event(user, event):
     return user.has_perm('community.can_edit', event.community)
 
 
-rules.add_perm('event.can_edit', can_edit_event)
-
-
+@add_perm('event.can_rsvp')
+@add_perm('event.can_create_comment')
 @rules.predicate
 def is_subscriber(user, event):
     if not user or not event:
         return False
 
     return user in event.community.subscribers.all()
-
-
-rules.add_perm('event.can_rsvp', is_subscriber)
-rules.add_perm('event.can_create_comment', is_subscriber)
 
 
 class EventRSVP(TimeStampedModel):
