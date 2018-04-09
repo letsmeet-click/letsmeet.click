@@ -145,16 +145,16 @@ class CommunitySubscription(TimeStampedModel):
         )
 
 
-@add_perm('community.can_edit')
-@rules.predicate
-def can_create_community(user):
-    if not user:
-        return False
-    from django.conf import settings
-    return not hasattr(settings, 'SHACKSPACE')
+# @add_perm('community.can_edit')
+# @rules.predicate
+# def can_create_community(user):
+#     if not user:
+#         return False
+#     from django.conf import settings
+#     return not hasattr(settings, 'SHACKSPACE')
 
 
-rules.add_perm('community.can_create', can_create_community)
+# rules.add_perm('community.can_create', can_create_community)
 
 
 @rules.predicate
