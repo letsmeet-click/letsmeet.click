@@ -147,6 +147,17 @@ class CommunitySubscription(TimeStampedModel):
         )
 
 
+@add_perm('community.can_edit')
+@rules.predicate
+def can_create_community(user):
+    if not user:
+        return False
+    return True
+
+
+rules.add_perm('community.can_create', can_create_community)
+
+
 @rules.predicate
 def can_edit_community(user, community):
     if not user or not community:
