@@ -32,7 +32,6 @@ LOGIN
                 <a onclick="ga('send', 'event', 'login', 'steam')" class="btn text-center" href="{% url 'social:begin' 'steam' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-steam fa-3x"></i><br>Steam</a>
             </div>
             <div class="col-md-4">
-                <a onclick="ga('send', 'event', 'login', 'slack')" class="btn text-center" href="{% url 'social:begin' 'slack' %}{% if next %}?next={{ next }}{% endif %}"><i class="fa fa-slack fa-3x"></i><br>Slack</a>
             </div>
         </div>
         <div class="alert alert-info" role="alert">
