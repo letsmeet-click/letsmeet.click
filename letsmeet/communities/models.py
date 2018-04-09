@@ -1,6 +1,6 @@
 import rules
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import User
 from django.db import models
@@ -134,8 +134,10 @@ class CommunitySubscription(TimeStampedModel):
         (ROLE_SUBSCRIBER, 'Subscriber'),
     )
 
-    community = models.ForeignKey(Community, related_name='community_subscriptions')
-    user = models.ForeignKey('auth.User', related_name='community_subscriptions')
+    community = models.ForeignKey(Community, on_delete=models.CASCADE,
+                                  related_name='community_subscriptions')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE,
+                             related_name='community_subscriptions')
     role = models.CharField(max_length=64, choices=ROLE_CHOICES, default=ROLE_SUBSCRIBER)
 
     class Meta:
@@ -143,18 +145,6 @@ class CommunitySubscription(TimeStampedModel):
         unique_together = (
             ('community', 'user'),
         )
-
-
-# @add_perm('community.can_edit')
-# @rules.predicate
-# def can_create_community(user):
-#     if not user:
-#         return False
-#     from django.conf import settings
-#     return not hasattr(settings, 'SHACKSPACE')
-
-
-# rules.add_perm('community.can_create', can_create_community)
 
 
 @rules.predicate

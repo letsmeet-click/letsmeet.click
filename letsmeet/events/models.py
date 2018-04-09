@@ -1,7 +1,7 @@
 import rules
 from django.db import models
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 from django_extensions.db.models import TimeStampedModel
@@ -18,7 +18,7 @@ class EventManager(models.Manager):
 
 
 class Event(TimeStampedModel):
-    community = models.ForeignKey('communities.Community', related_name='events')
+    community = models.ForeignKey('communities.Community', on_delete=models.CASCADE, related_name='events')
     name = models.CharField(max_length=64)
     description = models.TextField(null=True, blank=True, help_text="You can write markdown here!")
     slug = models.SlugField(max_length=64, help_text="Note: changing the slug will change the URL of the event")
@@ -29,7 +29,7 @@ class Event(TimeStampedModel):
     max_attendees = models.PositiveIntegerField(
         blank=True, null=True,
         help_text='Optional maximum number of attendees for this event. Leave blank for no limit.')
-    location = models.ForeignKey('locations.Location', related_name='events', null=True, blank=True)
+    location = models.ForeignKey('locations.Location', on_delete=models.SET_NULL, related_name='events', null=True, blank=True)
     publish = models.BooleanField(default=True, help_text='Should this event be published elsewhere?')  # for shackspace blog posts
 
     objects = EventManager()
@@ -138,8 +138,8 @@ rules.add_perm('event.can_create_comment', is_subscriber)
 
 
 class EventRSVP(TimeStampedModel):
-    event = models.ForeignKey('Event', related_name='rsvps')
-    user = models.ForeignKey('auth.User', related_name='rsvps')
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='rsvps')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='rsvps')
     coming = models.BooleanField()
 
     def save(self, *args, **kwargs):
@@ -173,8 +173,8 @@ class EventRSVP(TimeStampedModel):
 
 
 class EventComment(TimeStampedModel):
-    event = models.ForeignKey('Event', related_name='comments')
-    user = models.ForeignKey('auth.User', related_name='comments')
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
 
     def save(self, *args, **kwargs):

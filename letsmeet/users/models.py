@@ -1,6 +1,6 @@
 import rules
 import uuid
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 from stdimage.models import StdImageField
@@ -10,7 +10,7 @@ from events.models import Event, EventRSVP
 
 
 class UserProfile(TimeStampedModel):
-    user = models.OneToOneField('auth.User', unique=True)
+    user = models.OneToOneField('auth.User', unique=True, on_delete=models.CASCADE)
     avatar = StdImageField(
         upload_to='avatars',
         variations={

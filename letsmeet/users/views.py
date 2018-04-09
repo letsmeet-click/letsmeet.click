@@ -7,7 +7,7 @@ from django.contrib.auth.forms import PasswordChangeForm, SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http.response import Http404
 from django.shortcuts import redirect
 from django.utils.http import urlquote
@@ -26,14 +26,14 @@ from .models import UserProfile
 
 class HomeView(DetailView):
     def get_object(self, queryset=None):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             up, created = UserProfile.objects.get_or_create(user=self.request.user)
             return up
 
         return None
 
     def get_template_names(self):
-        if self.request.user.is_authenticated():
+        if self.request.user.is_authenticated:
             return 'users/dashboard.html'
 
         return 'main/home.html'
