@@ -69,11 +69,11 @@
             {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.level_tag }} {{ message.extra_tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
 		{% if environment == 'production' %}
            	    <div class="alert alert-warning"><strong>Letsmeet.click will be shutdown at 2018-11-15!</strong></div>
 		{% endif %}
-            {% endfor %}
-            {% endif %}
 
             <div class="row">
                 <div class="col-lg-6 col-md-8 col-sm-10 col-xs-12">
