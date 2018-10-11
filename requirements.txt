@@ -1,5 +1,5 @@
 bleach==2.*
-django==2.0.4
+django<2.1
 django-extensions==2.0.6
 django-forms-bootstrap==3.1.0
 django-ical==1.4
